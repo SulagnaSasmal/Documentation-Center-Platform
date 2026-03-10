@@ -1267,7 +1267,53 @@ body {
   .lp-footer-top { grid-template-columns: 1fr; }
   .lp-nav-links { display: none; }
 }
+
+/* ── LIGHT THEME ── */
+[data-theme="light"] {
+  --bg-deep:     #f6f8fa;
+  --bg-base:     #ffffff;
+  --bg-surface:  #f0f2f5;
+  --bg-elevated: #e8ecf0;
+  --bg-hover:    #e2e6ea;
+  --bg-code:     #0f172a;
+  --text-primary:   #1f2328;
+  --text-secondary: #424a53;
+  --text-muted:     #636c76;
+  --text-dim:       #9198a1;
+  --accent:      #b45309;
+  --accent-glow: rgba(180,83,9,0.12);
+  --accent-subtle: rgba(180,83,9,0.06);
+  --green:       #1a7f37;
+  --green-dim:   rgba(26,127,55,0.1);
+  --blue:        #0969da;
+  --blue-dim:    rgba(9,105,218,0.1);
+  --red:         #cf222e;
+  --red-dim:     rgba(207,34,46,0.1);
+  --purple:      #7c3aed;
+  --purple-dim:  rgba(124,58,237,0.1);
+  --teal:        #0d9488;
+  --teal-dim:    rgba(13,148,136,0.1);
+  --border:      #d0d7de;
+  --border-light:#b0b8c2;
+}
+[data-theme="light"] body { background: var(--bg-deep); color: var(--text-primary); }
+[data-theme="light"] .top-btn.primary { color: #fff; }
+
+/* Theme toggle button */
+.theme-toggle-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+}
+.theme-toggle-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
 </style>
+<script>(function(){var t=localStorage.getItem("df-theme");if(t)document.documentElement.setAttribute("data-theme",t);else if(window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");else document.documentElement.setAttribute("data-theme","light");})()</script>
 </head>
 <body>
 
@@ -2760,5 +2806,6 @@ showOutput('html');
   </div>
 </footer>
 
+<script>(function(){var btn=document.getElementById("theme-toggle");if(!btn)return;function upd(){btn.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"2600":"25D0";}upd();btn.addEventListener("click",function(){var n=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("df-theme",n);upd();});})()</script>
 </body>
 </html>

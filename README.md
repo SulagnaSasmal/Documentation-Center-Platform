@@ -113,3 +113,34 @@ MIT — Free for personal and commercial use.
 ---
 
 *Built with care for the documentation engineering community.*
+
+## Dark / Light Mode
+
+The platform supports dark and light themes via a toggle button (◐ / ☀) in the top action bar. Theme preference persists in `localStorage`. System `prefers-color-scheme` is respected on first visit.
+
+## Status
+
+**Capstone — Infrastructure Layer — Production-Ready**
+
+| Feature | Status |
+|---------|--------|
+| Dashboard (pipeline, build history, metrics) | Complete |
+| Live Markdown editor with real-time preview | Complete |
+| DITA-based content map (5 topic types) | Complete |
+| Vale/MSTP style linter with scoring | Complete |
+| Multi-format build outputs (HTML, PDF, OpenAPI, JSON, Postman, Changelog) | Complete |
+| Configuration panel (docforge.config.yml) | Complete |
+| Dark / light theme support | Complete |
+
+### Repository Notes
+
+- `docforge-platform.html` — primary application (production-ready)
+- `documentation (1).html` — draft/working file (not part of the published platform, excluded from deployment)
+
+## Future Enhancements
+
+- Convert to multi-file Next.js or Astro application for better maintainability
+- Live Git integration (real commit history, branch switching)
+- Persistent document storage (cloud backend)
+- Multi-user collaboration mode
+- Export to Confluence / Notion
