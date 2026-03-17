@@ -1208,7 +1208,7 @@ body {
 .lp-pipe-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #4ADE80; letter-spacing: 0.08em; margin-bottom: 1.5rem; }
 .lp-pipe-label::before { content: '# '; color: rgba(74,222,128,0.4); }
 .lp-pipe-row { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding-bottom: 0.5rem; }
-.lp-pipe-item { flex: 1; min-width: 150px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-right: none; padding: 1.25rem 1.25rem 1.25rem; position: relative; transition: background 0.2s; }
+.lp-pipe-item { flex: 1; min-width: 150px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-right: none; padding: 1.25rem 1.25rem 1.25rem; position: relative; transition: background 0.2s; }
 .lp-pipe-item:last-child { border-right: 1px solid rgba(255,255,255,0.08); border-radius: 0 8px 8px 0; }
 .lp-pipe-item:first-child { border-radius: 8px 0 0 8px; }
 .lp-pipe-item:hover { background: rgba(232,168,76,0.07); }
@@ -1217,9 +1217,11 @@ body {
 .lp-pi-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(232,168,76,0.5); letter-spacing: 0.06em; margin-bottom: 0.4rem; }
 .lp-pi-cmd { font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; font-weight: 600; color: #E8A84C; margin-bottom: 0.5rem; }
 .lp-pi-cmd::before { content: '$ '; color: #4ADE80; }
-.lp-pi-desc { font-size: 0.875rem; color: #6b7280; line-height: 1.6; font-family: 'Outfit', sans-serif; }
+.lp-pi-desc { font-size: 0.875rem; color: #9ba3b0; line-height: 1.6; font-family: 'Outfit', sans-serif; }
 .lp-pi-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 0.6rem; }
-.lp-pi-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); color: #6b7280; padding: 2px 6px; border-radius: 4px; }
+.lp-pi-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: #9ba3b0; padding: 2px 6px; border-radius: 4px; }
+.lp-pi-module { display: inline-block; margin-top: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: #E8A84C; border-bottom: 1px solid rgba(232,168,76,0.3); text-decoration: none; transition: border-color 0.2s; }
+.lp-pi-module:hover { border-color: #E8A84C; }
 
 /* ── WHY SECTION ── */
 .lp-why-section { padding: 5rem 2.5rem; background: var(--lp-bg); }
@@ -1349,9 +1351,10 @@ body {
   color: #4b5563;
 }
 [data-theme="light"] .lp-pipe-item {
-  background: rgba(0,0,0,0.03);
-  border-color: rgba(0,0,0,0.10);
+  background: rgba(0,0,0,0.04);
+  border-color: rgba(0,0,0,0.14);
 }
+[data-theme="light"] .lp-pi-module { color: #b45309; border-bottom-color: rgba(180,83,9,0.3); }
 [data-theme="light"] .lp-feat-card {
   background: #1e2433;
   border-color: rgba(0,0,0,0.15);
@@ -1550,37 +1553,42 @@ body {
 <!-- HOW IT WORKS — PIPELINE -->
 <section id="how-it-works" class="lp-pipe-section">
   <div class="lp-pipe-inner">
-    <div class="lp-pipe-label">pipeline &middot; docs-as-code workflow</div>
+    <div class="lp-pipe-label">what the demo shows &middot; pipeline walkthrough</div>
     <div class="lp-pipe-row">
       <div class="lp-pipe-item">
         <div class="lp-pi-num">01</div>
         <div class="lp-pi-cmd">write</div>
-        <div class="lp-pi-desc">Authors write in plain Markdown or MDX with YAML frontmatter. No proprietary formats, no lock-in.</div>
-        <div class="lp-pi-tags"><span class="lp-pi-tag">Markdown</span><span class="lp-pi-tag">MDX</span><span class="lp-pi-tag">OpenAPI</span></div>
+        <div class="lp-pi-desc">Open the Editor module. Write Markdown with YAML frontmatter and see it render live in the preview pane.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">Markdown</span><span class="lp-pi-tag">Frontmatter</span><span class="lp-pi-tag">Live Preview</span></div>
+        <a href="demo.html" class="lp-pi-module">→ Module 02: Editor</a>
       </div>
       <div class="lp-pipe-item">
         <div class="lp-pi-num">02</div>
-        <div class="lp-pi-cmd">commit</div>
-        <div class="lp-pi-desc">Changes go into Git. Pull requests enable peer review of docs the same way code is reviewed.</div>
-        <div class="lp-pi-tags"><span class="lp-pi-tag">Git</span><span class="lp-pi-tag">GitHub PRs</span><span class="lp-pi-tag">Diff Review</span></div>
+        <div class="lp-pi-cmd">structure</div>
+        <div class="lp-pi-desc">The Content Map shows how docs are classified by DITA topic type — Concept, Task, Reference, Tutorial, Troubleshoot.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">DITA</span><span class="lp-pi-tag">Topic Types</span><span class="lp-pi-tag">Taxonomy</span></div>
+        <a href="demo.html" class="lp-pi-module">→ Module 03: Content Map</a>
       </div>
       <div class="lp-pipe-item">
         <div class="lp-pi-num">03</div>
         <div class="lp-pi-cmd">lint</div>
-        <div class="lp-pi-desc">Automated style checks enforce terminology, passive voice, and readability against MSTP rules.</div>
-        <div class="lp-pi-tags"><span class="lp-pi-tag">Vale</span><span class="lp-pi-tag">Custom Rules</span><span class="lp-pi-tag">Link Check</span></div>
+        <div class="lp-pi-desc">The Style Linter runs Vale rules against your content and scores it against Microsoft Style Guide standards.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">Vale</span><span class="lp-pi-tag">MSTP Rules</span><span class="lp-pi-tag">Readability</span></div>
+        <a href="demo.html" class="lp-pi-module">→ Module 04: Style Linter</a>
       </div>
       <div class="lp-pipe-item">
         <div class="lp-pi-num">04</div>
         <div class="lp-pi-cmd">build</div>
-        <div class="lp-pi-desc">CI compiles Markdown into HTML, PDF, OpenAPI JSON, and Postman collections simultaneously.</div>
-        <div class="lp-pi-tags"><span class="lp-pi-tag">GitHub Actions</span><span class="lp-pi-tag">MkDocs</span><span class="lp-pi-tag">Sphinx</span></div>
+        <div class="lp-pi-desc">Build Outputs previews all six formats generated from a single source: HTML, PDF, OpenAPI, Postman, JSON, CHANGELOG.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">HTML</span><span class="lp-pi-tag">PDF</span><span class="lp-pi-tag">OpenAPI</span></div>
+        <a href="demo.html" class="lp-pi-module">→ Module 05: Build Outputs</a>
       </div>
       <div class="lp-pipe-item">
         <div class="lp-pi-num">05</div>
-        <div class="lp-pi-cmd">publish</div>
-        <div class="lp-pi-desc">Validated docs auto-deploy to Pages, Netlify, or S3. Always in sync with the repo, always live.</div>
-        <div class="lp-pi-tags"><span class="lp-pi-tag">GitHub Pages</span><span class="lp-pi-tag">Netlify</span><span class="lp-pi-tag">S3/CDN</span></div>
+        <div class="lp-pi-cmd">monitor</div>
+        <div class="lp-pi-desc">The Dashboard shows pipeline health, build history, contributor activity, and open doc issues — all in one view.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">Build Status</span><span class="lp-pi-tag">Metrics</span><span class="lp-pi-tag">History</span></div>
+        <a href="demo.html" class="lp-pi-module">→ Module 01: Dashboard</a>
       </div>
     </div>
   </div>
