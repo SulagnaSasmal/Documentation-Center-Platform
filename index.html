@@ -1122,108 +1122,149 @@ body {
 }
 
 /* ══════════════════════════════════════
-   LANDING PAGE STYLES
+   LANDING PAGE — TERMINAL AESTHETIC
 ══════════════════════════════════════ */
 
-/* ── NAV BAR ── */
+/* ── NAV ── */
 .lp-nav {
   position: sticky; top: 0; z-index: 200;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 2rem;
-  height: 58px;
+  padding: 0 2.5rem;
+  height: 52px;
   background: var(--lp-nav-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--lp-nav-border);
+  font-family: 'JetBrains Mono', monospace;
 }
-.lp-nav-brand { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; color: var(--lp-text); letter-spacing: 0.02em; text-decoration: none; }
-.lp-nav-brand .brand-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg,#E8A84C,#c97d2a); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #13131a; flex-shrink: 0; }
-.lp-nav-links { display: flex; align-items: center; gap: 1.5rem; }
-.lp-nav-links a { color: var(--lp-text-muted); font-size: 0.875rem; text-decoration: none; transition: color 0.2s; }
+.lp-nav-brand { display: flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 600; color: var(--lp-text); text-decoration: none; letter-spacing: 0.01em; }
+.lp-nav-brand .lp-prompt { color: #4ADE80; }
+.lp-nav-brand .lp-slash { color: var(--lp-text-muted); }
+.lp-nav-brand .lp-path { color: #E8A84C; }
+.lp-nav-brand .lp-cursor { display: inline-block; width: 8px; height: 14px; background: #E8A84C; margin-left: 2px; vertical-align: middle; animation: lp-blink 1.2s step-end infinite; }
+@keyframes lp-blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+.lp-nav-links { display: flex; align-items: center; gap: 1.75rem; }
+.lp-nav-links a { color: var(--lp-text-muted); font-size: 0.8rem; text-decoration: none; transition: color 0.2s; font-family: 'Outfit', sans-serif; }
 .lp-nav-links a:hover { color: #E8A84C; }
 .lp-nav-actions { display: flex; align-items: center; gap: 0.75rem; }
-.lp-nav-cta { background: #E8A84C; color: #13131a; font-size: 0.825rem; font-weight: 700; padding: 7px 18px; border-radius: 8px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+.lp-nav-cta { background: #E8A84C; color: #08090C; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700; padding: 7px 16px; border-radius: 6px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+.lp-nav-cta::before { content: '$ '; }
 .lp-nav-cta:hover { background: #f0b85c; transform: translateY(-1px); }
-.lp-theme-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--lp-card-border); background: var(--lp-card-bg); color: var(--lp-text-muted); cursor: pointer; font-size: 1rem; line-height: 1; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+.lp-theme-btn { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--lp-card-border); background: var(--lp-card-bg); color: var(--lp-text-muted); cursor: pointer; font-size: 0.9rem; transition: border-color 0.2s, color 0.2s; }
 .lp-theme-btn:hover { border-color: #E8A84C; color: #E8A84C; }
 
-/* ── HERO ── */
+/* ── HERO (SPLIT LAYOUT) ── */
+.lp-hero-wrap { background: var(--lp-bg); }
 .lp-hero {
-  min-height: 86vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center;
-  padding: 5rem 2rem 3rem;
-  background: radial-gradient(ellipse 80% 55% at 50% -5%, rgba(232,168,76,0.12) 0%, transparent 65%), var(--lp-bg);
-  position: relative; overflow: hidden;
+  min-height: 88vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: center; gap: 4rem;
+  padding: 4rem 2.5rem;
+  max-width: 1200px; margin: 0 auto;
 }
-.lp-hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E8A84C' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
-}
-.lp-hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,168,76,0.12); border: 1px solid rgba(232,168,76,0.3); color: #E8A84C; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 1.5rem; }
-.lp-hero-eyebrow span { width: 6px; height: 6px; background: #E8A84C; border-radius: 50%; animation: lp-pulse 2s infinite; }
-@keyframes lp-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.4); } }
-.lp-hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800; color: var(--lp-text); line-height: 1.1; margin: 0 0 1.2rem; max-width: 900px; }
-.lp-hero h1 em { font-style: normal; background: linear-gradient(90deg, #E8A84C, #f5c97a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.lp-hero-sub { font-size: 1.1rem; color: var(--lp-text-muted); max-width: 620px; line-height: 1.75; margin: 0 0 2.5rem; }
-.lp-hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-.lp-btn-primary { background: linear-gradient(135deg, #E8A84C, #c97d2a); color: #13131a; font-size: 0.95rem; font-weight: 700; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 20px rgba(232,168,76,0.35); }
-.lp-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(232,168,76,0.5); }
-.lp-btn-secondary { background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); color: var(--lp-text-sub); font-size: 0.95rem; font-weight: 600; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
-.lp-btn-secondary:hover { background: var(--lp-card-bg-hover); border-color: rgba(232,168,76,0.4); }
-.lp-hero-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 2.5rem; }
-.lp-badge { background: var(--lp-tag-bg); border: 1px solid var(--lp-tag-border); color: var(--lp-text-muted); font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: 6px; }
+.lp-hero-left { max-width: 520px; }
+.lp-hero-kicker { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; color: #4ADE80; letter-spacing: 0.06em; margin-bottom: 1.25rem; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2); padding: 4px 12px; border-radius: 4px; }
+.lp-hero-kicker::before { content: '# '; color: rgba(74,222,128,0.4); }
+.lp-hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; color: var(--lp-text); line-height: 1.1; margin: 0 0 1.2rem; letter-spacing: -0.03em; }
+.lp-hero h1 .hl { background: linear-gradient(90deg, #E8A84C, #f0c070); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.lp-hero-sub { font-size: 1rem; color: var(--lp-text-muted); line-height: 1.8; margin: 0 0 2.25rem; max-width: 440px; }
+.lp-hero-btns { display: flex; gap: 0.875rem; flex-wrap: wrap; }
+.lp-btn-primary { background: #E8A84C; color: #08090C; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 700; padding: 11px 22px; border-radius: 7px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s, transform 0.15s, box-shadow 0.15s; box-shadow: 0 0 20px rgba(232,168,76,0.3); }
+.lp-btn-primary:hover { background: #f0b85c; transform: translateY(-2px); box-shadow: 0 4px 24px rgba(232,168,76,0.45); }
+.lp-btn-secondary { background: transparent; color: var(--lp-text-muted); font-size: 0.875rem; font-weight: 500; padding: 11px 22px; border-radius: 7px; border: 1px solid var(--lp-card-border); text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+.lp-btn-secondary:hover { border-color: rgba(232,168,76,0.4); color: var(--lp-text); }
 
-/* ── SECTION SHARED ── */
-.lp-section { padding: 5.5rem 2rem; max-width: 1160px; margin: 0 auto; }
-.lp-section-full { padding: 5.5rem 2rem; background: var(--lp-bg-alt); }
-.lp-section-full > .lp-section { padding: 0; }
-.lp-section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #E8A84C; margin-bottom: 0.75rem; }
-.lp-section-title { font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--lp-text); margin: 0 0 1rem; letter-spacing: -0.02em; }
-.lp-section-desc { color: var(--lp-text-muted); font-size: 1rem; line-height: 1.8; max-width: 680px; margin: 0 0 3rem; }
+/* ── TERMINAL WINDOW ── */
+.lp-terminal { background: #0a0c0f; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04); font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.6; }
+.lp-term-bar { display: flex; align-items: center; gap: 6px; background: #141618; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.lp-term-dot { width: 11px; height: 11px; border-radius: 50%; }
+.lp-term-dot.red { background: #ff5f57; }
+.lp-term-dot.yellow { background: #ffbd2e; }
+.lp-term-dot.green { background: #28c840; }
+.lp-term-title { margin-left: auto; margin-right: auto; font-size: 0.7rem; color: #555; letter-spacing: 0.04em; }
+.lp-term-body { padding: 1.25rem 1.5rem; color: #c9d1d9; }
+.lp-term-cmd { color: #E8A84C; margin-bottom: 0.75rem; }
+.lp-term-cmd::before { content: '$ '; color: #4ADE80; }
+.lp-term-line { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.3rem; opacity: 0; animation: lp-fadein 0.3s ease forwards; }
+.lp-term-line.ok .lp-term-chk { color: #4ADE80; }
+.lp-term-line.err .lp-term-chk { color: #F87171; }
+.lp-term-chk { flex-shrink: 0; }
+.lp-term-lbl { color: #9BA3B0; flex: 1; }
+.lp-term-val { color: #c9d1d9; margin-left: auto; white-space: nowrap; font-size: 0.75rem; }
+.lp-term-line:nth-child(1) { animation-delay: 0.4s; }
+.lp-term-line:nth-child(2) { animation-delay: 0.9s; }
+.lp-term-line:nth-child(3) { animation-delay: 1.4s; }
+.lp-term-line:nth-child(4) { animation-delay: 1.9s; }
+.lp-term-line:nth-child(5) { animation-delay: 2.4s; }
+.lp-term-line:nth-child(6) { animation-delay: 2.9s; }
+.lp-term-line:nth-child(7) { animation-delay: 3.4s; }
+.lp-term-done { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.07); color: #4ADE80; font-weight: 600; opacity: 0; animation: lp-fadein 0.4s ease forwards; animation-delay: 3.9s; }
+.lp-term-done span { color: #9BA3B0; font-weight: 400; }
+@keyframes lp-fadein { to { opacity: 1; } }
 
-/* ── PIPELINE / HOW IT WORKS ── */
-.lp-pipeline { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 1rem; }
-.lp-pipe-step { flex: 1; min-width: 160px; position: relative; padding-right: 1.5rem; }
-.lp-pipe-step:not(:last-child)::after { content: '→'; position: absolute; right: 0; top: 26px; color: #E8A84C; font-size: 1.4rem; font-weight: 300; z-index: 1; }
-.lp-pipe-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(232,168,76,0.12); border: 1px solid rgba(232,168,76,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
-.lp-pipe-num { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: #E8A84C; text-transform: uppercase; margin-bottom: 0.3rem; }
-.lp-pipe-title { font-size: 1rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.5rem; }
-.lp-pipe-desc { font-size: 0.82rem; color: var(--lp-text-muted); line-height: 1.6; }
-.lp-pipe-tools { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.75rem; }
-.lp-pipe-tag { background: var(--lp-tag-bg); border: 1px solid var(--lp-tag-border); color: var(--lp-text-muted); font-size: 0.68rem; padding: 3px 8px; border-radius: 5px; }
+/* ── PIPELINE STRIP ── */
+.lp-pipe-section { background: #08090C; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 3.5rem 2.5rem; }
+.lp-pipe-inner { max-width: 1100px; margin: 0 auto; }
+.lp-pipe-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #4ADE80; letter-spacing: 0.08em; margin-bottom: 1.5rem; }
+.lp-pipe-label::before { content: '# '; color: rgba(74,222,128,0.4); }
+.lp-pipe-row { display: flex; align-items: stretch; gap: 0; overflow-x: auto; padding-bottom: 0.5rem; }
+.lp-pipe-item { flex: 1; min-width: 150px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-right: none; padding: 1.25rem 1.25rem 1.25rem; position: relative; transition: background 0.2s; }
+.lp-pipe-item:last-child { border-right: 1px solid rgba(255,255,255,0.08); border-radius: 0 8px 8px 0; }
+.lp-pipe-item:first-child { border-radius: 8px 0 0 8px; }
+.lp-pipe-item:hover { background: rgba(232,168,76,0.07); }
+.lp-pipe-item::after { content: '>'; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); color: #E8A84C; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; z-index: 2; }
+.lp-pipe-item:last-child::after { display: none; }
+.lp-pi-num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: rgba(232,168,76,0.5); letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+.lp-pi-cmd { font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; font-weight: 600; color: #E8A84C; margin-bottom: 0.5rem; }
+.lp-pi-cmd::before { content: '$ '; color: #4ADE80; }
+.lp-pi-desc { font-size: 0.78rem; color: #6b7280; line-height: 1.5; font-family: 'Outfit', sans-serif; }
+.lp-pi-tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 0.6rem; }
+.lp-pi-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); color: #6b7280; padding: 2px 6px; border-radius: 4px; }
 
-/* ── WHY DOCS-AS-CODE ── */
-.lp-why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.lp-why-card { background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-radius: 16px; padding: 1.8rem; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
-.lp-why-card:hover { transform: translateY(-4px); border-color: rgba(232,168,76,0.35); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-.lp-why-icon { font-size: 1.8rem; margin-bottom: 1rem; }
-.lp-why-title { font-size: 1rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.5rem; }
-.lp-why-text { font-size: 0.87rem; color: var(--lp-text-muted); line-height: 1.7; }
+/* ── WHY SECTION ── */
+.lp-why-section { padding: 5rem 2.5rem; background: var(--lp-bg); }
+.lp-why-inner { max-width: 1100px; margin: 0 auto; }
+.lp-section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; color: #E8A84C; text-transform: uppercase; margin-bottom: 0.6rem; }
+.lp-section-title { font-family: 'Outfit', sans-serif; font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 800; color: var(--lp-text); margin: 0 0 0.8rem; letter-spacing: -0.02em; }
+.lp-section-sub { font-size: 0.95rem; color: var(--lp-text-muted); line-height: 1.75; max-width: 600px; margin: 0 0 2.5rem; }
+.lp-why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.lp-why-card { background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-radius: 12px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; }
+.lp-why-card:hover { border-color: rgba(232,168,76,0.35); transform: translateY(-3px); }
+.lp-why-icon { font-size: 1.4rem; margin-bottom: 0.75rem; }
+.lp-why-title { font-size: 0.95rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.4rem; }
+.lp-why-body { font-size: 0.83rem; color: var(--lp-text-muted); line-height: 1.7; }
 
-/* ── FEATURES / CAPABILITIES ── */
-.lp-feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-.lp-feat-card { background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-left: 3px solid #E8A84C; border-radius: 12px; padding: 1.4rem 1.6rem; transition: background 0.2s, box-shadow 0.2s; }
-.lp-feat-card:hover { background: var(--lp-card-bg-hover); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-.lp-feat-title { font-size: 0.95rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.4rem; }
-.lp-feat-text { font-size: 0.83rem; color: var(--lp-text-muted); line-height: 1.6; }
+/* ── FEATURES (terminal-module style) ── */
+.lp-feat-section { padding: 5rem 2.5rem; background: var(--lp-bg-alt); }
+.lp-feat-inner { max-width: 1100px; margin: 0 auto; }
+.lp-feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.lp-feat-card { background: #0a0c0f; border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 1.25rem 1.4rem; font-family: 'JetBrains Mono', monospace; transition: border-color 0.2s, background 0.2s; }
+.lp-feat-card:hover { border-color: rgba(232,168,76,0.3); background: rgba(232,168,76,0.04); }
+.lp-feat-mod { font-size: 0.65rem; color: rgba(74,222,128,0.6); letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+.lp-feat-name { font-size: 0.9rem; font-weight: 600; color: #E8A84C; margin-bottom: 0.5rem; }
+.lp-feat-text { font-family: 'Outfit', sans-serif; font-size: 0.82rem; color: #6b7280; line-height: 1.6; }
+.lp-feat-flags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.75rem; }
+.lp-feat-flag { font-size: 0.64rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); color: #555; padding: 2px 7px; border-radius: 4px; }
 
 /* ── DEMO ANCHOR ── */
 .lp-demo-anchor { text-align: center; padding: 5rem 2rem 2rem; background: var(--lp-bg); }
-.lp-demo-anchor h2 { font-family: 'Outfit', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--lp-text); margin: 0 0 0.75rem; letter-spacing: -0.02em; }
-.lp-demo-anchor p { color: var(--lp-text-muted); margin: 0 0 2rem; font-size: 0.95rem; }
-.lp-demo-divider { display: flex; align-items: center; gap: 1.5rem; margin: 3rem 0 0; max-width: 700px; margin-left: auto; margin-right: auto; }
+.lp-demo-prompt { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--lp-text); background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-radius: 10px; padding: 1rem 2rem; margin-bottom: 2rem; }
+.lp-demo-prompt .dp-prompt { color: #4ADE80; }
+.lp-demo-prompt .dp-cmd { color: #E8A84C; }
+.lp-demo-prompt .dp-flag { color: #9BA3B0; }
+.lp-demo-prompt .dp-cursor { display: inline-block; width: 9px; height: 16px; background: #E8A84C; vertical-align: middle; margin-left: 2px; animation: lp-blink 1s step-end infinite; }
+.lp-demo-anchor h2 { font-family: 'Outfit', sans-serif; font-size: clamp(1.5rem, 2.8vw, 2rem); font-weight: 800; color: var(--lp-text); margin: 0 0 0.5rem; letter-spacing: -0.02em; }
+.lp-demo-anchor p { color: var(--lp-text-muted); font-size: 0.9rem; margin: 0 0 1.75rem; }
+.lp-demo-divider { display: flex; align-items: center; gap: 1.5rem; margin: 3rem auto 0; max-width: 700px; }
 .lp-demo-divider::before, .lp-demo-divider::after { content: ''; flex: 1; height: 1px; background: var(--lp-card-border); }
-.lp-demo-divider span { font-size: 0.78rem; color: var(--lp-text-muted); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+.lp-demo-divider span { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--lp-text-muted); letter-spacing: 0.08em; white-space: nowrap; }
 
 /* ── FOOTER ── */
 .lp-footer { background: var(--lp-bg-alt); border-top: 1px solid var(--lp-card-border); padding: 3rem 2rem 2rem; }
 .lp-footer-inner { max-width: 1160px; margin: 0 auto; }
 .lp-footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
 .lp-footer-brand p { color: var(--lp-text-muted); font-size: 0.875rem; line-height: 1.7; margin: 0.75rem 0 1.5rem; max-width: 300px; }
-.lp-footer-col h4 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E8A84C; margin: 0 0 1rem; }
+.lp-footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E8A84C; margin: 0 0 1rem; }
 .lp-footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
 .lp-footer-col ul li a { color: var(--lp-text-muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
 .lp-footer-col ul li a:hover { color: #E8A84C; }
@@ -1233,16 +1274,20 @@ body {
 .lp-footer-social a { width: 34px; height: 34px; background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--lp-text-muted); text-decoration: none; font-size: 0.85rem; transition: border-color 0.2s, color 0.2s; }
 .lp-footer-social a:hover { border-color: #E8A84C; color: #E8A84C; }
 
-/* ── LANDING RESPONSIVE ── */
+/* ── RESPONSIVE ── */
 @media (max-width: 900px) {
+  .lp-hero { grid-template-columns: 1fr; }
+  .lp-terminal { display: none; }
   .lp-why-grid { grid-template-columns: repeat(2, 1fr); }
   .lp-feat-grid { grid-template-columns: repeat(2, 1fr); }
   .lp-footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
 }
 @media (max-width: 600px) {
-  .lp-pipeline { flex-direction: column; }
-  .lp-pipe-step { padding-right: 0; padding-bottom: 2.5rem; }
-  .lp-pipe-step:not(:last-child)::after { content: '↓'; right: auto; left: 26px; top: auto; bottom: 0.5rem; }
+  .lp-pipe-row { flex-direction: column; }
+  .lp-pipe-item { border-right: 1px solid rgba(255,255,255,0.08); border-bottom: none; border-radius: 0; }
+  .lp-pipe-item:first-child { border-radius: 8px 8px 0 0; }
+  .lp-pipe-item:last-child { border-radius: 0 0 8px 8px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .lp-pipe-item::after { content: 'v'; right: auto; left: 50%; transform: translateX(-50%); top: auto; bottom: -12px; }
   .lp-why-grid { grid-template-columns: 1fr; }
   .lp-feat-grid { grid-template-columns: 1fr; }
   .lp-footer-top { grid-template-columns: 1fr; }
@@ -1312,185 +1357,220 @@ body {
 <body>
 
 <!-- ══════════════════════════════════════
-     LANDING PAGE
+     LANDING PAGE — TERMINAL AESTHETIC
 ══════════════════════════════════════ -->
 
 <!-- NAV -->
 <nav class="lp-nav">
-  <div class="lp-nav-brand">
-    <div class="brand-icon">DC</div>
-    Documentation Center
-  </div>
+  <a href="#" class="lp-nav-brand">
+    <span class="lp-prompt">~</span><span class="lp-slash">/</span><span class="lp-path">docforge</span><span class="lp-cursor"></span>
+  </a>
   <div class="lp-nav-links">
     <a href="#how-it-works">How It Works</a>
     <a href="#features">Features</a>
-    <a href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">GitHub ↗</a>
-    <a href="https://sulagnasasmal.com/" target="_blank" rel="noopener">Portfolio ↗</a>
+    <a href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">GitHub &#8599;</a>
+    <a href="https://sulagnasasmal.com/" target="_blank" rel="noopener">Portfolio &#8599;</a>
   </div>
   <div class="lp-nav-actions">
     <button class="lp-theme-btn" id="lp-theme-btn" aria-label="Toggle theme">&#9728;</button>
-    <a href="#demo" class="lp-nav-cta">Try Demo ↓</a>
+    <a href="#demo" class="lp-nav-cta">open demo</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO — SPLIT -->
+<div class="lp-hero-wrap">
 <section class="lp-hero">
-  <div class="lp-hero-eyebrow"><span></span> Docs-as-Code · Git-Native · CI/CD Powered</div>
-  <h1>Documentation that ships<br>like <em>software</em></h1>
-  <p class="lp-hero-sub">
-    Documentation Center is an end-to-end Docs-as-Code platform that treats your docs the way engineers treat code:
-    version-controlled, peer-reviewed, automatically built, linted, and published to multiple formats from a single source of truth.
-  </p>
-  <div class="lp-hero-btns">
-    <a href="#demo" class="lp-btn-primary">Explore the Platform</a>
-    <a href="https://sulagnasasmal.com/" class="lp-btn-secondary" target="_blank" rel="noopener">Full Portfolio ↗</a>
+  <div class="lp-hero-left">
+    <div class="lp-hero-kicker">Docs-as-Code &middot; Git-Native &middot; CI/CD Powered</div>
+    <h1>Documentation that<br>ships like <span class="hl">software</span></h1>
+    <p class="lp-hero-sub">
+      A production-grade interactive platform demonstrating end-to-end docs engineering:
+      version control, automated linting, multi-format builds, and continuous deployment
+      from a single Markdown source.
+    </p>
+    <div class="lp-hero-btns">
+      <a href="#demo" class="lp-btn-primary">open demo &rarr;</a>
+      <a href="https://sulagnasasmal.com/" class="lp-btn-secondary" target="_blank" rel="noopener">Full Portfolio &#8599;</a>
+    </div>
   </div>
-  <div class="lp-hero-badges">
-    <span class="lp-badge">Markdown / MDX</span>
-    <span class="lp-badge">Git-Versioned</span>
-    <span class="lp-badge">CI/CD Pipeline</span>
-    <span class="lp-badge">Multi-Format Output</span>
-    <span class="lp-badge">Style Linting</span>
-    <span class="lp-badge">API Reference</span>
+
+  <!-- Fake terminal window — always dark even in light mode -->
+  <div class="lp-terminal" aria-hidden="true">
+    <div class="lp-term-bar">
+      <span class="lp-term-dot red"></span>
+      <span class="lp-term-dot yellow"></span>
+      <span class="lp-term-dot green"></span>
+      <span class="lp-term-title">docforge &mdash; build</span>
+    </div>
+    <div class="lp-term-body">
+      <div class="lp-term-cmd">docforge build --project docs-center --output all</div>
+      <div class="lp-term-line ok">
+        <span class="lp-term-chk">&#10003;</span>
+        <span class="lp-term-lbl">Parsing Markdown sources</span>
+        <span class="lp-term-val">147 files</span>
+      </div>
+      <div class="lp-term-line ok">
+        <span class="lp-term-chk">&#10003;</span>
+        <span class="lp-term-lbl">Vale style lint</span>
+        <span class="lp-term-val">0 errors &middot; 3 warnings</span>
+      </div>
+      <div class="lp-term-line ok">
+        <span class="lp-term-chk">&#10003;</span>
+        <span class="lp-term-lbl">Build: HTML portal</span>
+        <span class="lp-term-val">portal/index.html</span>
+      </div>
+      <div class="lp-term-line ok">
+        <span class="lp-term-chk">&#10003;</span>
+        <span class="lp-term-lbl">Build: PDF export</span>
+        <span class="lp-term-val">guide-v3.2.pdf</span>
+      </div>
+      <div class="lp-term-line ok">
+        <span class="lp-term-chk">&#10003;</span>
+        <span class="lp-term-lbl">Export: OpenAPI spec</span>
+        <span class="lp-term-val">openapi.json v2.1</span>
+      </div>
+      <div class="lp-term-line ok">
+        <span class="lp-term-chk">&#10003;</span>
+        <span class="lp-term-lbl">Export: Postman collection</span>
+        <span class="lp-term-val">collection.json</span>
+      </div>
+      <div class="lp-term-line ok">
+        <span class="lp-term-chk">&#10003;</span>
+        <span class="lp-term-lbl">Deploy: GitHub Pages</span>
+        <span class="lp-term-val">live in 2.4s</span>
+      </div>
+      <div class="lp-term-done">Build complete. <span>6 outputs &middot; all checks passed.</span></div>
+    </div>
   </div>
 </section>
-
+</div>
 
 <!-- HOW IT WORKS — PIPELINE -->
-<section id="how-it-works">
-  <div class="lp-section">
-    <div class="lp-section-label">How Docs-as-Code Works</div>
-    <h2 class="lp-section-title">From plain text to published documentation</h2>
-    <p class="lp-section-desc">
-      Docs-as-Code applies the same engineering discipline used for software to the documentation lifecycle.
-      Writers work in Markdown, changes are tracked in Git, quality gates run in CI, and finished docs are published automatically. No manual export, no broken Word files, no version confusion.
-    </p>
-    <div class="lp-pipeline">
-      <div class="lp-pipe-step">
-        <div class="lp-pipe-icon">✍️</div>
-        <div class="lp-pipe-num">Step 1</div>
-        <div class="lp-pipe-title">Write</div>
-        <div class="lp-pipe-desc">Authors write in plain Markdown or MDX with a consistent content model. No proprietary formats.</div>
-        <div class="lp-pipe-tools">
-          <span class="lp-pipe-tag">Markdown</span><span class="lp-pipe-tag">MDX</span><span class="lp-pipe-tag">OpenAPI</span>
-        </div>
+<section id="how-it-works" class="lp-pipe-section">
+  <div class="lp-pipe-inner">
+    <div class="lp-pipe-label">pipeline &middot; docs-as-code workflow</div>
+    <div class="lp-pipe-row">
+      <div class="lp-pipe-item">
+        <div class="lp-pi-num">01</div>
+        <div class="lp-pi-cmd">write</div>
+        <div class="lp-pi-desc">Authors write in plain Markdown or MDX with YAML frontmatter. No proprietary formats, no lock-in.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">Markdown</span><span class="lp-pi-tag">MDX</span><span class="lp-pi-tag">OpenAPI</span></div>
       </div>
-      <div class="lp-pipe-step">
-        <div class="lp-pipe-icon">🔀</div>
-        <div class="lp-pipe-num">Step 2</div>
-        <div class="lp-pipe-title">Commit &amp; Review</div>
-        <div class="lp-pipe-desc">Changes are committed to Git. Pull requests enable peer review of docs just like code review.</div>
-        <div class="lp-pipe-tools">
-          <span class="lp-pipe-tag">Git</span><span class="lp-pipe-tag">GitHub PRs</span><span class="lp-pipe-tag">Diff Review</span>
-        </div>
+      <div class="lp-pipe-item">
+        <div class="lp-pi-num">02</div>
+        <div class="lp-pi-cmd">commit</div>
+        <div class="lp-pi-desc">Changes go into Git. Pull requests enable peer review of docs the same way code is reviewed.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">Git</span><span class="lp-pi-tag">GitHub PRs</span><span class="lp-pi-tag">Diff Review</span></div>
       </div>
-      <div class="lp-pipe-step">
-        <div class="lp-pipe-icon">⚙️</div>
-        <div class="lp-pipe-num">Step 3</div>
-        <div class="lp-pipe-title">Build</div>
-        <div class="lp-pipe-desc">CI triggers a build pipeline that compiles Markdown into structured output: HTML, PDF, or JSON.</div>
-        <div class="lp-pipe-tools">
-          <span class="lp-pipe-tag">GitHub Actions</span><span class="lp-pipe-tag">MkDocs</span><span class="lp-pipe-tag">Sphinx</span>
-        </div>
+      <div class="lp-pipe-item">
+        <div class="lp-pi-num">03</div>
+        <div class="lp-pi-cmd">lint</div>
+        <div class="lp-pi-desc">Automated style checks enforce terminology, passive voice, and readability against MSTP rules.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">Vale</span><span class="lp-pi-tag">Custom Rules</span><span class="lp-pi-tag">Link Check</span></div>
       </div>
-      <div class="lp-pipe-step">
-        <div class="lp-pipe-icon">🔍</div>
-        <div class="lp-pipe-num">Step 4</div>
-        <div class="lp-pipe-title">Validate</div>
-        <div class="lp-pipe-desc">Automated style linting catches terminology errors, passive voice, and broken links before merge.</div>
-        <div class="lp-pipe-tools">
-          <span class="lp-pipe-tag">Vale</span><span class="lp-pipe-tag">Link Checker</span><span class="lp-pipe-tag">Custom Rules</span>
-        </div>
+      <div class="lp-pipe-item">
+        <div class="lp-pi-num">04</div>
+        <div class="lp-pi-cmd">build</div>
+        <div class="lp-pi-desc">CI compiles Markdown into HTML, PDF, OpenAPI JSON, and Postman collections simultaneously.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">GitHub Actions</span><span class="lp-pi-tag">MkDocs</span><span class="lp-pi-tag">Sphinx</span></div>
       </div>
-      <div class="lp-pipe-step">
-        <div class="lp-pipe-icon">🚀</div>
-        <div class="lp-pipe-num">Step 5</div>
-        <div class="lp-pipe-title">Publish</div>
-        <div class="lp-pipe-desc">Validated docs deploy automatically to GitHub Pages, Netlify, or S3, always in sync with the repo.</div>
-        <div class="lp-pipe-tools">
-          <span class="lp-pipe-tag">GitHub Pages</span><span class="lp-pipe-tag">Netlify</span><span class="lp-pipe-tag">S3/CDN</span>
-        </div>
+      <div class="lp-pipe-item">
+        <div class="lp-pi-num">05</div>
+        <div class="lp-pi-cmd">publish</div>
+        <div class="lp-pi-desc">Validated docs auto-deploy to Pages, Netlify, or S3. Always in sync with the repo, always live.</div>
+        <div class="lp-pi-tags"><span class="lp-pi-tag">GitHub Pages</span><span class="lp-pi-tag">Netlify</span><span class="lp-pi-tag">S3/CDN</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- WHY DOCS-AS-CODE -->
-<div class="lp-section-full">
-  <div class="lp-section">
+<section class="lp-why-section">
+  <div class="lp-why-inner">
     <div class="lp-section-label">Why It Matters</div>
     <h2 class="lp-section-title">Documentation that behaves like code</h2>
-    <p class="lp-section-desc">Traditional docs rot. Docs-as-Code keeps documentation alive, accurate, and auditable.</p>
+    <p class="lp-section-sub">Traditional docs rot. Docs-as-Code keeps documentation alive, accurate, and auditable.</p>
     <div class="lp-why-grid">
       <div class="lp-why-card">
-        <div class="lp-why-icon">📜</div>
+        <div class="lp-why-icon">&#128220;</div>
         <div class="lp-why-title">Full Audit History</div>
-        <div class="lp-why-text">Every change is tracked in Git with author, date, and commit message. Roll back any edit instantly. Essential for regulated industries like finance and healthcare.</div>
+        <div class="lp-why-body">Every change tracked in Git with author, date, and commit message. Roll back any edit instantly. Essential for finance and healthcare compliance.</div>
       </div>
       <div class="lp-why-card">
-        <div class="lp-why-icon">🔁</div>
+        <div class="lp-why-icon">&#128257;</div>
         <div class="lp-why-title">Single Source of Truth</div>
-        <div class="lp-why-text">One Markdown source compiles to website, PDF, and API reference. No copy-paste drift between formats. Update once, publish everywhere.</div>
+        <div class="lp-why-body">One Markdown source compiles to website, PDF, and API reference. No copy-paste drift between formats. Update once, publish everywhere.</div>
       </div>
       <div class="lp-why-card">
-        <div class="lp-why-icon">🤝</div>
+        <div class="lp-why-icon">&#129309;</div>
         <div class="lp-why-title">Developer-Friendly Workflow</div>
-        <div class="lp-why-text">Writers and engineers use the same tools: Git, pull requests, CI pipelines. Docs ship with the feature, not weeks later.</div>
+        <div class="lp-why-body">Writers and engineers use the same tools: Git, pull requests, CI pipelines. Docs ship with the feature, not weeks later.</div>
       </div>
       <div class="lp-why-card">
-        <div class="lp-why-icon">✅</div>
+        <div class="lp-why-icon">&#9989;</div>
         <div class="lp-why-title">Automated Quality Gates</div>
-        <div class="lp-why-text">Style linting, broken-link detection, and structural validation run on every commit. Errors are caught before they reach readers.</div>
+        <div class="lp-why-body">Style linting, broken-link detection, and structural validation run on every commit. Errors are caught before they reach readers.</div>
       </div>
       <div class="lp-why-card">
-        <div class="lp-why-icon">📦</div>
+        <div class="lp-why-icon">&#128230;</div>
         <div class="lp-why-title">Multi-Format Output</div>
-        <div class="lp-why-text">Generate HTML portals, PDF guides, JSON schemas, and changelog feeds from the same source. Tailor output per audience without duplicating effort.</div>
+        <div class="lp-why-body">Generate HTML portals, PDF guides, JSON schemas, and changelog feeds from the same source. Tailor output per audience without duplicating effort.</div>
       </div>
       <div class="lp-why-card">
-        <div class="lp-why-icon">⚡</div>
+        <div class="lp-why-icon">&#9889;</div>
         <div class="lp-why-title">Zero-Downtime Publishing</div>
-        <div class="lp-why-text">Continuous deployment means docs go live the moment a PR merges. No manual FTP uploads, no publishing queues, no staging servers to maintain.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PLATFORM FEATURES -->
-<section id="features">
-  <div class="lp-section">
-    <div class="lp-section-label">Platform Capabilities</div>
-    <h2 class="lp-section-title">Everything in the Documentation Center Dashboard</h2>
-    <p class="lp-section-desc">The interactive dashboard below lets you explore each module of the Documentation Center. Here's what each view does.</p>
-    <div class="lp-feat-grid">
-      <div class="lp-feat-card">
-        <div class="lp-feat-title">📊 Dashboard Overview</div>
-        <div class="lp-feat-text">At-a-glance metrics: build health, content coverage, active contributors, open issues, and recent pipeline runs. Your docs command centre.</div>
-      </div>
-      <div class="lp-feat-card">
-        <div class="lp-feat-title">✍️ Live Editor</div>
-        <div class="lp-feat-text">Split-pane Markdown editor with real-time preview, frontmatter validation, and inline Vale linting. Write and see the output instantly.</div>
-      </div>
-      <div class="lp-feat-card">
-        <div class="lp-feat-title">🗺️ Content Map</div>
-        <div class="lp-feat-text">Visual topology of your entire documentation tree. Spot orphaned pages, broken cross-references, and content gaps at a glance.</div>
-      </div>
-      <div class="lp-feat-card">
-        <div class="lp-feat-title">🔍 Style Linter</div>
-        <div class="lp-feat-text">Enforces your house style guide using Vale rules. Flags passive voice, terminology drift, banned phrases, and readability issues across all files.</div>
-      </div>
-      <div class="lp-feat-card">
-        <div class="lp-feat-title">📦 Build Outputs</div>
-        <div class="lp-feat-text">View all generated artefacts per build: HTML site, PDF export, OpenAPI JSON, and search index. Download or deploy directly from this panel.</div>
-      </div>
-      <div class="lp-feat-card">
-        <div class="lp-feat-title">⚙️ Configuration</div>
-        <div class="lp-feat-text">Control site metadata, nav structure, theme tokens, lint rule sets, CI triggers, and deployment targets, all from a single config panel.</div>
+        <div class="lp-why-body">Continuous deployment means docs go live the moment a PR merges. No manual uploads, no publishing queues, no staging servers to maintain.</div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- PLATFORM FEATURES -->
+<section id="features" class="lp-feat-section">
+  <div class="lp-feat-inner">
+    <div class="lp-section-label">Platform Capabilities</div>
+    <h2 class="lp-section-title">Six modules. One dashboard.</h2>
+    <p class="lp-section-sub" style="color: var(--lp-text-muted);">The interactive demo includes each module below. Click any view in the sidebar to explore it live.</p>
+    <div class="lp-feat-grid">
+      <div class="lp-feat-card">
+        <div class="lp-feat-mod">module &middot; 01</div>
+        <div class="lp-feat-name">--dashboard</div>
+        <div class="lp-feat-text">Pipeline health, build history, content metrics, contributor activity, and open issues at a glance.</div>
+        <div class="lp-feat-flags"><span class="lp-feat-flag">--build-status</span><span class="lp-feat-flag">--metrics</span></div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-mod">module &middot; 02</div>
+        <div class="lp-feat-name">--editor</div>
+        <div class="lp-feat-text">Live Markdown editor with real-time rendered preview, YAML frontmatter, and syntax highlighting.</div>
+        <div class="lp-feat-flags"><span class="lp-feat-flag">--preview</span><span class="lp-feat-flag">--frontmatter</span></div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-mod">module &middot; 03</div>
+        <div class="lp-feat-name">--content-map</div>
+        <div class="lp-feat-text">DITA-based topic taxonomy: Concept, Task, Reference, Tutorial, and Troubleshoot topic types with visual topology.</div>
+        <div class="lp-feat-flags"><span class="lp-feat-flag">--dita</span><span class="lp-feat-flag">--topic-types</span></div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-mod">module &middot; 04</div>
+        <div class="lp-feat-name">--lint</div>
+        <div class="lp-feat-text">Automated quality checks against Microsoft Style Guide rules with readability scoring and issue counts.</div>
+        <div class="lp-feat-flags"><span class="lp-feat-flag">--vale</span><span class="lp-feat-flag">--mstp</span><span class="lp-feat-flag">--score</span></div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-mod">module &middot; 05</div>
+        <div class="lp-feat-name">--build-outputs</div>
+        <div class="lp-feat-text">Preview HTML portal, PDF export, OpenAPI spec, JSON schema, Postman collection, and CHANGELOG per build.</div>
+        <div class="lp-feat-flags"><span class="lp-feat-flag">--html</span><span class="lp-feat-flag">--pdf</span><span class="lp-feat-flag">--openapi</span></div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-mod">module &middot; 06</div>
+        <div class="lp-feat-name">--config</div>
+        <div class="lp-feat-text">Full docforge.config.yml with toggleable build, lint, and deploy settings. Environment-aware configuration.</div>
+        <div class="lp-feat-flags"><span class="lp-feat-flag">--yml</span><span class="lp-feat-flag">--env</span><span class="lp-feat-flag">--targets</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- DEMO ANCHOR -->
 <div id="demo" class="lp-demo-anchor">
