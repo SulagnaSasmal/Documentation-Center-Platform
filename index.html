@@ -37,6 +37,19 @@
   --sidebar-w: 240px;
   --topbar-h: 52px;
   --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Landing page theme tokens */
+  --lp-bg: #0e0e14;
+  --lp-bg-alt: #0b0b11;
+  --lp-nav-bg: rgba(19,19,25,0.92);
+  --lp-nav-border: #2a2a3a;
+  --lp-text: #ffffff;
+  --lp-text-muted: #9a9ab4;
+  --lp-text-sub: #e0e0f0;
+  --lp-card-bg: rgba(255,255,255,0.04);
+  --lp-card-bg-hover: rgba(255,255,255,0.07);
+  --lp-card-border: rgba(255,255,255,0.08);
+  --lp-tag-bg: rgba(255,255,255,0.06);
+  --lp-tag-border: rgba(255,255,255,0.10);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1118,152 +1131,120 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 2rem;
   height: 58px;
-  background: rgba(19,19,25,0.92);
+  background: var(--lp-nav-bg);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #2a2a3a;
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--lp-nav-border);
 }
-.lp-nav-brand { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
-.lp-nav-brand .brand-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg,#E8A84C,#c97d2a); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #13131a; }
+.lp-nav-brand { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; color: var(--lp-text); letter-spacing: 0.02em; text-decoration: none; }
+.lp-nav-brand .brand-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg,#E8A84C,#c97d2a); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #13131a; flex-shrink: 0; }
 .lp-nav-links { display: flex; align-items: center; gap: 1.5rem; }
-.lp-nav-links a { color: #9a9ab4; font-size: 0.875rem; text-decoration: none; transition: color 0.2s; }
+.lp-nav-links a { color: var(--lp-text-muted); font-size: 0.875rem; text-decoration: none; transition: color 0.2s; }
 .lp-nav-links a:hover { color: #E8A84C; }
+.lp-nav-actions { display: flex; align-items: center; gap: 0.75rem; }
 .lp-nav-cta { background: #E8A84C; color: #13131a; font-size: 0.825rem; font-weight: 700; padding: 7px 18px; border-radius: 8px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
 .lp-nav-cta:hover { background: #f0b85c; transform: translateY(-1px); }
+.lp-theme-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--lp-card-border); background: var(--lp-card-bg); color: var(--lp-text-muted); cursor: pointer; font-size: 1rem; line-height: 1; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+.lp-theme-btn:hover { border-color: #E8A84C; color: #E8A84C; }
 
 /* ── HERO ── */
 .lp-hero {
-  min-height: 92vh;
+  min-height: 86vh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center;
   padding: 5rem 2rem 3rem;
-  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232,168,76,0.14) 0%, transparent 70%), #0e0e14;
+  background: radial-gradient(ellipse 80% 55% at 50% -5%, rgba(232,168,76,0.12) 0%, transparent 65%), var(--lp-bg);
   position: relative; overflow: hidden;
 }
 .lp-hero::before {
   content: '';
   position: absolute; inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E8A84C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E8A84C' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   pointer-events: none;
 }
 .lp-hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,168,76,0.12); border: 1px solid rgba(232,168,76,0.3); color: #E8A84C; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 1.5rem; }
-.lp-hero-eyebrow span { width: 6px; height: 6px; background: #E8A84C; border-radius: 50%; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.4); } }
-.lp-hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800; color: #fff; line-height: 1.1; margin: 0 0 1.2rem; max-width: 900px; }
+.lp-hero-eyebrow span { width: 6px; height: 6px; background: #E8A84C; border-radius: 50%; animation: lp-pulse 2s infinite; }
+@keyframes lp-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.4); } }
+.lp-hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800; color: var(--lp-text); line-height: 1.1; margin: 0 0 1.2rem; max-width: 900px; }
 .lp-hero h1 em { font-style: normal; background: linear-gradient(90deg, #E8A84C, #f5c97a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.lp-hero-sub { font-size: 1.15rem; color: #9a9ab4; max-width: 640px; line-height: 1.7; margin: 0 0 2.5rem; }
+.lp-hero-sub { font-size: 1.1rem; color: var(--lp-text-muted); max-width: 620px; line-height: 1.75; margin: 0 0 2.5rem; }
 .lp-hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 .lp-btn-primary { background: linear-gradient(135deg, #E8A84C, #c97d2a); color: #13131a; font-size: 0.95rem; font-weight: 700; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 20px rgba(232,168,76,0.35); }
 .lp-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(232,168,76,0.5); }
-.lp-btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e0e0f0; font-size: 0.95rem; font-weight: 600; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
-.lp-btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(232,168,76,0.4); }
-.lp-hero-badges { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2.5rem; }
-.lp-badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #9a9ab4; font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: 6px; }
+.lp-btn-secondary { background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); color: var(--lp-text-sub); font-size: 0.95rem; font-weight: 600; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+.lp-btn-secondary:hover { background: var(--lp-card-bg-hover); border-color: rgba(232,168,76,0.4); }
+.lp-hero-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-top: 2.5rem; }
+.lp-badge { background: var(--lp-tag-bg); border: 1px solid var(--lp-tag-border); color: var(--lp-text-muted); font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: 6px; }
 
 /* ── SECTION SHARED ── */
-.lp-section { padding: 6rem 2rem; max-width: 1160px; margin: 0 auto; }
-.lp-section-full { padding: 6rem 2rem; background: #0b0b11; }
+.lp-section { padding: 5.5rem 2rem; max-width: 1160px; margin: 0 auto; }
+.lp-section-full { padding: 5.5rem 2rem; background: var(--lp-bg-alt); }
 .lp-section-full > .lp-section { padding: 0; }
 .lp-section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #E8A84C; margin-bottom: 0.75rem; }
-.lp-section-title { font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #fff; margin: 0 0 1rem; }
-.lp-section-desc { color: #9a9ab4; font-size: 1rem; line-height: 1.8; max-width: 680px; margin: 0 0 3rem; }
-
-/* ── ABOUT / CREATOR ── */
-.lp-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-.lp-about-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,#E8A84C,#c97d2a); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: #13131a; margin-bottom: 1.5rem; }
-.lp-about-name { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; margin: 0 0 0.25rem; }
-.lp-about-role { font-size: 0.9rem; color: #E8A84C; font-weight: 600; margin: 0 0 1rem; }
-.lp-about-bio { color: #9a9ab4; font-size: 0.95rem; line-height: 1.8; margin: 0 0 1.5rem; }
-.lp-about-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-.lp-about-link { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #c0c0d8; font-size: 0.82rem; padding: 7px 14px; border-radius: 8px; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
-.lp-about-link:hover { border-color: #E8A84C; color: #E8A84C; }
-.lp-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.lp-skill-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.2rem 1.4rem; transition: border-color 0.2s; }
-.lp-skill-card:hover { border-color: rgba(232,168,76,0.3); }
-.lp-skill-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E8A84C; margin-bottom: 0.4rem; }
-.lp-skill-text { font-size: 0.88rem; color: #c0c0d8; line-height: 1.6; }
+.lp-section-title { font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: var(--lp-text); margin: 0 0 1rem; letter-spacing: -0.02em; }
+.lp-section-desc { color: var(--lp-text-muted); font-size: 1rem; line-height: 1.8; max-width: 680px; margin: 0 0 3rem; }
 
 /* ── PIPELINE / HOW IT WORKS ── */
 .lp-pipeline { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 1rem; }
-.lp-pipe-step { flex: 1; min-width: 160px; position: relative; }
-.lp-pipe-step:not(:last-child)::after { content: '→'; position: absolute; right: -14px; top: 28px; color: #E8A84C; font-size: 1.4rem; font-weight: 300; z-index: 1; }
+.lp-pipe-step { flex: 1; min-width: 160px; position: relative; padding-right: 1.5rem; }
+.lp-pipe-step:not(:last-child)::after { content: '→'; position: absolute; right: 0; top: 26px; color: #E8A84C; font-size: 1.4rem; font-weight: 300; z-index: 1; }
 .lp-pipe-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(232,168,76,0.12); border: 1px solid rgba(232,168,76,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
 .lp-pipe-num { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: #E8A84C; text-transform: uppercase; margin-bottom: 0.3rem; }
-.lp-pipe-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
-.lp-pipe-desc { font-size: 0.82rem; color: #9a9ab4; line-height: 1.6; }
+.lp-pipe-title { font-size: 1rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.5rem; }
+.lp-pipe-desc { font-size: 0.82rem; color: var(--lp-text-muted); line-height: 1.6; }
 .lp-pipe-tools { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.75rem; }
-.lp-pipe-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #9a9ab4; font-size: 0.68rem; padding: 3px 8px; border-radius: 5px; }
+.lp-pipe-tag { background: var(--lp-tag-bg); border: 1px solid var(--lp-tag-border); color: var(--lp-text-muted); font-size: 0.68rem; padding: 3px 8px; border-radius: 5px; }
 
 /* ── WHY DOCS-AS-CODE ── */
 .lp-why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.lp-why-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.8rem; transition: transform 0.2s, border-color 0.2s; }
-.lp-why-card:hover { transform: translateY(-4px); border-color: rgba(232,168,76,0.3); }
+.lp-why-card { background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-radius: 16px; padding: 1.8rem; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+.lp-why-card:hover { transform: translateY(-4px); border-color: rgba(232,168,76,0.35); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
 .lp-why-icon { font-size: 1.8rem; margin-bottom: 1rem; }
-.lp-why-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
-.lp-why-text { font-size: 0.87rem; color: #9a9ab4; line-height: 1.7; }
+.lp-why-title { font-size: 1rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.5rem; }
+.lp-why-text { font-size: 0.87rem; color: var(--lp-text-muted); line-height: 1.7; }
 
 /* ── FEATURES / CAPABILITIES ── */
 .lp-feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-.lp-feat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #E8A84C; border-radius: 12px; padding: 1.4rem 1.6rem; transition: background 0.2s; }
-.lp-feat-card:hover { background: rgba(232,168,76,0.06); }
-.lp-feat-title { font-size: 0.95rem; font-weight: 700; color: #e0e0f0; margin-bottom: 0.4rem; }
-.lp-feat-text { font-size: 0.83rem; color: #9a9ab4; line-height: 1.6; }
-
-/* ── PORTFOLIO ── */
-.lp-portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-.lp-port-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; }
-.lp-port-card:hover { transform: translateY(-5px); border-color: rgba(232,168,76,0.4); }
-.lp-port-header { padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
-.lp-port-accent { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; margin-bottom: 1rem; }
-.lp-port-name { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
-.lp-port-tag { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
-.lp-port-body { padding: 1.2rem 1.5rem; flex: 1; }
-.lp-port-desc { font-size: 0.87rem; color: #9a9ab4; line-height: 1.7; margin-bottom: 1rem; }
-.lp-port-pills { display: flex; flex-wrap: wrap; gap: 5px; }
-.lp-port-pill { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #9a9ab4; font-size: 0.7rem; padding: 3px 9px; border-radius: 5px; }
-.lp-port-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 0.75rem; }
-.lp-port-link { flex: 1; text-align: center; font-size: 0.8rem; font-weight: 600; padding: 8px; border-radius: 8px; text-decoration: none; transition: background 0.2s, color 0.2s; }
-.lp-port-link.primary { background: rgba(232,168,76,0.15); color: #E8A84C; border: 1px solid rgba(232,168,76,0.3); }
-.lp-port-link.primary:hover { background: rgba(232,168,76,0.25); }
-.lp-port-link.ghost { background: rgba(255,255,255,0.05); color: #9a9ab4; border: 1px solid rgba(255,255,255,0.1); }
-.lp-port-link.ghost:hover { color: #e0e0f0; border-color: rgba(255,255,255,0.25); }
+.lp-feat-card { background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-left: 3px solid #E8A84C; border-radius: 12px; padding: 1.4rem 1.6rem; transition: background 0.2s, box-shadow 0.2s; }
+.lp-feat-card:hover { background: var(--lp-card-bg-hover); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.lp-feat-title { font-size: 0.95rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.4rem; }
+.lp-feat-text { font-size: 0.83rem; color: var(--lp-text-muted); line-height: 1.6; }
 
 /* ── DEMO ANCHOR ── */
-.lp-demo-anchor { text-align: center; padding: 5rem 2rem 2rem; }
-.lp-demo-anchor h2 { font-family: 'Outfit', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: #fff; margin: 0 0 1rem; }
-.lp-demo-anchor p { color: #9a9ab4; margin: 0 0 2rem; }
+.lp-demo-anchor { text-align: center; padding: 5rem 2rem 2rem; background: var(--lp-bg); }
+.lp-demo-anchor h2 { font-family: 'Outfit', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--lp-text); margin: 0 0 0.75rem; letter-spacing: -0.02em; }
+.lp-demo-anchor p { color: var(--lp-text-muted); margin: 0 0 2rem; font-size: 0.95rem; }
 .lp-demo-divider { display: flex; align-items: center; gap: 1.5rem; margin: 3rem 0 0; max-width: 700px; margin-left: auto; margin-right: auto; }
-.lp-demo-divider::before, .lp-demo-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
-.lp-demo-divider span { font-size: 0.78rem; color: #9a9ab4; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+.lp-demo-divider::before, .lp-demo-divider::after { content: ''; flex: 1; height: 1px; background: var(--lp-card-border); }
+.lp-demo-divider span { font-size: 0.78rem; color: var(--lp-text-muted); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
 
 /* ── FOOTER ── */
-.lp-footer { background: #0b0b11; border-top: 1px solid rgba(255,255,255,0.08); padding: 3rem 2rem 2rem; }
+.lp-footer { background: var(--lp-bg-alt); border-top: 1px solid var(--lp-card-border); padding: 3rem 2rem 2rem; }
 .lp-footer-inner { max-width: 1160px; margin: 0 auto; }
-.lp-footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-.lp-footer-brand p { color: #9a9ab4; font-size: 0.875rem; line-height: 1.7; margin: 0.75rem 0 1.5rem; max-width: 280px; }
+.lp-footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.lp-footer-brand p { color: var(--lp-text-muted); font-size: 0.875rem; line-height: 1.7; margin: 0.75rem 0 1.5rem; max-width: 300px; }
 .lp-footer-col h4 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E8A84C; margin: 0 0 1rem; }
 .lp-footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
-.lp-footer-col ul li a { color: #9a9ab4; text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+.lp-footer-col ul li a { color: var(--lp-text-muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
 .lp-footer-col ul li a:hover { color: #E8A84C; }
-.lp-footer-bottom { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.5rem; flex-wrap: wrap; gap: 1rem; }
-.lp-footer-bottom p { color: #6a6a84; font-size: 0.82rem; margin: 0; }
+.lp-footer-bottom { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--lp-card-border); padding-top: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+.lp-footer-bottom p { color: var(--lp-text-muted); font-size: 0.82rem; margin: 0; }
 .lp-footer-social { display: flex; gap: 0.75rem; }
-.lp-footer-social a { width: 34px; height: 34px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #9a9ab4; text-decoration: none; font-size: 0.85rem; transition: border-color 0.2s, color 0.2s; }
+.lp-footer-social a { width: 34px; height: 34px; background: var(--lp-card-bg); border: 1px solid var(--lp-card-border); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--lp-text-muted); text-decoration: none; font-size: 0.85rem; transition: border-color 0.2s, color 0.2s; }
 .lp-footer-social a:hover { border-color: #E8A84C; color: #E8A84C; }
 
 /* ── LANDING RESPONSIVE ── */
 @media (max-width: 900px) {
-  .lp-about-grid { grid-template-columns: 1fr; gap: 2rem; }
   .lp-why-grid { grid-template-columns: repeat(2, 1fr); }
   .lp-feat-grid { grid-template-columns: repeat(2, 1fr); }
-  .lp-portfolio-grid { grid-template-columns: 1fr 1fr; }
   .lp-footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
 }
 @media (max-width: 600px) {
   .lp-pipeline { flex-direction: column; }
-  .lp-pipe-step:not(:last-child)::after { content: '↓'; right: auto; left: 26px; top: auto; bottom: -20px; }
+  .lp-pipe-step { padding-right: 0; padding-bottom: 2.5rem; }
+  .lp-pipe-step:not(:last-child)::after { content: '↓'; right: auto; left: 26px; top: auto; bottom: 0.5rem; }
   .lp-why-grid { grid-template-columns: 1fr; }
   .lp-feat-grid { grid-template-columns: 1fr; }
-  .lp-portfolio-grid { grid-template-columns: 1fr; }
   .lp-footer-top { grid-template-columns: 1fr; }
   .lp-nav-links { display: none; }
 }
@@ -1295,6 +1276,19 @@ body {
   --teal-dim:    rgba(13,148,136,0.1);
   --border:      #d0d7de;
   --border-light:#b0b8c2;
+  /* Landing page theme tokens */
+  --lp-bg: #f8f9fb;
+  --lp-bg-alt: #f1f3f5;
+  --lp-nav-bg: rgba(255,255,255,0.92);
+  --lp-nav-border: #e2e4e8;
+  --lp-text: #111827;
+  --lp-text-muted: #6b7280;
+  --lp-text-sub: #374151;
+  --lp-card-bg: rgba(0,0,0,0.025);
+  --lp-card-bg-hover: rgba(0,0,0,0.05);
+  --lp-card-border: rgba(0,0,0,0.08);
+  --lp-tag-bg: rgba(0,0,0,0.04);
+  --lp-tag-border: rgba(0,0,0,0.10);
 }
 [data-theme="light"] body { background: var(--bg-deep); color: var(--text-primary); }
 [data-theme="light"] .top-btn.primary { color: #fff; }
@@ -1328,13 +1322,15 @@ body {
     Documentation Center
   </div>
   <div class="lp-nav-links">
-    <a href="#about">About</a>
     <a href="#how-it-works">How It Works</a>
     <a href="#features">Features</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="https://sulagnasasmal.com/" target="_blank" rel="noopener">Portfolio ↗</a>
   </div>
-  <a href="#demo" class="lp-nav-cta">Try Demo ↓</a>
+  <div class="lp-nav-actions">
+    <button class="lp-theme-btn" id="lp-theme-btn" aria-label="Toggle theme">&#9728;</button>
+    <a href="#demo" class="lp-nav-cta">Try Demo ↓</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1342,12 +1338,12 @@ body {
   <div class="lp-hero-eyebrow"><span></span> Docs-as-Code · Git-Native · CI/CD Powered</div>
   <h1>Documentation that ships<br>like <em>software</em></h1>
   <p class="lp-hero-sub">
-    Documentation Center is an end-to-end Docs-as-Code platform that treats your docs the way engineers treat code —
+    Documentation Center is an end-to-end Docs-as-Code platform that treats your docs the way engineers treat code:
     version-controlled, peer-reviewed, automatically built, linted, and published to multiple formats from a single source of truth.
   </p>
   <div class="lp-hero-btns">
     <a href="#demo" class="lp-btn-primary">Explore the Platform</a>
-    <a href="#portfolio" class="lp-btn-secondary">View Portfolio Projects</a>
+    <a href="https://sulagnasasmal.com/" class="lp-btn-secondary" target="_blank" rel="noopener">Full Portfolio ↗</a>
   </div>
   <div class="lp-hero-badges">
     <span class="lp-badge">Markdown / MDX</span>
@@ -1359,66 +1355,6 @@ body {
   </div>
 </section>
 
-<!-- ABOUT / CREATOR -->
-<section id="about" style="background:#0b0b11;">
-  <div class="lp-section lp-about-grid">
-    <div>
-      <div class="lp-section-label">Creator</div>
-      <div class="lp-about-avatar">SS</div>
-      <div class="lp-about-name">Sulagna Sasmal</div>
-      <div class="lp-about-role">Actimize Fraud Documentation Lead · Technical Writer · API Docs Specialist</div>
-      <p class="lp-about-bio">
-        I build documentation systems that scale, from zero-to-published API references to enterprise compliance-grade
-        docs platforms. My work bridges engineering and communication: I design, write, and automate documentation for
-        financial technology, compliance, and developer-facing APIs.
-      </p>
-      <p class="lp-about-bio" style="margin-top: -0.5rem;">
-        With experience aligned to NICE Actimize's product suite (IFM, SAM, CDD, Sanctions), I specialize in
-        translating complex regulatory and technical requirements into clear, structured, and maintainable documentation.
-      </p>
-      <div class="lp-about-links">
-        <a class="lp-about-link" href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">
-          ⌥ GitHub
-        </a>
-        <a class="lp-about-link" href="https://www.linkedin.com/in/sulagnasasmal" target="_blank" rel="noopener">
-          ☍ LinkedIn
-        </a>
-        <a class="lp-about-link" href="https://sulagnasasmal.github.io/vaultpay-api-docs/" target="_blank" rel="noopener">
-          ↗ VaultPay Docs
-        </a>
-        <a class="lp-about-link" href="https://sulagnasasmal.github.io/caseforge-api-docs/" target="_blank" rel="noopener">
-          ↗ CaseForge Docs
-        </a>
-      </div>
-    </div>
-    <div class="lp-skills-grid">
-      <div class="lp-skill-card">
-        <div class="lp-skill-label">Documentation Engineering</div>
-        <div class="lp-skill-text">Docs-as-Code pipelines, single-source publishing, structured authoring, DITA concepts</div>
-      </div>
-      <div class="lp-skill-card">
-        <div class="lp-skill-label">API Documentation</div>
-        <div class="lp-skill-text">OpenAPI / Swagger, REST & webhook reference docs, developer portals, SDK guides</div>
-      </div>
-      <div class="lp-skill-card">
-        <div class="lp-skill-label">Financial Compliance Docs</div>
-        <div class="lp-skill-text">PCI DSS, BSA/AML, FinCEN, FATF, GDPR, SOC 2; NICE Actimize IFM / SAM / CDD / Sanctions</div>
-      </div>
-      <div class="lp-skill-card">
-        <div class="lp-skill-label">Tools &amp; Platforms</div>
-        <div class="lp-skill-text">Git, GitHub Actions, MkDocs, Sphinx, Vale, Markdown, HTML/CSS, Python, CI/CD automation</div>
-      </div>
-      <div class="lp-skill-card">
-        <div class="lp-skill-label">Content Strategy</div>
-        <div class="lp-skill-text">Information architecture, task-based writing, user-journey mapping, changelog management</div>
-      </div>
-      <div class="lp-skill-card">
-        <div class="lp-skill-label">Developer Experience</div>
-        <div class="lp-skill-text">Code samples, tutorials, quickstarts, error reference, rate-limit guides, changelogs</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- HOW IT WORKS — PIPELINE -->
 <section id="how-it-works">
@@ -1555,97 +1491,6 @@ body {
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<div class="lp-section-full" id="portfolio">
-  <div class="lp-section">
-    <div class="lp-section-label">Portfolio Projects</div>
-    <h2 class="lp-section-title">Real documentation, production quality</h2>
-    <p class="lp-section-desc">Each project below is a fully authored, end-to-end documentation site, built using Docs-as-Code principles, hosted on GitHub Pages, and aligned to enterprise-grade compliance standards.</p>
-    <div class="lp-portfolio-grid">
-
-      <!-- VaultPay -->
-      <div class="lp-port-card">
-        <div class="lp-port-header">
-          <div class="lp-port-accent" style="background:rgba(20,184,166,0.15);color:#14b8a6;">VP</div>
-          <div class="lp-port-name">VaultPay API Docs</div>
-          <div class="lp-port-tag" style="color:#14b8a6;">Payment Processing · FinTech</div>
-        </div>
-        <div class="lp-port-body">
-          <p class="lp-port-desc">
-            Comprehensive REST API reference for a payment processing platform, covering charges, refunds, disputes, 3D Secure/SCA, webhooks, and test data.
-            Includes NICE Actimize-aligned compliance sections: Risk Scoring (IFM-AI), AML Transaction Monitoring (SAM), KYC verification (CDD), and Sanctions Screening.
-          </p>
-          <div class="lp-port-pills">
-            <span class="lp-port-pill">PCI DSS L1</span>
-            <span class="lp-port-pill">PSD2 / SCA</span>
-            <span class="lp-port-pill">BSA/AML</span>
-            <span class="lp-port-pill">NICE Actimize IFM</span>
-            <span class="lp-port-pill">SAM · CDD</span>
-            <span class="lp-port-pill">Sanctions</span>
-          </div>
-        </div>
-        <div class="lp-port-footer">
-          <a class="lp-port-link primary" href="https://sulagnasasmal.github.io/vaultpay-api-docs/" target="_blank" rel="noopener">↗ Live Site</a>
-          <a class="lp-port-link ghost" href="https://github.com/SulagnaSasmal/vaultpay-api-docs" target="_blank" rel="noopener">⌥ GitHub</a>
-        </div>
-      </div>
-
-      <!-- CaseForge -->
-      <div class="lp-port-card">
-        <div class="lp-port-header">
-          <div class="lp-port-accent" style="background:rgba(232,168,76,0.15);color:#E8A84C;">CF</div>
-          <div class="lp-port-name">CaseForge API Docs</div>
-          <div class="lp-port-tag" style="color:#E8A84C;">Enterprise Case Management · Compliance</div>
-        </div>
-        <div class="lp-port-body">
-          <p class="lp-port-desc">
-            Enterprise API reference for a compliance case management platform (v10.2). Documents the full SAR filing lifecycle, tamper-evident audit trail with SHA-256 hash chaining,
-            workflow automation, and 15-event webhook system. Aligned to FinCEN BSA e-filing, FATF Recommendation 20, EU AMLD6, and FINRA 3310.
-          </p>
-          <div class="lp-port-pills">
-            <span class="lp-port-pill">FinCEN BSA</span>
-            <span class="lp-port-pill">FATF R.20</span>
-            <span class="lp-port-pill">EU AMLD6</span>
-            <span class="lp-port-pill">SOC 2 Type II</span>
-            <span class="lp-port-pill">FedRAMP</span>
-            <span class="lp-port-pill">GDPR</span>
-          </div>
-        </div>
-        <div class="lp-port-footer">
-          <a class="lp-port-link primary" href="https://sulagnasasmal.github.io/caseforge-api-docs/caseforge-api-docs.html" target="_blank" rel="noopener">↗ Live Site</a>
-          <a class="lp-port-link ghost" href="https://github.com/SulagnaSasmal/caseforge-api-docs" target="_blank" rel="noopener">⌥ GitHub</a>
-        </div>
-      </div>
-
-      <!-- DocForge -->
-      <div class="lp-port-card">
-        <div class="lp-port-header">
-          <div class="lp-port-accent" style="background:rgba(139,92,246,0.15);color:#a78bfa;">DC</div>
-          <div class="lp-port-name">Documentation Center Dashboard</div>
-          <div class="lp-port-tag" style="color:#a78bfa;">Docs-as-Code · Platform Engineering</div>
-        </div>
-        <div class="lp-port-body">
-          <p class="lp-port-desc">
-            This site is a fully interactive Documentation Center Dashboard demonstrating the complete write → commit → build → validate → publish pipeline.
-            Features a live Markdown editor, style linter, content map, build output viewer, and configuration panel, all in a single-page application.
-          </p>
-          <div class="lp-port-pills">
-            <span class="lp-port-pill">Docs-as-Code</span>
-            <span class="lp-port-pill">Vale Linting</span>
-            <span class="lp-port-pill">CI/CD</span>
-            <span class="lp-port-pill">Multi-Format</span>
-            <span class="lp-port-pill">GitHub Pages</span>
-          </div>
-        </div>
-        <div class="lp-port-footer">
-          <a class="lp-port-link primary" href="https://sulagnasasmal.github.io/Documentation-Center-Platform/" target="_blank" rel="noopener">↗ Live Site</a>
-          <a class="lp-port-link ghost" href="https://github.com/SulagnaSasmal/Documentation-Center-Platform" target="_blank" rel="noopener">⌥ GitHub</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 <!-- DEMO ANCHOR -->
 <div id="demo" class="lp-demo-anchor">
@@ -2782,31 +2627,51 @@ showOutput('html');
         </ul>
       </div>
       <div class="lp-footer-col">
-        <h4>GitHub Repos</h4>
+        <h4>Platform</h4>
         <ul>
-          <li><a href="https://github.com/SulagnaSasmal/vaultpay-api-docs" target="_blank" rel="noopener">vaultpay-api-docs</a></li>
-          <li><a href="https://github.com/SulagnaSasmal/caseforge-api-docs" target="_blank" rel="noopener">caseforge-api-docs</a></li>
-          <li><a href="https://github.com/SulagnaSasmal/Documentation-Center-Platform" target="_blank" rel="noopener">Documentation-Center-Platform</a></li>
-        </ul>
-      </div>
-      <div class="lp-footer-col">
-        <h4>Expertise</h4>
-        <ul>
-          <li><a href="#how-it-works">Docs-as-Code Pipeline</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
           <li><a href="#features">Platform Features</a></li>
-          <li><a href="#about">API Documentation</a></li>
-          <li><a href="#about">Compliance Docs</a></li>
+          <li><a href="#demo">Try the Demo</a></li>
+          <li><a href="https://github.com/SulagnaSasmal/Documentation-Center-Platform" target="_blank" rel="noopener">GitHub Repo ↗</a></li>
         </ul>
       </div>
     </div>
     <div class="lp-footer-bottom">
       <p>© <span id="footer-yr"></span> Sulagna Sasmal. All rights reserved. Personal portfolio project for demonstration purposes only. Not affiliated with any organization.</p>
-      <p style="color:#4a4a64;">Docs-as-Code · Git-Native · CI/CD Powered · Static HTML</p>
+      <p style="color:var(--lp-text-muted);">Docs-as-Code · Git-Native · CI/CD Powered · Static HTML</p>
     </div>
   </div>
 </footer>
 
-<script>(function(){var btn=document.getElementById("theme-toggle");if(!btn)return;function upd(){btn.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"2600":"25D0";}upd();btn.addEventListener("click",function(){var n=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("df-theme",n);upd();});})()</script>
+<script>
+// Shared theme toggle logic used by both landing-page button and dashboard button
+function dfSetTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('df-theme', t);
+  var lpBtn = document.getElementById('lp-theme-btn');
+  if (lpBtn) lpBtn.textContent = t === 'dark' ? '\u2600' : '\uD83C\uDF19';
+  var dashBtn = document.getElementById('theme-toggle');
+  if (dashBtn) dashBtn.textContent = t === 'dark' ? '\u2600' : '\u25D0';
+}
+(function(){
+  var lpBtn = document.getElementById('lp-theme-btn');
+  if (lpBtn) {
+    var cur = document.documentElement.getAttribute('data-theme') || 'light';
+    lpBtn.textContent = cur === 'dark' ? '\u2600' : '\uD83C\uDF19';
+    lpBtn.addEventListener('click', function() {
+      dfSetTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  }
+  var dashBtn = document.getElementById('theme-toggle');
+  if (dashBtn) {
+    var cur2 = document.documentElement.getAttribute('data-theme') || 'light';
+    dashBtn.textContent = cur2 === 'dark' ? '\u2600' : '\u25D0';
+    dashBtn.addEventListener('click', function() {
+      dfSetTheme(document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  }
+})();
+</script>
 
 <script>var e=document.getElementById("footer-yr");if(e)e.textContent=new Date().getFullYear();</script>
 </body>
