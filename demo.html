@@ -2219,9 +2219,11 @@ except AuthenticationError:
 <script>
 // ── VIEW SWITCHING ──
 function switchView(view) {
-  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active', 'animate-in'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
+  const panel = document.getElementById('view-' + view);
+  panel.classList.add('active');
+  requestAnimationFrame(() => panel.classList.add('animate-in'));
   event.currentTarget.classList.add('active');
 
   const names = {

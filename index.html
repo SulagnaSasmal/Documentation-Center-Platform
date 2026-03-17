@@ -1337,6 +1337,25 @@ body {
 }
 [data-theme="light"] body { background: var(--bg-deep); color: var(--text-primary); }
 [data-theme="light"] .top-btn.primary { color: #fff; }
+/* fix white-on-white invisible elements in light mode */
+[data-theme="light"] .lp-feat-flag {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.12);
+  color: #374151;
+}
+[data-theme="light"] .lp-pi-tag {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.10);
+  color: #4b5563;
+}
+[data-theme="light"] .lp-pipe-item {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.10);
+}
+[data-theme="light"] .lp-feat-card {
+  background: #1e2433;
+  border-color: rgba(0,0,0,0.15);
+}
 
 /* Theme toggle button */
 .theme-toggle-btn {
