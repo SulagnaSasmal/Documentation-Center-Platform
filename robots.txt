@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sulagnasasmal.github.io/Documentation-Center-Platform/sitemap.xml
