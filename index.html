@@ -1,0 +1,2813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation Center Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #08090C;
+  --bg-base: #0E1015;
+  --bg-surface: #151820;
+  --bg-elevated: #1C2028;
+  --bg-hover: #232830;
+  --bg-code: #0C0E12;
+  --text-primary: #E8ECF1;
+  --text-secondary: #9BA3B0;
+  --text-muted: #5C6370;
+  --text-dim: #3D4350;
+  --accent: #E8A84C;
+  --accent-glow: rgba(232, 168, 76, 0.15);
+  --accent-subtle: rgba(232, 168, 76, 0.08);
+  --green: #4ADE80;
+  --green-dim: rgba(74, 222, 128, 0.12);
+  --blue: #60A5FA;
+  --blue-dim: rgba(96, 165, 250, 0.12);
+  --red: #F87171;
+  --red-dim: rgba(248, 113, 113, 0.10);
+  --purple: #C084FC;
+  --purple-dim: rgba(192, 132, 252, 0.10);
+  --teal: #2DD4BF;
+  --teal-dim: rgba(45, 212, 191, 0.10);
+  --border: #1E222A;
+  --border-light: #282D38;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --sidebar-w: 240px;
+  --topbar-h: 52px;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 15px; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-y: auto;
+  height: auto;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── LAYOUT SHELL ── */
+.app { display: flex; height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg-base);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.sidebar-brand {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent), #D4793A);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800; font-size: 14px;
+  color: var(--bg-deep);
+  box-shadow: 0 2px 12px rgba(232,168,76,0.25);
+}
+
+.brand-name {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 700; font-size: 17px;
+  letter-spacing: -0.3px;
+}
+
+.brand-tag {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: auto;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* SIDEBAR NAV */
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 12px 0; }
+
+.nav-group-title {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+  padding: 16px 18px 6px;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 18px;
+  font-size: 13.5px; font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+  border-left: 2px solid transparent;
+  position: relative;
+}
+.nav-item:hover { color: var(--text-primary); background: rgba(255,255,255,0.02); }
+.nav-item.active {
+  color: var(--accent);
+  background: var(--accent-subtle);
+  border-left-color: var(--accent);
+}
+.nav-item .icon { font-size: 15px; width: 20px; text-align: center; opacity: 0.7; }
+.nav-item.active .icon { opacity: 1; }
+
+.nav-item .badge {
+  margin-left: auto;
+  font-size: 9px; font-weight: 700;
+  padding: 1px 6px; border-radius: 8px;
+}
+.badge-green { color: var(--green); background: var(--green-dim); }
+.badge-blue { color: var(--blue); background: var(--blue-dim); }
+.badge-purple { color: var(--purple); background: var(--purple-dim); }
+
+.sidebar-footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.avatar {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--purple), var(--blue));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700;
+}
+
+.sidebar-footer .name { font-size: 12px; font-weight: 500; }
+.sidebar-footer .role { font-size: 10px; color: var(--text-muted); }
+
+/* ── MAIN AREA ── */
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(14, 16, 21, 0.8);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
+}
+
+.topbar-left {
+  display: flex; align-items: center; gap: 16px;
+}
+
+.breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--text-muted);
+}
+.breadcrumb .sep { color: var(--text-dim); }
+.breadcrumb .current { color: var(--text-primary); font-weight: 600; }
+
+.topbar-right {
+  display: flex; align-items: center; gap: 10px;
+}
+
+.top-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px;
+  border-radius: 7px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+}
+.top-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+
+.top-btn.primary {
+  background: var(--accent);
+  color: var(--bg-deep);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+.top-btn.primary:hover { opacity: 0.9; }
+
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.live { background: var(--green); box-shadow: 0 0 6px rgba(74,222,128,0.5); }
+.status-dot.building { background: var(--accent); animation: pulse 1.5s infinite; }
+.status-dot.error { background: var(--red); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── CONTENT AREA ── */
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ── VIEW PANELS ── */
+.view-panel { display: none; height: 100%; }
+.view-panel.active { display: flex; flex-direction: column; }
+
+/* ────────────────────────────────────────────
+   DASHBOARD VIEW
+   ──────────────────────────────────────────── */
+.dashboard { padding: 28px; overflow-y: auto; }
+
+.dash-hero {
+  background: linear-gradient(135deg, rgba(232,168,76,0.06) 0%, rgba(96,165,250,0.04) 50%, rgba(192,132,252,0.03) 100%);
+  border: 1px solid rgba(232,168,76,0.1);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.dash-hero::after {
+  content: '';
+  position: absolute;
+  top: -60%; right: -15%;
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(232,168,76,0.08), transparent 70%);
+  pointer-events: none;
+}
+
+.dash-hero h1 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 28px; font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.dash-hero p { font-size: 14px; color: var(--text-secondary); max-width: 520px; }
+
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all var(--transition);
+}
+.stat-card:hover { border-color: var(--border-light); transform: translateY(-1px); }
+
+.stat-label {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.stat-change {
+  font-size: 11px; font-weight: 500;
+  display: flex; align-items: center; gap: 4px;
+}
+.stat-change.up { color: var(--green); }
+.stat-change.down { color: var(--red); }
+
+/* PIPELINE SECTION */
+.section-title {
+  font-family: 'Source Serif 4', serif;
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title .line {
+  flex: 1; height: 1px;
+  background: var(--border);
+}
+
+.pipeline-visual {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.pipeline-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.pipe-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 130px;
+  position: relative;
+}
+
+.pipe-icon {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  transition: all 0.3s;
+}
+.pipe-icon.source { background: var(--blue-dim); border: 1px solid rgba(96,165,250,0.25); }
+.pipe-icon.build { background: var(--accent-subtle); border: 1px solid rgba(232,168,76,0.25); }
+.pipe-icon.lint { background: var(--purple-dim); border: 1px solid rgba(192,132,252,0.2); }
+.pipe-icon.output { background: var(--green-dim); border: 1px solid rgba(74,222,128,0.2); }
+.pipe-icon.deploy { background: var(--teal-dim); border: 1px solid rgba(45,212,191,0.2); }
+
+.pipe-label {
+  font-size: 11.5px; font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+}
+.pipe-sub {
+  font-size: 10px; color: var(--text-muted);
+  text-align: center;
+  margin-top: -6px;
+}
+
+.pipe-arrow {
+  font-size: 16px;
+  color: var(--text-dim);
+  padding: 0 6px;
+  flex-shrink: 0;
+  margin-bottom: 20px;
+}
+
+/* Recent builds */
+.builds-list {
+  display: flex; flex-direction: column;
+  gap: 6px;
+}
+
+.build-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 16px;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  transition: background var(--transition);
+  cursor: pointer;
+}
+.build-row:hover { background: var(--bg-hover); }
+
+.build-hash {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  color: var(--blue);
+  min-width: 70px;
+}
+.build-msg { font-size: 13px; color: var(--text-secondary); flex: 1; }
+.build-status {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+.build-status.success { color: var(--green); background: var(--green-dim); }
+.build-status.running { color: var(--accent); background: var(--accent-subtle); }
+.build-status.failed { color: var(--red); background: var(--red-dim); }
+
+.build-time {
+  font-size: 11px; color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  min-width: 60px; text-align: right;
+}
+.build-ago { font-size: 11px; color: var(--text-dim); min-width: 80px; text-align: right; }
+
+/* GRID LAYOUT */
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.dash-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+}
+.dash-card h3 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+/* File tree inside card */
+.file-tree { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+.file-tree .dir { color: var(--blue); cursor: pointer; }
+.file-tree .dir:hover { text-decoration: underline; }
+.file-tree .file { color: var(--text-secondary); }
+.file-tree .indent { padding-left: 18px; }
+.file-tree .indent2 { padding-left: 36px; }
+.file-tree .indent3 { padding-left: 54px; }
+.file-tree .line { padding: 2px 0; display: flex; align-items: center; gap: 6px; }
+.file-tree .icon-f { color: var(--text-muted); font-size: 11px; }
+
+/* Content metrics */
+.metric-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.metric-bar:last-child { border-bottom: none; }
+
+.metric-label { font-size: 12.5px; color: var(--text-secondary); flex: 1; }
+.metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  min-width: 40px; text-align: right;
+}
+.metric-track {
+  width: 80px; height: 4px;
+  background: var(--bg-hover);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.metric-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 0.8s ease-out;
+}
+
+/* ────────────────────────────────────────────
+   EDITOR VIEW
+   ──────────────────────────────────────────── */
+.editor-view {
+  display: none; height: 100%;
+}
+.editor-view.active { display: flex; flex-direction: column; }
+
+.editor-toolbar {
+  display: flex; align-items: center;
+  padding: 8px 16px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border);
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ed-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex; align-items: center; gap: 4px;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+.ed-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
+
+.ed-sep {
+  width: 1px; height: 20px;
+  background: var(--border);
+  margin: 0 6px;
+}
+
+.editor-file-tabs {
+  display: flex; gap: 0;
+  padding: 0 16px;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.file-tab {
+  padding: 8px 16px;
+  font-size: 12px; font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.file-tab:hover { color: var(--text-secondary); }
+.file-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.file-tab .dot { width: 5px; height: 5px; border-radius: 50%; }
+.file-tab .dot.md { background: var(--blue); }
+.file-tab .dot.yml { background: var(--green); }
+.file-tab .dot.json { background: var(--accent); }
+
+.editor-split {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.editor-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.pane-header {
+  padding: 8px 16px;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-dim);
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.pane-header .format-tag {
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.editor-textarea {
+  flex: 1;
+  background: var(--bg-code);
+  border: none;
+  padding: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-primary);
+  resize: none;
+  outline: none;
+  tab-size: 2;
+  overflow-y: auto;
+}
+.editor-textarea::placeholder { color: var(--text-dim); }
+
+.preview-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px;
+  background: var(--bg-base);
+  font-size: 14px;
+  line-height: 1.75;
+}
+.preview-pane h1 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 28px; font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.preview-pane h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 20px; font-weight: 700;
+  margin: 24px 0 8px;
+  color: var(--text-primary);
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.preview-pane h3 {
+  font-size: 16px; font-weight: 600;
+  margin: 18px 0 6px;
+  color: var(--text-primary);
+}
+.preview-pane p { color: var(--text-secondary); margin-bottom: 12px; }
+.preview-pane code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  background: var(--bg-elevated);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--accent);
+}
+.preview-pane pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.preview-pane ul, .preview-pane ol {
+  margin: 8px 0 12px 24px;
+  color: var(--text-secondary);
+}
+.preview-pane li { margin-bottom: 4px; }
+.preview-pane blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 8px 16px;
+  margin: 12px 0;
+  background: var(--accent-subtle);
+  border-radius: 0 6px 6px 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+.preview-pane table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.preview-pane th {
+  text-align: left;
+  padding: 8px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.preview-pane td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.preview-callout {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 12px 0;
+  display: flex; gap: 10px;
+  font-size: 13px;
+}
+.preview-callout.note {
+  background: var(--blue-dim);
+  border: 1px solid rgba(96,165,250,0.2);
+  color: var(--blue);
+}
+.preview-callout.warning {
+  background: var(--accent-subtle);
+  border: 1px solid rgba(232,168,76,0.2);
+  color: var(--accent);
+}
+
+/* ────────────────────────────────────────────
+   CONTENT ARCHITECTURE VIEW
+   ──────────────────────────────────────────── */
+.architecture-view { padding: 28px; overflow-y: auto; }
+
+.arch-header {
+  margin-bottom: 28px;
+}
+.arch-header h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px; font-weight: 800;
+  margin-bottom: 4px;
+}
+.arch-header p { font-size: 13.5px; color: var(--text-secondary); }
+
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.topic-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.topic-card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.topic-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.topic-card.concept::before { background: var(--blue); }
+.topic-card.task::before { background: var(--green); }
+.topic-card.reference::before { background: var(--purple); }
+.topic-card.tutorial::before { background: var(--accent); }
+.topic-card.troubleshoot::before { background: var(--red); }
+.topic-card.api::before { background: var(--teal); }
+
+.topic-type {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.topic-type.concept { color: var(--blue); }
+.topic-type.task { color: var(--green); }
+.topic-type.reference { color: var(--purple); }
+.topic-type.tutorial { color: var(--accent); }
+.topic-type.troubleshoot { color: var(--red); }
+.topic-type.api { color: var(--teal); }
+
+.topic-title {
+  font-weight: 600; font-size: 14.5px;
+  margin-bottom: 6px;
+}
+.topic-desc { font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+.topic-meta {
+  display: flex; gap: 12px;
+  font-size: 10.5px; color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* CONTENT TAXONOMY */
+.taxonomy-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 28px;
+}
+
+.taxonomy-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.taxonomy-row:last-child { border-bottom: none; }
+
+.tax-color {
+  width: 4px; height: 40px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.tax-info { flex: 1; }
+.tax-name { font-weight: 600; font-size: 13.5px; margin-bottom: 2px; }
+.tax-desc { font-size: 11.5px; color: var(--text-muted); }
+
+.tax-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 700;
+  min-width: 50px; text-align: right;
+}
+
+.tax-bar-track {
+  width: 120px; height: 6px;
+  background: var(--bg-hover);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.tax-bar-fill {
+  height: 100%; border-radius: 6px;
+}
+
+/* ────────────────────────────────────────────
+   STYLE GUIDE LINTER VIEW
+   ──────────────────────────────────────────── */
+.linter-view { padding: 28px; overflow-y: auto; }
+
+.linter-header {
+  margin-bottom: 24px;
+}
+.linter-header h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px; font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.linter-score-row {
+  display: flex; gap: 16px;
+  margin-bottom: 24px;
+}
+
+.score-card {
+  flex: 1;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+}
+.score-ring {
+  width: 80px; height: 80px;
+  margin: 0 auto 12px;
+  position: relative;
+}
+.score-ring svg { transform: rotate(-90deg); }
+.score-ring .value {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px; font-weight: 700;
+}
+.score-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+.lint-results {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.lint-result-header {
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.01);
+}
+.lint-result-header h3 {
+  font-size: 14px; font-weight: 600;
+}
+
+.lint-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+.lint-row:hover { background: rgba(255,255,255,0.015); }
+.lint-row:last-child { border-bottom: none; }
+
+.lint-severity {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  min-width: 55px;
+  text-align: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.lint-severity.error { color: var(--red); background: var(--red-dim); }
+.lint-severity.warn { color: var(--accent); background: var(--accent-subtle); }
+.lint-severity.info { color: var(--blue); background: var(--blue-dim); }
+
+.lint-content { flex: 1; }
+.lint-rule {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-muted);
+  margin-bottom: 3px;
+}
+.lint-message { font-size: 13px; color: var(--text-secondary); }
+.lint-suggestion {
+  font-size: 12px; color: var(--green);
+  margin-top: 4px;
+  display: flex; align-items: center; gap: 4px;
+}
+.lint-file {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ────────────────────────────────────────────
+   OUTPUT FORMATS VIEW
+   ──────────────────────────────────────────── */
+.outputs-view { padding: 28px; overflow-y: auto; }
+
+.output-header { margin-bottom: 24px; }
+.output-header h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px; font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.output-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.output-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+}
+.output-card:hover {
+  border-color: var(--border-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.output-card.active-output {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 8px 24px rgba(232,168,76,0.1);
+}
+
+.output-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+.output-name {
+  font-weight: 700; font-size: 15px;
+  margin-bottom: 4px;
+}
+.output-desc { font-size: 12px; color: var(--text-muted); }
+
+.output-preview-area {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.output-preview-header {
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+.output-preview-header h3 { font-size: 13px; font-weight: 600; }
+
+.output-preview-body {
+  padding: 24px;
+  min-height: 300px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Config viewer */
+.config-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+.hl-key { color: var(--blue); }
+.hl-val { color: var(--green); }
+.hl-comment { color: var(--text-dim); font-style: italic; }
+.hl-num { color: var(--accent); }
+.hl-bool { color: var(--purple); }
+
+/* ────────────────────────────────────────────
+   SETTINGS / CONFIG VIEW
+   ──────────────────────────────────────────── */
+.settings-view { padding: 28px; overflow-y: auto; }
+
+.settings-header { margin-bottom: 24px; }
+.settings-header h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 24px; font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.settings-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.settings-section h3 {
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.setting-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.setting-row:last-child { border-bottom: none; }
+
+.setting-info { flex: 1; }
+.setting-label { font-size: 13.5px; font-weight: 500; margin-bottom: 2px; }
+.setting-desc { font-size: 11.5px; color: var(--text-muted); }
+
+.toggle {
+  width: 40px; height: 22px;
+  background: var(--bg-hover);
+  border-radius: 11px;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--transition);
+  border: 1px solid var(--border-light);
+}
+.toggle.on { background: var(--accent); border-color: var(--accent); }
+.toggle::after {
+  content: '';
+  width: 16px; height: 16px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px; left: 2px;
+  transition: transform var(--transition);
+}
+.toggle.on::after { transform: translateX(18px); }
+
+.select-input {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 140px;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeIn 0.4s ease-out; }
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1000px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .arch-grid { grid-template-columns: repeat(2, 1fr); }
+  .output-grid { grid-template-columns: repeat(2, 1fr); }
+  .dash-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .stats-row { grid-template-columns: 1fr; }
+  .arch-grid { grid-template-columns: 1fr; }
+  .editor-split { flex-direction: column; }
+}
+
+/* ══════════════════════════════════════
+   LANDING PAGE STYLES
+══════════════════════════════════════ */
+
+/* ── NAV BAR ── */
+.lp-nav {
+  position: sticky; top: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem;
+  height: 58px;
+  background: rgba(19,19,25,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #2a2a3a;
+}
+.lp-nav-brand { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; color: #fff; letter-spacing: 0.02em; }
+.lp-nav-brand .brand-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg,#E8A84C,#c97d2a); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #13131a; }
+.lp-nav-links { display: flex; align-items: center; gap: 1.5rem; }
+.lp-nav-links a { color: #9a9ab4; font-size: 0.875rem; text-decoration: none; transition: color 0.2s; }
+.lp-nav-links a:hover { color: #E8A84C; }
+.lp-nav-cta { background: #E8A84C; color: #13131a; font-size: 0.825rem; font-weight: 700; padding: 7px 18px; border-radius: 8px; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+.lp-nav-cta:hover { background: #f0b85c; transform: translateY(-1px); }
+
+/* ── HERO ── */
+.lp-hero {
+  min-height: 92vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem 3rem;
+  background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232,168,76,0.14) 0%, transparent 70%), #0e0e14;
+  position: relative; overflow: hidden;
+}
+.lp-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23E8A84C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.lp-hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,168,76,0.12); border: 1px solid rgba(232,168,76,0.3); color: #E8A84C; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 1.5rem; }
+.lp-hero-eyebrow span { width: 6px; height: 6px; background: #E8A84C; border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.4); } }
+.lp-hero h1 { font-family: 'Outfit', sans-serif; font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800; color: #fff; line-height: 1.1; margin: 0 0 1.2rem; max-width: 900px; }
+.lp-hero h1 em { font-style: normal; background: linear-gradient(90deg, #E8A84C, #f5c97a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.lp-hero-sub { font-size: 1.15rem; color: #9a9ab4; max-width: 640px; line-height: 1.7; margin: 0 0 2.5rem; }
+.lp-hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.lp-btn-primary { background: linear-gradient(135deg, #E8A84C, #c97d2a); color: #13131a; font-size: 0.95rem; font-weight: 700; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 20px rgba(232,168,76,0.35); }
+.lp-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(232,168,76,0.5); }
+.lp-btn-secondary { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #e0e0f0; font-size: 0.95rem; font-weight: 600; padding: 13px 28px; border-radius: 10px; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+.lp-btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(232,168,76,0.4); }
+.lp-hero-badges { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 2.5rem; }
+.lp-badge { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #9a9ab4; font-size: 0.75rem; font-weight: 600; padding: 5px 12px; border-radius: 6px; }
+
+/* ── SECTION SHARED ── */
+.lp-section { padding: 6rem 2rem; max-width: 1160px; margin: 0 auto; }
+.lp-section-full { padding: 6rem 2rem; background: #0b0b11; }
+.lp-section-full > .lp-section { padding: 0; }
+.lp-section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #E8A84C; margin-bottom: 0.75rem; }
+.lp-section-title { font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; color: #fff; margin: 0 0 1rem; }
+.lp-section-desc { color: #9a9ab4; font-size: 1rem; line-height: 1.8; max-width: 680px; margin: 0 0 3rem; }
+
+/* ── ABOUT / CREATOR ── */
+.lp-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.lp-about-avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg,#E8A84C,#c97d2a); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 800; color: #13131a; margin-bottom: 1.5rem; }
+.lp-about-name { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; margin: 0 0 0.25rem; }
+.lp-about-role { font-size: 0.9rem; color: #E8A84C; font-weight: 600; margin: 0 0 1rem; }
+.lp-about-bio { color: #9a9ab4; font-size: 0.95rem; line-height: 1.8; margin: 0 0 1.5rem; }
+.lp-about-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.lp-about-link { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #c0c0d8; font-size: 0.82rem; padding: 7px 14px; border-radius: 8px; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+.lp-about-link:hover { border-color: #E8A84C; color: #E8A84C; }
+.lp-skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.lp-skill-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.2rem 1.4rem; transition: border-color 0.2s; }
+.lp-skill-card:hover { border-color: rgba(232,168,76,0.3); }
+.lp-skill-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E8A84C; margin-bottom: 0.4rem; }
+.lp-skill-text { font-size: 0.88rem; color: #c0c0d8; line-height: 1.6; }
+
+/* ── PIPELINE / HOW IT WORKS ── */
+.lp-pipeline { display: flex; align-items: flex-start; gap: 0; overflow-x: auto; padding-bottom: 1rem; }
+.lp-pipe-step { flex: 1; min-width: 160px; position: relative; }
+.lp-pipe-step:not(:last-child)::after { content: '→'; position: absolute; right: -14px; top: 28px; color: #E8A84C; font-size: 1.4rem; font-weight: 300; z-index: 1; }
+.lp-pipe-icon { width: 56px; height: 56px; border-radius: 14px; background: rgba(232,168,76,0.12); border: 1px solid rgba(232,168,76,0.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+.lp-pipe-num { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; color: #E8A84C; text-transform: uppercase; margin-bottom: 0.3rem; }
+.lp-pipe-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+.lp-pipe-desc { font-size: 0.82rem; color: #9a9ab4; line-height: 1.6; }
+.lp-pipe-tools { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.75rem; }
+.lp-pipe-tag { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #9a9ab4; font-size: 0.68rem; padding: 3px 8px; border-radius: 5px; }
+
+/* ── WHY DOCS-AS-CODE ── */
+.lp-why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.lp-why-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.8rem; transition: transform 0.2s, border-color 0.2s; }
+.lp-why-card:hover { transform: translateY(-4px); border-color: rgba(232,168,76,0.3); }
+.lp-why-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+.lp-why-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+.lp-why-text { font-size: 0.87rem; color: #9a9ab4; line-height: 1.7; }
+
+/* ── FEATURES / CAPABILITIES ── */
+.lp-feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.lp-feat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-left: 3px solid #E8A84C; border-radius: 12px; padding: 1.4rem 1.6rem; transition: background 0.2s; }
+.lp-feat-card:hover { background: rgba(232,168,76,0.06); }
+.lp-feat-title { font-size: 0.95rem; font-weight: 700; color: #e0e0f0; margin-bottom: 0.4rem; }
+.lp-feat-text { font-size: 0.83rem; color: #9a9ab4; line-height: 1.6; }
+
+/* ── PORTFOLIO ── */
+.lp-portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.lp-port-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; display: flex; flex-direction: column; }
+.lp-port-card:hover { transform: translateY(-5px); border-color: rgba(232,168,76,0.4); }
+.lp-port-header { padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.lp-port-accent { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; margin-bottom: 1rem; }
+.lp-port-name { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+.lp-port-tag { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+.lp-port-body { padding: 1.2rem 1.5rem; flex: 1; }
+.lp-port-desc { font-size: 0.87rem; color: #9a9ab4; line-height: 1.7; margin-bottom: 1rem; }
+.lp-port-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.lp-port-pill { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #9a9ab4; font-size: 0.7rem; padding: 3px 9px; border-radius: 5px; }
+.lp-port-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 0.75rem; }
+.lp-port-link { flex: 1; text-align: center; font-size: 0.8rem; font-weight: 600; padding: 8px; border-radius: 8px; text-decoration: none; transition: background 0.2s, color 0.2s; }
+.lp-port-link.primary { background: rgba(232,168,76,0.15); color: #E8A84C; border: 1px solid rgba(232,168,76,0.3); }
+.lp-port-link.primary:hover { background: rgba(232,168,76,0.25); }
+.lp-port-link.ghost { background: rgba(255,255,255,0.05); color: #9a9ab4; border: 1px solid rgba(255,255,255,0.1); }
+.lp-port-link.ghost:hover { color: #e0e0f0; border-color: rgba(255,255,255,0.25); }
+
+/* ── DEMO ANCHOR ── */
+.lp-demo-anchor { text-align: center; padding: 5rem 2rem 2rem; }
+.lp-demo-anchor h2 { font-family: 'Outfit', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: #fff; margin: 0 0 1rem; }
+.lp-demo-anchor p { color: #9a9ab4; margin: 0 0 2rem; }
+.lp-demo-divider { display: flex; align-items: center; gap: 1.5rem; margin: 3rem 0 0; max-width: 700px; margin-left: auto; margin-right: auto; }
+.lp-demo-divider::before, .lp-demo-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+.lp-demo-divider span { font-size: 0.78rem; color: #9a9ab4; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+
+/* ── FOOTER ── */
+.lp-footer { background: #0b0b11; border-top: 1px solid rgba(255,255,255,0.08); padding: 3rem 2rem 2rem; }
+.lp-footer-inner { max-width: 1160px; margin: 0 auto; }
+.lp-footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.lp-footer-brand p { color: #9a9ab4; font-size: 0.875rem; line-height: 1.7; margin: 0.75rem 0 1.5rem; max-width: 280px; }
+.lp-footer-col h4 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E8A84C; margin: 0 0 1rem; }
+.lp-footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.lp-footer-col ul li a { color: #9a9ab4; text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+.lp-footer-col ul li a:hover { color: #E8A84C; }
+.lp-footer-bottom { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+.lp-footer-bottom p { color: #6a6a84; font-size: 0.82rem; margin: 0; }
+.lp-footer-social { display: flex; gap: 0.75rem; }
+.lp-footer-social a { width: 34px; height: 34px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #9a9ab4; text-decoration: none; font-size: 0.85rem; transition: border-color 0.2s, color 0.2s; }
+.lp-footer-social a:hover { border-color: #E8A84C; color: #E8A84C; }
+
+/* ── LANDING RESPONSIVE ── */
+@media (max-width: 900px) {
+  .lp-about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .lp-why-grid { grid-template-columns: repeat(2, 1fr); }
+  .lp-feat-grid { grid-template-columns: repeat(2, 1fr); }
+  .lp-portfolio-grid { grid-template-columns: 1fr 1fr; }
+  .lp-footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+}
+@media (max-width: 600px) {
+  .lp-pipeline { flex-direction: column; }
+  .lp-pipe-step:not(:last-child)::after { content: '↓'; right: auto; left: 26px; top: auto; bottom: -20px; }
+  .lp-why-grid { grid-template-columns: 1fr; }
+  .lp-feat-grid { grid-template-columns: 1fr; }
+  .lp-portfolio-grid { grid-template-columns: 1fr; }
+  .lp-footer-top { grid-template-columns: 1fr; }
+  .lp-nav-links { display: none; }
+}
+
+/* ── LIGHT THEME ── */
+[data-theme="light"] {
+  --bg-deep:     #f6f8fa;
+  --bg-base:     #ffffff;
+  --bg-surface:  #f0f2f5;
+  --bg-elevated: #e8ecf0;
+  --bg-hover:    #e2e6ea;
+  --bg-code:     #0f172a;
+  --text-primary:   #1f2328;
+  --text-secondary: #424a53;
+  --text-muted:     #636c76;
+  --text-dim:       #9198a1;
+  --accent:      #b45309;
+  --accent-glow: rgba(180,83,9,0.12);
+  --accent-subtle: rgba(180,83,9,0.06);
+  --green:       #1a7f37;
+  --green-dim:   rgba(26,127,55,0.1);
+  --blue:        #0969da;
+  --blue-dim:    rgba(9,105,218,0.1);
+  --red:         #cf222e;
+  --red-dim:     rgba(207,34,46,0.1);
+  --purple:      #7c3aed;
+  --purple-dim:  rgba(124,58,237,0.1);
+  --teal:        #0d9488;
+  --teal-dim:    rgba(13,148,136,0.1);
+  --border:      #d0d7de;
+  --border-light:#b0b8c2;
+}
+[data-theme="light"] body { background: var(--bg-deep); color: var(--text-primary); }
+[data-theme="light"] .top-btn.primary { color: #fff; }
+
+/* Theme toggle button */
+.theme-toggle-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+}
+.theme-toggle-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+</style>
+<script>(function(){var t=localStorage.getItem("df-theme");if(t)document.documentElement.setAttribute("data-theme",t);else if(window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");else document.documentElement.setAttribute("data-theme","light");})()</script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     LANDING PAGE
+══════════════════════════════════════ -->
+
+<!-- NAV -->
+<nav class="lp-nav">
+  <div class="lp-nav-brand">
+    <div class="brand-icon">DC</div>
+    Documentation Center
+  </div>
+  <div class="lp-nav-links">
+    <a href="#about">About</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <a href="#demo" class="lp-nav-cta">Try Demo ↓</a>
+</nav>
+
+<!-- HERO -->
+<section class="lp-hero">
+  <div class="lp-hero-eyebrow"><span></span> Docs-as-Code · Git-Native · CI/CD Powered</div>
+  <h1>Documentation that ships<br>like <em>software</em></h1>
+  <p class="lp-hero-sub">
+    Documentation Center is an end-to-end Docs-as-Code platform that treats your docs the way engineers treat code —
+    version-controlled, peer-reviewed, automatically built, linted, and published to multiple formats from a single source of truth.
+  </p>
+  <div class="lp-hero-btns">
+    <a href="#demo" class="lp-btn-primary">Explore the Platform</a>
+    <a href="#portfolio" class="lp-btn-secondary">View Portfolio Projects</a>
+  </div>
+  <div class="lp-hero-badges">
+    <span class="lp-badge">Markdown / MDX</span>
+    <span class="lp-badge">Git-Versioned</span>
+    <span class="lp-badge">CI/CD Pipeline</span>
+    <span class="lp-badge">Multi-Format Output</span>
+    <span class="lp-badge">Style Linting</span>
+    <span class="lp-badge">API Reference</span>
+  </div>
+</section>
+
+<!-- ABOUT / CREATOR -->
+<section id="about" style="background:#0b0b11;">
+  <div class="lp-section lp-about-grid">
+    <div>
+      <div class="lp-section-label">Creator</div>
+      <div class="lp-about-avatar">SS</div>
+      <div class="lp-about-name">Sulagna Sasmal</div>
+      <div class="lp-about-role">Actimize Fraud Documentation Lead · Technical Writer · API Docs Specialist</div>
+      <p class="lp-about-bio">
+        I build documentation systems that scale, from zero-to-published API references to enterprise compliance-grade
+        docs platforms. My work bridges engineering and communication: I design, write, and automate documentation for
+        financial technology, compliance, and developer-facing APIs.
+      </p>
+      <p class="lp-about-bio" style="margin-top: -0.5rem;">
+        With experience aligned to NICE Actimize's product suite (IFM, SAM, CDD, Sanctions), I specialize in
+        translating complex regulatory and technical requirements into clear, structured, and maintainable documentation.
+      </p>
+      <div class="lp-about-links">
+        <a class="lp-about-link" href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">
+          ⌥ GitHub
+        </a>
+        <a class="lp-about-link" href="https://www.linkedin.com/in/sulagnasasmal" target="_blank" rel="noopener">
+          ☍ LinkedIn
+        </a>
+        <a class="lp-about-link" href="https://sulagnasasmal.github.io/vaultpay-api-docs/" target="_blank" rel="noopener">
+          ↗ VaultPay Docs
+        </a>
+        <a class="lp-about-link" href="https://sulagnasasmal.github.io/caseforge-api-docs/" target="_blank" rel="noopener">
+          ↗ CaseForge Docs
+        </a>
+      </div>
+    </div>
+    <div class="lp-skills-grid">
+      <div class="lp-skill-card">
+        <div class="lp-skill-label">Documentation Engineering</div>
+        <div class="lp-skill-text">Docs-as-Code pipelines, single-source publishing, structured authoring, DITA concepts</div>
+      </div>
+      <div class="lp-skill-card">
+        <div class="lp-skill-label">API Documentation</div>
+        <div class="lp-skill-text">OpenAPI / Swagger, REST & webhook reference docs, developer portals, SDK guides</div>
+      </div>
+      <div class="lp-skill-card">
+        <div class="lp-skill-label">Financial Compliance Docs</div>
+        <div class="lp-skill-text">PCI DSS, BSA/AML, FinCEN, FATF, GDPR, SOC 2; NICE Actimize IFM / SAM / CDD / Sanctions</div>
+      </div>
+      <div class="lp-skill-card">
+        <div class="lp-skill-label">Tools &amp; Platforms</div>
+        <div class="lp-skill-text">Git, GitHub Actions, MkDocs, Sphinx, Vale, Markdown, HTML/CSS, Python, CI/CD automation</div>
+      </div>
+      <div class="lp-skill-card">
+        <div class="lp-skill-label">Content Strategy</div>
+        <div class="lp-skill-text">Information architecture, task-based writing, user-journey mapping, changelog management</div>
+      </div>
+      <div class="lp-skill-card">
+        <div class="lp-skill-label">Developer Experience</div>
+        <div class="lp-skill-text">Code samples, tutorials, quickstarts, error reference, rate-limit guides, changelogs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — PIPELINE -->
+<section id="how-it-works">
+  <div class="lp-section">
+    <div class="lp-section-label">How Docs-as-Code Works</div>
+    <h2 class="lp-section-title">From plain text to published documentation</h2>
+    <p class="lp-section-desc">
+      Docs-as-Code applies the same engineering discipline used for software to the documentation lifecycle.
+      Writers work in Markdown, changes are tracked in Git, quality gates run in CI, and finished docs are published automatically. No manual export, no broken Word files, no version confusion.
+    </p>
+    <div class="lp-pipeline">
+      <div class="lp-pipe-step">
+        <div class="lp-pipe-icon">✍️</div>
+        <div class="lp-pipe-num">Step 1</div>
+        <div class="lp-pipe-title">Write</div>
+        <div class="lp-pipe-desc">Authors write in plain Markdown or MDX with a consistent content model. No proprietary formats.</div>
+        <div class="lp-pipe-tools">
+          <span class="lp-pipe-tag">Markdown</span><span class="lp-pipe-tag">MDX</span><span class="lp-pipe-tag">OpenAPI</span>
+        </div>
+      </div>
+      <div class="lp-pipe-step">
+        <div class="lp-pipe-icon">🔀</div>
+        <div class="lp-pipe-num">Step 2</div>
+        <div class="lp-pipe-title">Commit &amp; Review</div>
+        <div class="lp-pipe-desc">Changes are committed to Git. Pull requests enable peer review of docs just like code review.</div>
+        <div class="lp-pipe-tools">
+          <span class="lp-pipe-tag">Git</span><span class="lp-pipe-tag">GitHub PRs</span><span class="lp-pipe-tag">Diff Review</span>
+        </div>
+      </div>
+      <div class="lp-pipe-step">
+        <div class="lp-pipe-icon">⚙️</div>
+        <div class="lp-pipe-num">Step 3</div>
+        <div class="lp-pipe-title">Build</div>
+        <div class="lp-pipe-desc">CI triggers a build pipeline that compiles Markdown into structured output: HTML, PDF, or JSON.</div>
+        <div class="lp-pipe-tools">
+          <span class="lp-pipe-tag">GitHub Actions</span><span class="lp-pipe-tag">MkDocs</span><span class="lp-pipe-tag">Sphinx</span>
+        </div>
+      </div>
+      <div class="lp-pipe-step">
+        <div class="lp-pipe-icon">🔍</div>
+        <div class="lp-pipe-num">Step 4</div>
+        <div class="lp-pipe-title">Validate</div>
+        <div class="lp-pipe-desc">Automated style linting catches terminology errors, passive voice, and broken links before merge.</div>
+        <div class="lp-pipe-tools">
+          <span class="lp-pipe-tag">Vale</span><span class="lp-pipe-tag">Link Checker</span><span class="lp-pipe-tag">Custom Rules</span>
+        </div>
+      </div>
+      <div class="lp-pipe-step">
+        <div class="lp-pipe-icon">🚀</div>
+        <div class="lp-pipe-num">Step 5</div>
+        <div class="lp-pipe-title">Publish</div>
+        <div class="lp-pipe-desc">Validated docs deploy automatically to GitHub Pages, Netlify, or S3, always in sync with the repo.</div>
+        <div class="lp-pipe-tools">
+          <span class="lp-pipe-tag">GitHub Pages</span><span class="lp-pipe-tag">Netlify</span><span class="lp-pipe-tag">S3/CDN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY DOCS-AS-CODE -->
+<div class="lp-section-full">
+  <div class="lp-section">
+    <div class="lp-section-label">Why It Matters</div>
+    <h2 class="lp-section-title">Documentation that behaves like code</h2>
+    <p class="lp-section-desc">Traditional docs rot. Docs-as-Code keeps documentation alive, accurate, and auditable.</p>
+    <div class="lp-why-grid">
+      <div class="lp-why-card">
+        <div class="lp-why-icon">📜</div>
+        <div class="lp-why-title">Full Audit History</div>
+        <div class="lp-why-text">Every change is tracked in Git with author, date, and commit message. Roll back any edit instantly. Essential for regulated industries like finance and healthcare.</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">🔁</div>
+        <div class="lp-why-title">Single Source of Truth</div>
+        <div class="lp-why-text">One Markdown source compiles to website, PDF, and API reference. No copy-paste drift between formats. Update once, publish everywhere.</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">🤝</div>
+        <div class="lp-why-title">Developer-Friendly Workflow</div>
+        <div class="lp-why-text">Writers and engineers use the same tools: Git, pull requests, CI pipelines. Docs ship with the feature, not weeks later.</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">✅</div>
+        <div class="lp-why-title">Automated Quality Gates</div>
+        <div class="lp-why-text">Style linting, broken-link detection, and structural validation run on every commit. Errors are caught before they reach readers.</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">📦</div>
+        <div class="lp-why-title">Multi-Format Output</div>
+        <div class="lp-why-text">Generate HTML portals, PDF guides, JSON schemas, and changelog feeds from the same source. Tailor output per audience without duplicating effort.</div>
+      </div>
+      <div class="lp-why-card">
+        <div class="lp-why-icon">⚡</div>
+        <div class="lp-why-title">Zero-Downtime Publishing</div>
+        <div class="lp-why-text">Continuous deployment means docs go live the moment a PR merges. No manual FTP uploads, no publishing queues, no staging servers to maintain.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLATFORM FEATURES -->
+<section id="features">
+  <div class="lp-section">
+    <div class="lp-section-label">Platform Capabilities</div>
+    <h2 class="lp-section-title">Everything in the Documentation Center Dashboard</h2>
+    <p class="lp-section-desc">The interactive dashboard below lets you explore each module of the Documentation Center. Here's what each view does.</p>
+    <div class="lp-feat-grid">
+      <div class="lp-feat-card">
+        <div class="lp-feat-title">📊 Dashboard Overview</div>
+        <div class="lp-feat-text">At-a-glance metrics: build health, content coverage, active contributors, open issues, and recent pipeline runs. Your docs command centre.</div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-title">✍️ Live Editor</div>
+        <div class="lp-feat-text">Split-pane Markdown editor with real-time preview, frontmatter validation, and inline Vale linting. Write and see the output instantly.</div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-title">🗺️ Content Map</div>
+        <div class="lp-feat-text">Visual topology of your entire documentation tree. Spot orphaned pages, broken cross-references, and content gaps at a glance.</div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-title">🔍 Style Linter</div>
+        <div class="lp-feat-text">Enforces your house style guide using Vale rules. Flags passive voice, terminology drift, banned phrases, and readability issues across all files.</div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-title">📦 Build Outputs</div>
+        <div class="lp-feat-text">View all generated artefacts per build: HTML site, PDF export, OpenAPI JSON, and search index. Download or deploy directly from this panel.</div>
+      </div>
+      <div class="lp-feat-card">
+        <div class="lp-feat-title">⚙️ Configuration</div>
+        <div class="lp-feat-text">Control site metadata, nav structure, theme tokens, lint rule sets, CI triggers, and deployment targets, all from a single config panel.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<div class="lp-section-full" id="portfolio">
+  <div class="lp-section">
+    <div class="lp-section-label">Portfolio Projects</div>
+    <h2 class="lp-section-title">Real documentation, production quality</h2>
+    <p class="lp-section-desc">Each project below is a fully authored, end-to-end documentation site, built using Docs-as-Code principles, hosted on GitHub Pages, and aligned to enterprise-grade compliance standards.</p>
+    <div class="lp-portfolio-grid">
+
+      <!-- VaultPay -->
+      <div class="lp-port-card">
+        <div class="lp-port-header">
+          <div class="lp-port-accent" style="background:rgba(20,184,166,0.15);color:#14b8a6;">VP</div>
+          <div class="lp-port-name">VaultPay API Docs</div>
+          <div class="lp-port-tag" style="color:#14b8a6;">Payment Processing · FinTech</div>
+        </div>
+        <div class="lp-port-body">
+          <p class="lp-port-desc">
+            Comprehensive REST API reference for a payment processing platform, covering charges, refunds, disputes, 3D Secure/SCA, webhooks, and test data.
+            Includes NICE Actimize-aligned compliance sections: Risk Scoring (IFM-AI), AML Transaction Monitoring (SAM), KYC verification (CDD), and Sanctions Screening.
+          </p>
+          <div class="lp-port-pills">
+            <span class="lp-port-pill">PCI DSS L1</span>
+            <span class="lp-port-pill">PSD2 / SCA</span>
+            <span class="lp-port-pill">BSA/AML</span>
+            <span class="lp-port-pill">NICE Actimize IFM</span>
+            <span class="lp-port-pill">SAM · CDD</span>
+            <span class="lp-port-pill">Sanctions</span>
+          </div>
+        </div>
+        <div class="lp-port-footer">
+          <a class="lp-port-link primary" href="https://sulagnasasmal.github.io/vaultpay-api-docs/" target="_blank" rel="noopener">↗ Live Site</a>
+          <a class="lp-port-link ghost" href="https://github.com/SulagnaSasmal/vaultpay-api-docs" target="_blank" rel="noopener">⌥ GitHub</a>
+        </div>
+      </div>
+
+      <!-- CaseForge -->
+      <div class="lp-port-card">
+        <div class="lp-port-header">
+          <div class="lp-port-accent" style="background:rgba(232,168,76,0.15);color:#E8A84C;">CF</div>
+          <div class="lp-port-name">CaseForge API Docs</div>
+          <div class="lp-port-tag" style="color:#E8A84C;">Enterprise Case Management · Compliance</div>
+        </div>
+        <div class="lp-port-body">
+          <p class="lp-port-desc">
+            Enterprise API reference for a compliance case management platform (v10.2). Documents the full SAR filing lifecycle, tamper-evident audit trail with SHA-256 hash chaining,
+            workflow automation, and 15-event webhook system. Aligned to FinCEN BSA e-filing, FATF Recommendation 20, EU AMLD6, and FINRA 3310.
+          </p>
+          <div class="lp-port-pills">
+            <span class="lp-port-pill">FinCEN BSA</span>
+            <span class="lp-port-pill">FATF R.20</span>
+            <span class="lp-port-pill">EU AMLD6</span>
+            <span class="lp-port-pill">SOC 2 Type II</span>
+            <span class="lp-port-pill">FedRAMP</span>
+            <span class="lp-port-pill">GDPR</span>
+          </div>
+        </div>
+        <div class="lp-port-footer">
+          <a class="lp-port-link primary" href="https://sulagnasasmal.github.io/caseforge-api-docs/caseforge-api-docs.html" target="_blank" rel="noopener">↗ Live Site</a>
+          <a class="lp-port-link ghost" href="https://github.com/SulagnaSasmal/caseforge-api-docs" target="_blank" rel="noopener">⌥ GitHub</a>
+        </div>
+      </div>
+
+      <!-- DocForge -->
+      <div class="lp-port-card">
+        <div class="lp-port-header">
+          <div class="lp-port-accent" style="background:rgba(139,92,246,0.15);color:#a78bfa;">DC</div>
+          <div class="lp-port-name">Documentation Center Dashboard</div>
+          <div class="lp-port-tag" style="color:#a78bfa;">Docs-as-Code · Platform Engineering</div>
+        </div>
+        <div class="lp-port-body">
+          <p class="lp-port-desc">
+            This site is a fully interactive Documentation Center Dashboard demonstrating the complete write → commit → build → validate → publish pipeline.
+            Features a live Markdown editor, style linter, content map, build output viewer, and configuration panel, all in a single-page application.
+          </p>
+          <div class="lp-port-pills">
+            <span class="lp-port-pill">Docs-as-Code</span>
+            <span class="lp-port-pill">Vale Linting</span>
+            <span class="lp-port-pill">CI/CD</span>
+            <span class="lp-port-pill">Multi-Format</span>
+            <span class="lp-port-pill">GitHub Pages</span>
+          </div>
+        </div>
+        <div class="lp-port-footer">
+          <a class="lp-port-link primary" href="https://sulagnasasmal.github.io/Documentation-Center-Platform/" target="_blank" rel="noopener">↗ Live Site</a>
+          <a class="lp-port-link ghost" href="https://github.com/SulagnaSasmal/Documentation-Center-Platform" target="_blank" rel="noopener">⌥ GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- DEMO ANCHOR -->
+<div id="demo" class="lp-demo-anchor">
+  <div class="lp-section-label">Interactive Demo</div>
+  <h2>Explore the Documentation Center Dashboard</h2>
+  <p>Switch between views using the sidebar below to explore each platform module.</p>
+  <div class="lp-demo-divider">
+    <span>↓ Platform Dashboard Starts Here ↓</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PLATFORM DASHBOARD APP
+══════════════════════════════════════ -->
+
+<div class="app">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">DC</div>
+      <span class="brand-name">Doc Center</span>
+      <span class="brand-tag">Pro</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-group-title">Workspace</div>
+      <div class="nav-item active" onclick="switchView('dashboard')">
+        <span class="icon">◫</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="switchView('editor')">
+        <span class="icon">✎</span> Editor
+        <span class="badge badge-green">Live</span>
+      </div>
+      <div class="nav-item" onclick="switchView('architecture')">
+        <span class="icon">⊞</span> Content Map
+      </div>
+
+      <div class="nav-group-title">Quality</div>
+      <div class="nav-item" onclick="switchView('linter')">
+        <span class="icon">◉</span> Style Linter
+        <span class="badge badge-purple">3</span>
+      </div>
+      <div class="nav-item" onclick="switchView('outputs')">
+        <span class="icon">⧉</span> Build Outputs
+      </div>
+
+      <div class="nav-group-title">System</div>
+      <div class="nav-item" onclick="switchView('settings')">
+        <span class="icon">⚙</span> Configuration
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="avatar">SS</div>
+      <div>
+        <div class="name">Sulagna S.</div>
+        <div class="role">Actimize Fraud Documentation Lead</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════ MAIN ═══════ -->
+  <div class="main-area">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="breadcrumb">
+          <span>Doc Center</span>
+          <span class="sep">›</span>
+          <span>acme-platform-docs</span>
+          <span class="sep">›</span>
+          <span class="current" id="breadcrumb-current">Dashboard</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="top-btn"><span class="status-dot live"></span> All systems live</div>
+        <div class="top-btn" onclick="triggerBuild()">▶ Build</div>
+        <div class="top-btn primary" onclick="triggerDeploy()">↑ Deploy</div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-area">
+
+      <!-- ═══════ DASHBOARD ═══════ -->
+      <div class="view-panel active" id="view-dashboard">
+        <div class="dashboard animate-in">
+
+          <div class="dash-hero">
+            <h1>acme-platform-docs</h1>
+            <p>Enterprise documentation for the ACME Cloud Platform. Built with Docs-as-Code: Markdown source, Git-versioned, CI/CD deployed.</p>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-label">📄 Total Pages</div>
+              <div class="stat-value">147</div>
+              <div class="stat-change up">↑ 12 this month</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">🔀 Git Commits</div>
+              <div class="stat-value">1,284</div>
+              <div class="stat-change up">↑ 38 this week</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">⚡ Build Time</div>
+              <div class="stat-value" style="color:var(--green)">4.2s</div>
+              <div class="stat-change up">↑ 18% faster</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">◉ Style Score</div>
+              <div class="stat-value" style="color:var(--accent)">94</div>
+              <div class="stat-change up">↑ 3 pts</div>
+            </div>
+          </div>
+
+          <!-- PIPELINE -->
+          <div class="section-title">CI/CD Pipeline <span class="line"></span></div>
+          <div class="pipeline-visual">
+            <div class="pipeline-flow">
+              <div class="pipe-stage">
+                <div class="pipe-icon source">📝</div>
+                <div class="pipe-label">Markdown Source</div>
+                <div class="pipe-sub">docs/*.md</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-stage">
+                <div class="pipe-icon source">🔀</div>
+                <div class="pipe-label">Git + PR</div>
+                <div class="pipe-sub">Review & Merge</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-stage">
+                <div class="pipe-icon lint">◉</div>
+                <div class="pipe-label">Lint & Validate</div>
+                <div class="pipe-sub">Style + Links</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-stage">
+                <div class="pipe-icon build">⚙</div>
+                <div class="pipe-label">Build</div>
+                <div class="pipe-sub">SSG Transform</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-stage">
+                <div class="pipe-icon output">📦</div>
+                <div class="pipe-label">Multi-Format</div>
+                <div class="pipe-sub">HTML · PDF · JSON</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-stage">
+                <div class="pipe-icon deploy">🚀</div>
+                <div class="pipe-label">Deploy</div>
+                <div class="pipe-sub">CDN + Versioned</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RECENT BUILDS -->
+          <div class="section-title">Recent Builds <span class="line"></span></div>
+          <div class="builds-list" style="margin-bottom:28px;">
+            <div class="build-row">
+              <span class="build-hash">a3f7c2d</span>
+              <span class="build-msg">feat: add webhook configuration guide</span>
+              <span class="build-status success">Passed</span>
+              <span class="build-time">4.2s</span>
+              <span class="build-ago">3 min ago</span>
+            </div>
+            <div class="build-row">
+              <span class="build-hash">e91b4a8</span>
+              <span class="build-msg">fix: broken links in authentication section</span>
+              <span class="build-status success">Passed</span>
+              <span class="build-time">3.8s</span>
+              <span class="build-ago">1 hr ago</span>
+            </div>
+            <div class="build-row">
+              <span class="build-hash">7d2f0c1</span>
+              <span class="build-msg">docs: update API rate limits for v2.4</span>
+              <span class="build-status success">Passed</span>
+              <span class="build-time">4.5s</span>
+              <span class="build-ago">3 hrs ago</span>
+            </div>
+            <div class="build-row">
+              <span class="build-hash">b5c8e3a</span>
+              <span class="build-msg">refactor: reorganize getting-started topics</span>
+              <span class="build-status failed">Failed</span>
+              <span class="build-time">1.2s</span>
+              <span class="build-ago">5 hrs ago</span>
+            </div>
+            <div class="build-row">
+              <span class="build-hash">f4a6d91</span>
+              <span class="build-msg">feat: add SDK quickstart for Python and Node</span>
+              <span class="build-status success">Passed</span>
+              <span class="build-time">4.1s</span>
+              <span class="build-ago">8 hrs ago</span>
+            </div>
+          </div>
+
+          <!-- GRID: PROJECT STRUCTURE + METRICS -->
+          <div class="dash-grid">
+            <div class="dash-card">
+              <h3>📁 Project Structure</h3>
+              <div class="file-tree">
+                <div class="line"><span class="icon-f">📁</span> <span class="dir">acme-platform-docs/</span></div>
+                <div class="line indent"><span class="icon-f">📄</span> <span class="file">docforge.config.yml</span></div>
+                <div class="line indent"><span class="icon-f">📄</span> <span class="file">package.json</span></div>
+                <div class="line indent"><span class="icon-f">📄</span> <span class="file">.github/workflows/deploy.yml</span></div>
+                <div class="line indent"><span class="icon-f">📁</span> <span class="dir">docs/</span></div>
+                <div class="line indent2"><span class="icon-f">📄</span> <span class="file">index.md</span></div>
+                <div class="line indent2"><span class="icon-f">📁</span> <span class="dir">getting-started/</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">quickstart.md</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">installation.md</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">authentication.md</span></div>
+                <div class="line indent2"><span class="icon-f">📁</span> <span class="dir">guides/</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">webhooks.md</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">pagination.md</span></div>
+                <div class="line indent2"><span class="icon-f">📁</span> <span class="dir">api-reference/</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">payments.md</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">customers.md</span></div>
+                <div class="line indent3"><span class="icon-f">📄</span> <span class="file">openapi.yaml</span></div>
+                <div class="line indent2"><span class="icon-f">📁</span> <span class="dir">troubleshooting/</span></div>
+                <div class="line indent"><span class="icon-f">📁</span> <span class="dir">static/</span></div>
+                <div class="line indent"><span class="icon-f">📁</span> <span class="dir">templates/</span></div>
+              </div>
+            </div>
+
+            <div class="dash-card">
+              <h3>📊 Content Metrics</h3>
+              <div class="metric-bar">
+                <span class="metric-label">Concepts (DITA)</span>
+                <span class="metric-value">34</span>
+                <div class="metric-track"><div class="metric-fill" style="width:68%; background:var(--blue);"></div></div>
+              </div>
+              <div class="metric-bar">
+                <span class="metric-label">Tasks (How-to)</span>
+                <span class="metric-value">42</span>
+                <div class="metric-track"><div class="metric-fill" style="width:84%; background:var(--green);"></div></div>
+              </div>
+              <div class="metric-bar">
+                <span class="metric-label">API Reference</span>
+                <span class="metric-value">38</span>
+                <div class="metric-track"><div class="metric-fill" style="width:76%; background:var(--purple);"></div></div>
+              </div>
+              <div class="metric-bar">
+                <span class="metric-label">Tutorials</span>
+                <span class="metric-value">18</span>
+                <div class="metric-track"><div class="metric-fill" style="width:36%; background:var(--accent);"></div></div>
+              </div>
+              <div class="metric-bar">
+                <span class="metric-label">Troubleshooting</span>
+                <span class="metric-value">15</span>
+                <div class="metric-track"><div class="metric-fill" style="width:30%; background:var(--red);"></div></div>
+              </div>
+              <div class="metric-bar">
+                <span class="metric-label">Release Notes</span>
+                <span class="metric-value">24</span>
+                <div class="metric-track"><div class="metric-fill" style="width:48%; background:var(--teal);"></div></div>
+              </div>
+              <div class="metric-bar">
+                <span class="metric-label" style="font-weight:600; color:var(--text-primary);">Total Words</span>
+                <span class="metric-value" style="font-size:14px; color:var(--accent);">128,450</span>
+                <div class="metric-track"><div class="metric-fill" style="width:100%; background:var(--accent);"></div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══════ EDITOR VIEW ═══════ -->
+      <div class="view-panel" id="view-editor">
+        <div class="editor-view active" style="display:flex; flex-direction:column; height:100%;">
+
+          <div class="editor-toolbar">
+            <button class="ed-btn" title="Bold"><b>B</b></button>
+            <button class="ed-btn" title="Italic"><i>I</i></button>
+            <button class="ed-btn" title="Code">{ }</button>
+            <div class="ed-sep"></div>
+            <button class="ed-btn">H1</button>
+            <button class="ed-btn">H2</button>
+            <button class="ed-btn">H3</button>
+            <div class="ed-sep"></div>
+            <button class="ed-btn">🔗 Link</button>
+            <button class="ed-btn">📷 Image</button>
+            <button class="ed-btn">📋 Table</button>
+            <button class="ed-btn">💡 Callout</button>
+            <div class="ed-sep"></div>
+            <button class="ed-btn">📐 Frontmatter</button>
+            <div style="flex:1;"></div>
+            <span style="font-family:'JetBrains Mono'; font-size:10px; color:var(--text-dim);">Ln 1, Col 1 · UTF-8 · Markdown</span>
+          </div>
+
+          <div class="editor-file-tabs">
+            <div class="file-tab active"><span class="dot md"></span> quickstart.md</div>
+            <div class="file-tab"><span class="dot md"></span> authentication.md</div>
+            <div class="file-tab"><span class="dot yml"></span> docforge.config.yml</div>
+            <div class="file-tab"><span class="dot json"></span> openapi.yaml</div>
+          </div>
+
+          <div class="editor-split">
+            <div class="editor-pane">
+              <div class="pane-header">
+                <span>Source</span>
+                <span class="format-tag">Markdown + YAML FM</span>
+              </div>
+              <textarea class="editor-textarea" id="mdEditor" spellcheck="false">---
+title: "Quickstart Guide"
+description: "Get up and running with the ACME Platform API in under 5 minutes."
+topic_type: tutorial
+audience: developer
+last_updated: 2025-02-26
+version: 2.4
+sidebar_position: 1
+tags: [getting-started, api, quickstart]
+---
+
+# Quickstart Guide
+
+Get up and running with the ACME Platform API in under 5 minutes. This guide walks you through authentication, your first API call, and handling responses.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- An ACME Platform account ([sign up here](https://acme.dev/signup))
+- Your API key from the **Dashboard → Developer → API Keys** page
+- A REST client like `curl`, Postman, or an HTTP library in your language
+
+> **Note:** Use your `sk_test_` key for development. Test mode requests never affect production data or incur charges.
+
+## Step 1: Install the SDK
+
+Choose your preferred language:
+
+```bash
+# Python
+pip install acme-platform
+
+# Node.js
+npm install @acme/platform-sdk
+
+# Go
+go get github.com/acme/platform-go
+```
+
+## Step 2: Authenticate
+
+Every request must include your API key in the `Authorization` header:
+
+```python
+import acme
+
+client = acme.Client(api_key="sk_test_your_key_here")
+
+# Verify your connection
+account = client.account.retrieve()
+print(f"Connected as: {account.name}")
+```
+
+## Step 3: Create Your First Resource
+
+Let's create a customer record:
+
+```python
+customer = client.customers.create(
+    email="ada.lovelace@example.com",
+    name="Ada Lovelace",
+    metadata={
+        "plan": "enterprise",
+        "source": "quickstart"
+    }
+)
+
+print(f"Created customer: {customer.id}")
+# Output: Created customer: cus_Rk4x7LmN2vPq
+```
+
+## Step 4: Handle Errors
+
+The SDK raises typed exceptions you can catch:
+
+```python
+from acme.errors import ValidationError, AuthenticationError
+
+try:
+    customer = client.customers.create(email="invalid")
+except ValidationError as e:
+    print(f"Validation failed: {e.message}")
+    print(f"Field: {e.param}")
+except AuthenticationError:
+    print("Check your API key")
+```
+
+## What's Next?
+
+| Guide | Description |
+|-------|-------------|
+| [Authentication](/guides/auth) | Deep dive into API keys, OAuth, and scopes |
+| [Webhooks](/guides/webhooks) | Receive real-time event notifications |
+| [Pagination](/guides/pagination) | Navigate large result sets efficiently |
+| [Error Handling](/guides/errors) | Complete error reference and best practices |
+
+> **Tip:** Enable webhook events early in development; they're essential for production-ready integrations.</textarea>
+            </div>
+
+            <div class="editor-pane" style="border-right:none;">
+              <div class="pane-header">
+                <span>Preview</span>
+                <span class="format-tag">Rendered HTML</span>
+              </div>
+              <div class="preview-pane" id="previewPane">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ CONTENT ARCHITECTURE ═══════ -->
+      <div class="view-panel" id="view-architecture">
+        <div class="architecture-view animate-in">
+
+          <div class="arch-header">
+            <h2>Content Architecture</h2>
+            <p>Topic-based information architecture following DITA principles. Content is structured as reusable, single-purpose topics.</p>
+          </div>
+
+          <!-- TAXONOMY OVERVIEW -->
+          <div class="taxonomy-section">
+            <h3 style="font-family:'Source Serif 4',serif; font-size:16px; font-weight:700; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--border);">📊 Topic Taxonomy</h3>
+            <div class="taxonomy-row">
+              <div class="tax-color" style="background:var(--blue);"></div>
+              <div class="tax-info">
+                <div class="tax-name">Concept Topics</div>
+                <div class="tax-desc">Explain what something is: definitions, overviews, architecture</div>
+              </div>
+              <div class="tax-count" style="color:var(--blue);">34</div>
+              <div class="tax-bar-track"><div class="tax-bar-fill" style="width:68%; background:var(--blue);"></div></div>
+            </div>
+            <div class="taxonomy-row">
+              <div class="tax-color" style="background:var(--green);"></div>
+              <div class="tax-info">
+                <div class="tax-name">Task Topics</div>
+                <div class="tax-desc">Step-by-step procedures: how to accomplish a specific goal</div>
+              </div>
+              <div class="tax-count" style="color:var(--green);">42</div>
+              <div class="tax-bar-track"><div class="tax-bar-fill" style="width:84%; background:var(--green);"></div></div>
+            </div>
+            <div class="taxonomy-row">
+              <div class="tax-color" style="background:var(--purple);"></div>
+              <div class="tax-info">
+                <div class="tax-name">Reference Topics</div>
+                <div class="tax-desc">Lookup information: API specs, parameters, config options</div>
+              </div>
+              <div class="tax-count" style="color:var(--purple);">38</div>
+              <div class="tax-bar-track"><div class="tax-bar-fill" style="width:76%; background:var(--purple);"></div></div>
+            </div>
+            <div class="taxonomy-row">
+              <div class="tax-color" style="background:var(--accent);"></div>
+              <div class="tax-info">
+                <div class="tax-name">Tutorials</div>
+                <div class="tax-desc">End-to-end guided learning paths with progressive complexity</div>
+              </div>
+              <div class="tax-count" style="color:var(--accent);">18</div>
+              <div class="tax-bar-track"><div class="tax-bar-fill" style="width:36%; background:var(--accent);"></div></div>
+            </div>
+            <div class="taxonomy-row">
+              <div class="tax-color" style="background:var(--red);"></div>
+              <div class="tax-info">
+                <div class="tax-name">Troubleshooting</div>
+                <div class="tax-desc">Problem → Cause → Solution patterns for common issues</div>
+              </div>
+              <div class="tax-count" style="color:var(--red);">15</div>
+              <div class="tax-bar-track"><div class="tax-bar-fill" style="width:30%; background:var(--red);"></div></div>
+            </div>
+          </div>
+
+          <!-- TOPIC CARDS -->
+          <div class="section-title" style="font-family:'Source Serif 4',serif;">Sample Topics <span class="line"></span></div>
+          <div class="arch-grid">
+            <div class="topic-card concept">
+              <div class="topic-type concept">Concept</div>
+              <div class="topic-title">Platform Architecture Overview</div>
+              <div class="topic-desc">High-level overview of the ACME microservices architecture, data flow, and component relationships.</div>
+              <div class="topic-meta"><span>1,240 words</span><span>·</span><span>Updated 2d ago</span></div>
+            </div>
+            <div class="topic-card task">
+              <div class="topic-type task">Task</div>
+              <div class="topic-title">Configure Webhook Endpoints</div>
+              <div class="topic-desc">Set up HTTP endpoints to receive real-time notifications when events occur in your ACME account.</div>
+              <div class="topic-meta"><span>890 words</span><span>·</span><span>Updated 5d ago</span></div>
+            </div>
+            <div class="topic-card reference">
+              <div class="topic-type reference">Reference</div>
+              <div class="topic-title">Payments API: Endpoints</div>
+              <div class="topic-desc">Complete reference for all Payment endpoints including parameters, response schemas, and status codes.</div>
+              <div class="topic-meta"><span>2,100 words</span><span>·</span><span>Updated 1d ago</span></div>
+            </div>
+            <div class="topic-card tutorial">
+              <div class="topic-type tutorial">Tutorial</div>
+              <div class="topic-title">Build a Checkout Flow</div>
+              <div class="topic-desc">End-to-end tutorial for building a complete payment checkout using the SDK, webhooks, and error handling.</div>
+              <div class="topic-meta"><span>3,400 words</span><span>·</span><span>Updated 1w ago</span></div>
+            </div>
+            <div class="topic-card troubleshoot">
+              <div class="topic-type troubleshoot">Troubleshoot</div>
+              <div class="topic-title">Payment Declines</div>
+              <div class="topic-desc">Common causes of payment failures and step-by-step resolution for each decline code.</div>
+              <div class="topic-meta"><span>1,050 words</span><span>·</span><span>Updated 3d ago</span></div>
+            </div>
+            <div class="topic-card api">
+              <div class="topic-type api">API Spec</div>
+              <div class="topic-title">OpenAPI 3.1 Specification</div>
+              <div class="topic-desc">Machine-readable API definition auto-generating endpoint docs, SDKs, and Postman collections.</div>
+              <div class="topic-meta"><span>openapi.yaml</span><span>·</span><span>Auto-synced</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ STYLE LINTER ═══════ -->
+      <div class="view-panel" id="view-linter">
+        <div class="linter-view animate-in">
+          <div class="linter-header">
+            <h2>Style Guide Linter</h2>
+            <p style="font-size:13.5px; color:var(--text-secondary);">Automated checks against Microsoft Writing Style Guide, Vale, and custom project rules.</p>
+          </div>
+
+          <div class="linter-score-row">
+            <div class="score-card">
+              <div class="score-ring">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--green)" stroke-width="6"
+                    stroke-dasharray="${2*Math.PI*34}" stroke-dashoffset="${2*Math.PI*34*(1-0.94)}"
+                    stroke-linecap="round" style="stroke-dasharray:213.6; stroke-dashoffset:12.8;"/>
+                </svg>
+                <span class="value" style="color:var(--green);">94</span>
+              </div>
+              <div class="score-label">Overall Score</div>
+            </div>
+            <div class="score-card">
+              <div class="score-ring">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--blue)" stroke-width="6"
+                    stroke-linecap="round" style="stroke-dasharray:213.6; stroke-dashoffset:21.4;"/>
+                </svg>
+                <span class="value" style="color:var(--blue);">90</span>
+              </div>
+              <div class="score-label">Readability</div>
+            </div>
+            <div class="score-card">
+              <div class="score-ring">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--accent)" stroke-width="6"
+                    stroke-linecap="round" style="stroke-dasharray:213.6; stroke-dashoffset:6.4;"/>
+                </svg>
+                <span class="value" style="color:var(--accent);">97</span>
+              </div>
+              <div class="score-label">Consistency</div>
+            </div>
+            <div class="score-card">
+              <div class="score-ring">
+                <svg width="80" height="80" viewBox="0 0 80 80">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--border)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="var(--green)" stroke-width="6"
+                    stroke-linecap="round" style="stroke-dasharray:213.6; stroke-dashoffset:0;"/>
+                </svg>
+                <span class="value" style="color:var(--green);">100</span>
+              </div>
+              <div class="score-label">Links Valid</div>
+            </div>
+          </div>
+
+          <div class="lint-results">
+            <div class="lint-result-header">
+              <h3>Lint Results: 7 findings across 4 files</h3>
+              <span style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono',monospace;">Last run: 3 min ago</span>
+            </div>
+            <div class="lint-row">
+              <span class="lint-severity error">Error</span>
+              <div class="lint-content">
+                <div class="lint-rule">Microsoft.Passive</div>
+                <div class="lint-message">"The payment <u>was declined</u> by the issuing bank" — Use active voice for clarity.</div>
+                <div class="lint-suggestion">✦ Fix: "The issuing bank declined the payment"</div>
+              </div>
+              <span class="lint-file">payments.md:42</span>
+            </div>
+            <div class="lint-row">
+              <span class="lint-severity error">Error</span>
+              <div class="lint-content">
+                <div class="lint-rule">DocForge.TaskFirst</div>
+                <div class="lint-message">Task topic starts with background context instead of user goal. Lead with the action.</div>
+                <div class="lint-suggestion">✦ Fix: Start with "To configure webhooks, ..." instead of "Webhooks are a way to..."</div>
+              </div>
+              <span class="lint-file">webhooks.md:1</span>
+            </div>
+            <div class="lint-row">
+              <span class="lint-severity warn">Warn</span>
+              <div class="lint-content">
+                <div class="lint-rule">Vale.Readability</div>
+                <div class="lint-message">Flesch-Kincaid grade level is 14.2; aim for grade 10 or lower for developer docs.</div>
+                <div class="lint-suggestion">✦ Simplify long sentences in the "Architecture Overview" section</div>
+              </div>
+              <span class="lint-file">architecture.md</span>
+            </div>
+            <div class="lint-row">
+              <span class="lint-severity warn">Warn</span>
+              <div class="lint-content">
+                <div class="lint-rule">Microsoft.Wordiness</div>
+                <div class="lint-message">"In order to" → "To" — Remove unnecessary wordiness.</div>
+                <div class="lint-suggestion">✦ 3 occurrences found</div>
+              </div>
+              <span class="lint-file">quickstart.md:18,31,56</span>
+            </div>
+            <div class="lint-row">
+              <span class="lint-severity info">Info</span>
+              <div class="lint-content">
+                <div class="lint-rule">DocForge.Terminology</div>
+                <div class="lint-message">Inconsistent capitalization: "API key" vs "API Key" vs "api key".</div>
+                <div class="lint-suggestion">✦ Standardize to "API key" (lowercase 'key') per style guide</div>
+              </div>
+              <span class="lint-file">Multiple files</span>
+            </div>
+            <div class="lint-row">
+              <span class="lint-severity info">Info</span>
+              <div class="lint-content">
+                <div class="lint-rule">DocForge.ProgressiveDisclosure</div>
+                <div class="lint-message">Reference page exceeds 2,500 words. Consider splitting into sub-topics for scannability.</div>
+                <div class="lint-suggestion">✦ Split into: "Endpoints", "Request Parameters", and "Response Schema"</div>
+              </div>
+              <span class="lint-file">payments.md</span>
+            </div>
+            <div class="lint-row">
+              <span class="lint-severity info">Info</span>
+              <div class="lint-content">
+                <div class="lint-rule">DocForge.CodeSamples</div>
+                <div class="lint-message">4 endpoints missing code samples in non-primary languages (Go, Ruby).</div>
+                <div class="lint-suggestion">✦ Add SDK examples for all supported languages</div>
+              </div>
+              <span class="lint-file">api-reference/*.md</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ BUILD OUTPUTS ═══════ -->
+      <div class="view-panel" id="view-outputs">
+        <div class="outputs-view animate-in">
+          <div class="output-header">
+            <h2>Build Outputs</h2>
+            <p style="font-size:13.5px; color:var(--text-secondary);">Single Markdown source → multiple publication formats. Content is treated as source code; all outputs are regenerable artifacts.</p>
+          </div>
+
+          <div class="output-grid">
+            <div class="output-card active-output" onclick="showOutput('html')">
+              <div class="output-icon">🌐</div>
+              <div class="output-name">Static HTML</div>
+              <div class="output-desc">Responsive docs site via SSG</div>
+            </div>
+            <div class="output-card" onclick="showOutput('pdf')">
+              <div class="output-icon">📕</div>
+              <div class="output-name">PDF Manual</div>
+              <div class="output-desc">Print-ready with ToC & index</div>
+            </div>
+            <div class="output-card" onclick="showOutput('openapi')">
+              <div class="output-icon">⚡</div>
+              <div class="output-name">OpenAPI Spec</div>
+              <div class="output-desc">Auto-generated from source</div>
+            </div>
+            <div class="output-card" onclick="showOutput('json')">
+              <div class="output-icon">{ }</div>
+              <div class="output-name">JSON / Headless</div>
+              <div class="output-desc">Structured content for CMS/apps</div>
+            </div>
+            <div class="output-card" onclick="showOutput('postman')">
+              <div class="output-icon">📮</div>
+              <div class="output-name">Postman Collection</div>
+              <div class="output-desc">Ready-to-import API testing</div>
+            </div>
+            <div class="output-card" onclick="showOutput('changelog')">
+              <div class="output-icon">📋</div>
+              <div class="output-name">Changelog</div>
+              <div class="output-desc">Auto from Git commit history</div>
+            </div>
+          </div>
+
+          <div class="output-preview-area">
+            <div class="output-preview-header">
+              <h3 id="outputPreviewTitle">Static HTML: Build Preview</h3>
+              <div class="top-btn" style="font-size:11px; padding:4px 10px;">↓ Download</div>
+            </div>
+            <div class="output-preview-body" id="outputPreviewBody">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════ SETTINGS ═══════ -->
+      <div class="view-panel" id="view-settings">
+        <div class="settings-view animate-in">
+          <div class="settings-header">
+            <h2>Configuration</h2>
+            <p style="font-size:13.5px; color:var(--text-secondary);">Project settings defined in <code style="font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--bg-elevated); padding:2px 6px; border-radius:4px; color:var(--accent);">docforge.config.yml</code> — the single source of truth for your docs pipeline.</p>
+          </div>
+
+          <div class="config-block">
+<span class="hl-comment"># docforge.config.yml: Project Configuration</span>
+<span class="hl-comment"># This file controls the entire docs-as-code pipeline</span>
+
+<span class="hl-key">project</span>:
+  <span class="hl-key">name</span>: <span class="hl-val">"ACME Platform Documentation"</span>
+  <span class="hl-key">version</span>: <span class="hl-val">"2.4.0"</span>
+  <span class="hl-key">base_url</span>: <span class="hl-val">"https://docs.acme.dev"</span>
+  <span class="hl-key">repo</span>: <span class="hl-val">"https://github.com/acme/platform-docs"</span>
+
+<span class="hl-key">source</span>:
+  <span class="hl-key">content_dir</span>: <span class="hl-val">"./docs"</span>
+  <span class="hl-key">static_dir</span>: <span class="hl-val">"./static"</span>
+  <span class="hl-key">templates_dir</span>: <span class="hl-val">"./templates"</span>
+  <span class="hl-key">openapi_spec</span>: <span class="hl-val">"./docs/api-reference/openapi.yaml"</span>
+
+<span class="hl-key">build</span>:
+  <span class="hl-key">engine</span>: <span class="hl-val">"docforge-ssg"</span>       <span class="hl-comment"># Static site generator</span>
+  <span class="hl-key">output_dir</span>: <span class="hl-val">"./dist"</span>
+  <span class="hl-key">clean_build</span>: <span class="hl-bool">true</span>
+  <span class="hl-key">formats</span>:
+    - <span class="hl-val">html</span>                     <span class="hl-comment"># Responsive docs site</span>
+    - <span class="hl-val">pdf</span>                      <span class="hl-comment"># Print-ready manual</span>
+    - <span class="hl-val">json</span>                     <span class="hl-comment"># Headless CMS / API</span>
+    - <span class="hl-val">openapi</span>                  <span class="hl-comment"># Generated spec</span>
+
+<span class="hl-key">lint</span>:
+  <span class="hl-key">enabled</span>: <span class="hl-bool">true</span>
+  <span class="hl-key">style_guide</span>: <span class="hl-val">"Microsoft"</span>    <span class="hl-comment"># Base style guide</span>
+  <span class="hl-key">vale_config</span>: <span class="hl-val">".vale.ini"</span>
+  <span class="hl-key">custom_rules</span>:
+    - <span class="hl-val">"rules/task-first.yml"</span>   <span class="hl-comment"># Enforce task-oriented structure</span>
+    - <span class="hl-val">"rules/terminology.yml"</span>  <span class="hl-comment"># Product term consistency</span>
+    - <span class="hl-val">"rules/progressive.yml"</span>  <span class="hl-comment"># Content length & disclosure</span>
+  <span class="hl-key">fail_on</span>: <span class="hl-val">"error"</span>            <span class="hl-comment"># Block deploys on errors</span>
+  <span class="hl-key">link_check</span>: <span class="hl-bool">true</span>
+
+<span class="hl-key">versioning</span>:
+  <span class="hl-key">strategy</span>: <span class="hl-val">"git-tag"</span>        <span class="hl-comment"># Semantic versioning from tags</span>
+  <span class="hl-key">show_versions</span>: <span class="hl-bool">true</span>
+  <span class="hl-key">latest_redirect</span>: <span class="hl-bool">true</span>
+
+<span class="hl-key">deploy</span>:
+  <span class="hl-key">provider</span>: <span class="hl-val">"cloudflare-pages"</span>
+  <span class="hl-key">branch</span>: <span class="hl-val">"main"</span>
+  <span class="hl-key">preview_branches</span>: <span class="hl-bool">true</span>     <span class="hl-comment"># Deploy PR previews</span>
+  <span class="hl-key">custom_domain</span>: <span class="hl-val">"docs.acme.dev"</span>
+
+<span class="hl-key">search</span>:
+  <span class="hl-key">provider</span>: <span class="hl-val">"algolia"</span>
+  <span class="hl-key">index_on_build</span>: <span class="hl-bool">true</span>
+
+<span class="hl-key">analytics</span>:
+  <span class="hl-key">provider</span>: <span class="hl-val">"plausible"</span>
+  <span class="hl-key">track_search</span>: <span class="hl-bool">true</span>
+  <span class="hl-key">track_feedback</span>: <span class="hl-bool">true</span>
+          </div>
+
+          <div class="settings-section">
+            <h3>⚙ Build Settings</h3>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Auto-build on push</div>
+                <div class="setting-desc">Trigger a build whenever commits are pushed to main</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">PR preview deployments</div>
+                <div class="setting-desc">Deploy a preview site for every pull request</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Lint gate on PRs</div>
+                <div class="setting-desc">Block merges if lint errors are found</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Link validation</div>
+                <div class="setting-desc">Check all internal and external links during build</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Search indexing</div>
+                <div class="setting-desc">Re-index content on Algolia after each deploy</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>🎨 Style Guide Rules</h3>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Base style guide</div>
+                <div class="setting-desc">Foundation rules for prose quality</div>
+              </div>
+              <select class="select-input">
+                <option selected>Microsoft</option>
+                <option>Google Developer</option>
+                <option>Red Hat</option>
+                <option>Custom Only</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Task-first enforcement</div>
+                <div class="setting-desc">Require task topics to lead with user goals</div>
+              </div>
+              <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Max topic length</div>
+                <div class="setting-desc">Warn when a single topic exceeds word limit</div>
+              </div>
+              <select class="select-input">
+                <option>1,500 words</option>
+                <option selected>2,500 words</option>
+                <option>5,000 words</option>
+                <option>No limit</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-label">Reading level target</div>
+                <div class="setting-desc">Flesch-Kincaid grade level ceiling</div>
+              </div>
+              <select class="select-input">
+                <option>Grade 8</option>
+                <option selected>Grade 10</option>
+                <option>Grade 12</option>
+                <option>No limit</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- content-area -->
+  </div><!-- main-area -->
+</div><!-- app -->
+
+<script>
+// ── VIEW SWITCHING ──
+function switchView(view) {
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  event.currentTarget.classList.add('active');
+
+  const names = {
+    dashboard: 'Dashboard',
+    editor: 'Editor',
+    architecture: 'Content Map',
+    linter: 'Style Linter',
+    outputs: 'Build Outputs',
+    settings: 'Configuration'
+  };
+  document.getElementById('breadcrumb-current').textContent = names[view] || view;
+
+  // Render editor preview when switching to editor
+  if (view === 'editor') renderPreview();
+  if (view === 'outputs') showOutput('html');
+}
+
+// ── MARKDOWN PREVIEW (simple renderer) ──
+function renderPreview() {
+  const md = document.getElementById('mdEditor').value;
+  let html = md
+    // Remove frontmatter
+    .replace(/^---[\s\S]*?---\n*/m, '')
+    // Headers
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    // Blockquotes
+    .replace(/^> \*\*(.+?)\*\*(.+)$/gm, '<div class="preview-callout note"><span>💡</span><span><strong>$1</strong>$2</span></div>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    // Code blocks
+    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+    // Inline code
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // Bold & italic
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    // Links
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    // Lists
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    // Tables (simple)
+    .replace(/\|(.+)\|/g, (match) => {
+      if (match.includes('---')) return '';
+      const cells = match.split('|').filter(c => c.trim());
+      const tag = match.includes('Guide') && cells.length > 1 ? 'td' : 'td';
+      return '<tr>' + cells.map(c => `<${tag}>${c.trim()}</${tag}>`).join('') + '</tr>';
+    })
+    // Paragraphs
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[hpuoltdb])/gm, '');
+
+  // Wrap lists
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+  // Wrap tables
+  html = html.replace(/(<tr>.*<\/tr>\n?)+/g, '<table>$&</table>');
+
+  document.getElementById('previewPane').innerHTML = html;
+}
+
+document.getElementById('mdEditor').addEventListener('input', renderPreview);
+
+// ── OUTPUT PREVIEWS ──
+const outputPreviews = {
+  html: {
+    title: 'Static HTML: Build Preview',
+    body: `<p style="margin-bottom:20px;">The HTML output generates a fully responsive, search-enabled documentation website using a static site generator. Every Markdown file becomes an optimized HTML page with automatic navigation, breadcrumbs, and table of contents.</p>
+    <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:16px;">
+      <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <span style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></span>
+        <span style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></span>
+        <span style="width:10px;height:10px;border-radius:50%;background:#28c840;"></span>
+        <span style="flex:1; text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);">docs.acme.dev/getting-started/quickstart</span>
+      </div>
+      <div style="background:var(--bg-code);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);">
+        dist/<br>
+        ├── index.html<br>
+        ├── getting-started/<br>
+        │   ├── quickstart/index.html<br>
+        │   ├── installation/index.html<br>
+        │   └── authentication/index.html<br>
+        ├── api-reference/<br>
+        │   ├── payments/index.html<br>
+        │   └── customers/index.html<br>
+        ├── search-index.json<br>
+        ├── sitemap.xml<br>
+        └── assets/<br>
+            ├── styles.min.css (14 KB)<br>
+            └── scripts.min.js (8 KB)<br>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--text-muted);">Total output: 147 pages · 2.3 MB gzipped · Lighthouse score: 98</p>`
+  },
+  pdf: {
+    title: 'PDF Manual: Build Preview',
+    body: `<p style="margin-bottom:20px;">Generates a print-ready PDF manual with automated table of contents, page numbers, chapter breaks, cross-references, and a comprehensive index. Perfect for enterprise customers who need offline documentation.</p>
+    <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:24px; text-align:center; margin-bottom:16px;">
+      <div style="font-size:48px; margin-bottom:12px;">📕</div>
+      <div style="font-size:16px; font-weight:700; margin-bottom:4px;">ACME Platform Documentation</div>
+      <div style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">Version 2.4.0 · February 2025 · 312 pages</div>
+      <div style="display:flex; justify-content:center; gap:24px; font-size:11px; color:var(--text-muted);">
+        <span>Auto-generated ToC</span>
+        <span>·</span>
+        <span>Cross-referenced links</span>
+        <span>·</span>
+        <span>Code syntax highlighting</span>
+      </div>
+    </div>
+    <p style="font-size:12px; color:var(--text-muted);">Output: acme-platform-docs-v2.4.0.pdf · 4.8 MB · A4 format</p>`
+  },
+  openapi: {
+    title: 'OpenAPI 3.1 Spec: Build Preview',
+    body: `<p style="margin-bottom:20px;">The OpenAPI specification is auto-generated from annotated Markdown source and inline code samples, ensuring the spec always matches the documented behavior.</p>
+    <div class="config-block" style="margin-top:12px;">
+<span class="hl-key">openapi</span>: <span class="hl-val">"3.1.0"</span>
+<span class="hl-key">info</span>:
+  <span class="hl-key">title</span>: <span class="hl-val">"ACME Platform API"</span>
+  <span class="hl-key">version</span>: <span class="hl-val">"2.4.0"</span>
+  <span class="hl-key">description</span>: <span class="hl-val">"Enterprise cloud platform API"</span>
+<span class="hl-key">servers</span>:
+  - <span class="hl-key">url</span>: <span class="hl-val">"https://api.acme.dev/v2"</span>
+<span class="hl-key">paths</span>:
+  <span class="hl-key">/payments</span>:
+    <span class="hl-key">post</span>:
+      <span class="hl-key">summary</span>: <span class="hl-val">"Create a payment"</span>
+      <span class="hl-key">operationId</span>: <span class="hl-val">"createPayment"</span>
+      <span class="hl-key">tags</span>: [<span class="hl-val">"Payments"</span>]
+      <span class="hl-comment"># ... 42 endpoints defined</span>
+    </div>`
+  },
+  json: {
+    title: 'Headless JSON: Build Preview',
+    body: `<p style="margin-bottom:20px;">Structured JSON output enables headless consumption by developer portals, in-app help systems, chatbots, and third-party integrations. Content is fully decoupled from presentation.</p>
+    <div class="config-block" style="margin-top:12px;">
+{
+  <span class="hl-key">"pages"</span>: [
+    {
+      <span class="hl-key">"id"</span>: <span class="hl-val">"quickstart"</span>,
+      <span class="hl-key">"title"</span>: <span class="hl-val">"Quickstart Guide"</span>,
+      <span class="hl-key">"topic_type"</span>: <span class="hl-val">"tutorial"</span>,
+      <span class="hl-key">"slug"</span>: <span class="hl-val">"/getting-started/quickstart"</span>,
+      <span class="hl-key">"content_html"</span>: <span class="hl-val">"&lt;h1&gt;Quickstart...&lt;/h1&gt;"</span>,
+      <span class="hl-key">"content_text"</span>: <span class="hl-val">"Quickstart Guide..."</span>,
+      <span class="hl-key">"word_count"</span>: <span class="hl-num">842</span>,
+      <span class="hl-key">"headings"</span>: [<span class="hl-val">"Prerequisites"</span>, <span class="hl-val">"Install"</span>, ...],
+      <span class="hl-key">"metadata"</span>: {
+        <span class="hl-key">"audience"</span>: <span class="hl-val">"developer"</span>,
+        <span class="hl-key">"last_updated"</span>: <span class="hl-val">"2025-02-26"</span>,
+        <span class="hl-key">"version"</span>: <span class="hl-val">"2.4"</span>
+      }
+    }
+  ],
+  <span class="hl-key">"total_pages"</span>: <span class="hl-num">147</span>,
+  <span class="hl-key">"generated_at"</span>: <span class="hl-val">"2025-02-27T08:15:00Z"</span>
+}
+    </div>`
+  },
+  postman: {
+    title: 'Postman Collection: Build Preview',
+    body: `<p style="margin-bottom:20px;">Auto-generated Postman collection with every endpoint, pre-filled request bodies, environment variables for API keys, and test scripts. Import directly into Postman or Insomnia.</p>
+    <div class="config-block" style="margin-top:12px;">
+{
+  <span class="hl-key">"info"</span>: {
+    <span class="hl-key">"name"</span>: <span class="hl-val">"ACME Platform API v2.4"</span>,
+    <span class="hl-key">"schema"</span>: <span class="hl-val">"https://schema.getpostman.com/json/collection/v2.1.0"</span>
+  },
+  <span class="hl-key">"item"</span>: [
+    {
+      <span class="hl-key">"name"</span>: <span class="hl-val">"Payments"</span>,
+      <span class="hl-key">"item"</span>: [
+        { <span class="hl-key">"name"</span>: <span class="hl-val">"Create Payment"</span>, <span class="hl-key">"request"</span>: { <span class="hl-key">"method"</span>: <span class="hl-val">"POST"</span>, ... } },
+        { <span class="hl-key">"name"</span>: <span class="hl-val">"Retrieve Payment"</span>, <span class="hl-key">"request"</span>: { <span class="hl-key">"method"</span>: <span class="hl-val">"GET"</span>, ... } }
+      ]
+    }
+  ],
+  <span class="hl-key">"variable"</span>: [
+    { <span class="hl-key">"key"</span>: <span class="hl-val">"base_url"</span>, <span class="hl-key">"value"</span>: <span class="hl-val">"https://api.acme.dev/v2"</span> },
+    { <span class="hl-key">"key"</span>: <span class="hl-val">"api_key"</span>, <span class="hl-key">"value"</span>: <span class="hl-val">"sk_test_..."</span> }
+  ]
+}
+    </div>`
+  },
+  changelog: {
+    title: 'Changelog — Auto-generated from Git',
+    body: `<p style="margin-bottom:20px;">Changelog is automatically generated from conventional commit messages. Commits prefixed with <code style="font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--bg-elevated); padding:2px 6px; border-radius:4px; color:var(--accent);">feat:</code>, <code style="font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--bg-elevated); padding:2px 6px; border-radius:4px; color:var(--accent);">fix:</code>, <code style="font-family:'JetBrains Mono',monospace; font-size:12px; background:var(--bg-elevated); padding:2px 6px; border-radius:4px; color:var(--accent);">docs:</code> are categorized automatically.</p>
+    <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:20px;">
+      <div style="font-weight:700; font-size:16px; margin-bottom:4px;">v2.4.0 <span style="font-size:11px; color:var(--text-muted); font-weight:400;">— February 26, 2025</span></div>
+      <div style="margin:12px 0 8px; font-size:11px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:0.5px;">✦ Added</div>
+      <div style="font-size:13px; color:var(--text-secondary); padding-left:12px; margin-bottom:4px;">• Webhook configuration guide</div>
+      <div style="font-size:13px; color:var(--text-secondary); padding-left:12px; margin-bottom:4px;">• Python and Node SDK quickstart</div>
+      <div style="font-size:13px; color:var(--text-secondary); padding-left:12px; margin-bottom:12px;">• Payouts API reference (Beta)</div>
+      <div style="margin:12px 0 8px; font-size:11px; font-weight:600; color:var(--blue); text-transform:uppercase; letter-spacing:0.5px;">✦ Changed</div>
+      <div style="font-size:13px; color:var(--text-secondary); padding-left:12px; margin-bottom:4px;">• Updated rate limits for v2.4</div>
+      <div style="font-size:13px; color:var(--text-secondary); padding-left:12px; margin-bottom:12px;">• Reorganized getting-started section</div>
+      <div style="margin:12px 0 8px; font-size:11px; font-weight:600; color:var(--accent); text-transform:uppercase; letter-spacing:0.5px;">✦ Fixed</div>
+      <div style="font-size:13px; color:var(--text-secondary); padding-left:12px;">• Broken links in authentication section</div>
+    </div>`
+  }
+};
+
+function showOutput(key) {
+  const data = outputPreviews[key];
+  document.getElementById('outputPreviewTitle').textContent = data.title;
+  document.getElementById('outputPreviewBody').innerHTML = data.body;
+  document.querySelectorAll('.output-card').forEach(c => c.classList.remove('active-output'));
+  event?.currentTarget?.classList.add('active-output');
+}
+
+// ── BUILD / DEPLOY SIMULATION ──
+function triggerBuild() {
+  const btn = event.currentTarget;
+  btn.innerHTML = '<span class="status-dot building"></span> Building...';
+  btn.style.pointerEvents = 'none';
+  setTimeout(() => {
+    btn.innerHTML = '<span style="color:var(--green)">✓</span> Built in 4.2s';
+    setTimeout(() => {
+      btn.innerHTML = '▶ Build';
+      btn.style.pointerEvents = '';
+    }, 2000);
+  }, 2500);
+}
+
+function triggerDeploy() {
+  const btn = event.currentTarget;
+  btn.innerHTML = '↑ Deploying...';
+  btn.style.opacity = '0.7';
+  btn.style.pointerEvents = 'none';
+  setTimeout(() => {
+    btn.innerHTML = '✓ Deployed!';
+    btn.style.opacity = '1';
+    setTimeout(() => {
+      btn.innerHTML = '↑ Deploy';
+      btn.style.pointerEvents = '';
+    }, 2000);
+  }, 3000);
+}
+
+// Initial render
+renderPreview();
+showOutput('html');
+</script>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer class="lp-footer">
+  <div class="lp-footer-inner">
+    <div class="lp-footer-top">
+      <div class="lp-footer-brand">
+        <div class="lp-nav-brand" style="margin-bottom:0.75rem;">
+          <div class="brand-icon" style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#E8A84C,#c97d2a);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800;color:#13131a;">DC</div>
+          Documentation Center
+        </div>
+        <p>A Docs-as-Code portfolio by Sulagna Sasmal, Technical Writer and Documentation Engineer specializing in API docs, financial compliance, and developer-facing documentation systems.</p>
+        <div class="lp-footer-social">
+          <a href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener" title="GitHub">⌥</a>
+          <a href="https://www.linkedin.com/in/sulagnasasmal" target="_blank" rel="noopener" title="LinkedIn">☍</a>
+        </div>
+      </div>
+      <div class="lp-footer-col">
+        <h4>Portfolio</h4>
+        <ul>
+          <li><a href="https://sulagnasasmal.github.io/vaultpay-api-docs/" target="_blank" rel="noopener">VaultPay API Docs</a></li>
+          <li><a href="https://sulagnasasmal.github.io/caseforge-api-docs/caseforge-api-docs.html" target="_blank" rel="noopener">CaseForge API Docs</a></li>
+          <li><a href="https://sulagnasasmal.github.io/Documentation-Center-Platform/" target="_blank" rel="noopener">Documentation Center</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer-col">
+        <h4>GitHub Repos</h4>
+        <ul>
+          <li><a href="https://github.com/SulagnaSasmal/vaultpay-api-docs" target="_blank" rel="noopener">vaultpay-api-docs</a></li>
+          <li><a href="https://github.com/SulagnaSasmal/caseforge-api-docs" target="_blank" rel="noopener">caseforge-api-docs</a></li>
+          <li><a href="https://github.com/SulagnaSasmal/Documentation-Center-Platform" target="_blank" rel="noopener">Documentation-Center-Platform</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer-col">
+        <h4>Expertise</h4>
+        <ul>
+          <li><a href="#how-it-works">Docs-as-Code Pipeline</a></li>
+          <li><a href="#features">Platform Features</a></li>
+          <li><a href="#about">API Documentation</a></li>
+          <li><a href="#about">Compliance Docs</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="lp-footer-bottom">
+      <p>© <span id="footer-yr"></span> Sulagna Sasmal. All rights reserved. Personal portfolio project for demonstration purposes only. Not affiliated with any organization.</p>
+      <p style="color:#4a4a64;">Docs-as-Code · Git-Native · CI/CD Powered · Static HTML</p>
+    </div>
+  </div>
+</footer>
+
+<script>(function(){var btn=document.getElementById("theme-toggle");if(!btn)return;function upd(){btn.textContent=document.documentElement.getAttribute("data-theme")==="dark"?"2600":"25D0";}upd();btn.addEventListener("click",function(){var n=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";document.documentElement.setAttribute("data-theme",n);localStorage.setItem("df-theme",n);upd();});})()</script>
+
+<script>var e=document.getElementById("footer-yr");if(e)e.textContent=new Date().getFullYear();</script>
+</body>
+</html>
