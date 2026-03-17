@@ -1370,10 +1370,93 @@ body {
   color: var(--text-secondary);
 }
 .theme-toggle-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+
+/* ── PROTOTYPE BANNER ── */
+.lp-proto-banner {
+  background: rgba(232,168,76,0.07);
+  border-bottom: 1px solid rgba(232,168,76,0.15);
+  padding: 9px 1.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: #9a9ab4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.lp-proto-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(232,168,76,0.12);
+  border: 1px solid rgba(232,168,76,0.3);
+  color: #E8A84C;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+}
+.lp-proto-dot {
+  width: 6px; height: 6px;
+  background: #E8A84C;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse-amber 2s infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse-amber {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(0.8); }
+}
+.lp-proto-link { color: #E8A84C; text-decoration: none; border-bottom: 1px solid rgba(232,168,76,0.35); transition: border-color 0.2s; }
+.lp-proto-link:hover { border-color: #E8A84C; }
+[data-theme="light"] .lp-proto-banner { background: rgba(217,119,6,0.05); border-bottom-color: rgba(217,119,6,0.12); color: #6b7280; }
+[data-theme="light"] .lp-proto-badge { background: rgba(217,119,6,0.08); border-color: rgba(217,119,6,0.25); color: #b45309; }
+[data-theme="light"] .lp-proto-dot { background: #b45309; }
+[data-theme="light"] .lp-proto-link { color: #b45309; border-bottom-color: rgba(180,83,9,0.35); }
+
+/* ── WHY I BUILT DOCFORGE ── */
+.lp-origin-section { padding: 5rem 2.5rem; background: var(--lp-bg-alt); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.lp-origin-inner { max-width: 1100px; margin: 0 auto; }
+.lp-origin-quote {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.1rem;
+  color: var(--lp-text-sub);
+  line-height: 1.8;
+  border-left: 3px solid #E8A84C;
+  padding: 1rem 1.5rem;
+  margin: 1.75rem 0 2.5rem;
+  background: rgba(232,168,76,0.05);
+  border-radius: 0 8px 8px 0;
+}
+.lp-origin-quote em { color: #E8A84C; font-style: normal; }
+.lp-origin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.lp-origin-card {
+  background: var(--lp-card-bg);
+  border: 1px solid var(--lp-card-border);
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.lp-origin-card:hover { border-color: rgba(232,168,76,0.3); transform: translateY(-3px); }
+.lp-origin-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.lp-origin-card h3 { font-size: 0.875rem; font-weight: 700; color: var(--lp-text); margin-bottom: 0.6rem; line-height: 1.4; }
+.lp-origin-card p { font-size: 0.875rem; color: var(--lp-text-muted); line-height: 1.75; }
+@media (max-width: 900px) { .lp-origin-grid { grid-template-columns: 1fr; } }
+[data-theme="light"] .lp-origin-section { border-top-color: rgba(0,0,0,0.06); border-bottom-color: rgba(0,0,0,0.06); }
+[data-theme="light"] .lp-origin-quote { background: rgba(217,119,6,0.04); }
 </style>
 <script>(function(){var t=localStorage.getItem("df-theme");if(t)document.documentElement.setAttribute("data-theme",t);else if(window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");else document.documentElement.setAttribute("data-theme","light");})()</script>
 </head>
 <body>
+
+<!-- PROTOTYPE BANNER -->
+<div class="lp-proto-banner" role="note" aria-label="Project status">
+  <span class="lp-proto-badge"><span class="lp-proto-dot"></span> Interactive Prototype</span>
+  <span>Portfolio demonstration of Docs-as-Code engineering. Not a commercial product.</span>
+  <a href="#why-docforge" class="lp-proto-link">Why I built it ↓</a>
+</div>
 
 <!-- ══════════════════════════════════════
      LANDING PAGE — TERMINAL AESTHETIC
@@ -1587,6 +1670,38 @@ body {
         <div class="lp-feat-text">Full docforge.config.yml with toggleable build, lint, and deploy settings. Environment-aware configuration.</div>
         <div class="lp-feat-flags"><span class="lp-feat-flag">--yml</span><span class="lp-feat-flag">--env</span><span class="lp-feat-flag">--targets</span></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY I BUILT DOCFORGE -->
+<section id="why-docforge" class="lp-origin-section">
+  <div class="lp-origin-inner">
+    <div class="lp-section-label">Origin Story</div>
+    <h2 class="lp-section-title">Why I built DocForge</h2>
+    <div class="lp-origin-quote">
+      "I've spent years writing documentation for FinTech, compliance, and enterprise platforms. I needed a way to <em>show</em> — not just tell — that I understand the infrastructure behind the docs. So I built one."
+    </div>
+    <div class="lp-origin-grid">
+
+      <div class="lp-origin-card">
+        <div class="lp-origin-icon">🤖</div>
+        <h3>Why not GitHub Copilot or AI writing tools?</h3>
+        <p>AI tools generate text. DocForge engineers a system. Copilot writes code comments and prose — it has no concept of DITA topic taxonomy, Vale style governance, multi-format build pipelines, or how to architect a compliance documentation framework. This is not about generating content faster. It's about making documentation reliable, auditable, and scalable at the infrastructure level.</p>
+      </div>
+
+      <div class="lp-origin-card">
+        <div class="lp-origin-icon">📚</div>
+        <h3>Why not Confluence, GitBook, or Mintlify?</h3>
+        <p>Those tools host documentation. DocForge engineers the pipeline. There's a fundamental difference between a writer who uses a docs tool and an engineer who builds one. DocForge demonstrates CI/CD integration, automated linting at commit time, structured topic classification, and format-agnostic output — things no off-the-shelf docs platform provides out of the box.</p>
+      </div>
+
+      <div class="lp-origin-card">
+        <div class="lp-origin-icon">⚡</div>
+        <h3>The gap this fills</h3>
+        <p>No tool today combines: a docs-native CI/CD pipeline, DITA content structure validation, Microsoft Style Guide enforcement via Vale, and multi-format output — in a single interface built specifically for documentation teams. Not developers. Not marketers. Documentation engineers who need to own the entire delivery chain from source to reader.</p>
+      </div>
+
     </div>
   </div>
 </section>
