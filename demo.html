@@ -1337,6 +1337,13 @@ body {
 }
 [data-theme="light"] body { background: var(--bg-deep); color: var(--text-primary); }
 [data-theme="light"] .top-btn.primary { color: #fff; }
+/* code/editor areas keep a dark bg in light mode — force legible text */
+[data-theme="light"] .editor-textarea { color: #cdd9e5; caret-color: #e8edf3; }
+[data-theme="light"] .editor-textarea::placeholder { color: #4a5568; }
+[data-theme="light"] .preview-pane pre,
+[data-theme="light"] .preview-pane pre code { color: #cdd9e5; }
+[data-theme="light"] .config-block { color: #cdd9e5; }
+[data-theme="light"] .config-block .hl-comment { color: #718096; }
 
 /* Theme toggle button */
 .theme-toggle-btn {
@@ -2690,6 +2697,46 @@ showOutput('html');
   font-family: inherit;
   font-size: inherit;
 }
+/* close button inside panel header */
+.tts-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.18s, background 0.18s;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+.tts-close-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.06); }
+/* fab wrapper with label */
+.tts-fab-wrap {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  z-index: 9000;
+}
+.tts-fab-wrap .tts-fab {
+  position: static;  /* positioned by wrapper now */
+}
+.tts-fab-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  pointer-events: none;
+  transition: color 0.18s;
+}
+.tts-fab-wrap:hover .tts-fab-label { color: var(--accent); }
 </style>
 
 <div id="tts-panel" class="tts-panel" role="complementary" aria-label="Narrator panel">
@@ -2704,6 +2751,7 @@ showOutput('html');
       <span class="tts-auto-track"></span>
       <span class="tts-auto-label">auto</span>
     </label>
+    <button class="tts-close-btn" onclick="ttsPanelToggle()" title="Close narrator" aria-label="Close narrator panel">&#10005;</button>
   </div>
   <div class="tts-transcript-wrap">
     <div class="tts-transcript" id="tts-transcript">
@@ -2719,9 +2767,12 @@ showOutput('html');
   </div>
 </div>
 
-<button class="tts-fab" id="tts-fab" onclick="ttsPanelToggle()" title="Open narrator (N)" aria-label="Toggle narrator panel">
-  &#128266;
-</button>
+<div class="tts-fab-wrap">
+  <button class="tts-fab" id="tts-fab" onclick="ttsPanelToggle()" title="Open narrator (N)" aria-label="Toggle narrator panel">
+    &#128266;
+  </button>
+  <span class="tts-fab-label">Guide</span>
+</div>
 
 
 
