@@ -2457,55 +2457,272 @@ renderPreview();
 showOutput('html');
 </script>
 <style>
-/* TTS button */
-#tts-btn {
+/* ── TTS NARRATOR v2 ── */
+
+/* floating action button */
+.tts-fab {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 48px;
-  height: 48px;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--bg-elevated);
-  border: 1px solid var(--border-light);
+  border: 1.5px solid var(--border-default);
   color: var(--text-secondary);
   font-size: 1.25rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  z-index: 9000;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+  transition: all 0.18s;
 }
-#tts-btn:hover, #tts-btn.speaking {
+.tts-fab:hover { background: var(--accent); color: var(--bg-base); border-color: var(--accent); }
+.tts-fab.active { background: var(--accent); color: var(--bg-base); border-color: var(--accent); }
+
+/* narrator panel */
+.tts-panel {
+  position: fixed;
+  bottom: 5.25rem;
+  right: 1.75rem;
+  width: 320px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-default);
+  border-radius: 14px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.55);
+  z-index: 8999;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(14px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+.tts-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+/* panel header */
+.tts-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px 9px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-deep);
+}
+.tts-panel-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tts-section-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(232,168,76,0.12);
+  border: 1px solid rgba(232,168,76,0.22);
+  border-radius: 4px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+/* auto-narrate toggle */
+.tts-auto-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+}
+.tts-auto-toggle input[type=checkbox] { display: none; }
+.tts-auto-track {
+  width: 28px;
+  height: 15px;
+  border-radius: 8px;
+  background: var(--border-default);
+  position: relative;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.tts-auto-toggle input:checked + .tts-auto-track { background: var(--accent); }
+.tts-auto-track::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.18s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.tts-auto-toggle input:checked + .tts-auto-track::after { left: 15px; }
+.tts-auto-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.57rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+/* waveform bars */
+.tts-wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.tts-wave span {
+  display: block;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  opacity: 0.28;
+  height: 3px;
+  transition: height 0.12s, opacity 0.12s;
+}
+.tts-wave.playing span { opacity: 1; animation: ttsbar 0.65s ease-in-out infinite alternate; }
+.tts-wave.playing span:nth-child(1) { animation-delay: 0s;    animation-duration: 0.5s; }
+.tts-wave.playing span:nth-child(2) { animation-delay: 0.1s;  animation-duration: 0.7s; }
+.tts-wave.playing span:nth-child(3) { animation-delay: 0.05s; animation-duration: 0.6s; }
+.tts-wave.playing span:nth-child(4) { animation-delay: 0.15s; animation-duration: 0.8s; }
+.tts-wave.playing span:nth-child(5) { animation-delay: 0s;    animation-duration: 0.55s; }
+@keyframes ttsbar {
+  from { height: 3px; }
+  to   { height: 17px; }
+}
+
+/* transcript scroll area */
+.tts-transcript-wrap {
+  padding: 12px 14px;
+  max-height: 130px;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--border-light);
+  scrollbar-width: thin;
+}
+.tts-transcript {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.tts-transcript.speaking { color: var(--text-secondary); }
+.tts-transcript strong { color: var(--accent); font-weight: 600; }
+
+/* panel footer / controls */
+.tts-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px 10px;
+  background: var(--bg-deep);
+}
+.tts-play-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: var(--accent);
   color: var(--bg-base);
-  border-color: var(--accent);
-}
-#tts-btn-wrap {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  z-index: 9999;
-}
-#tts-label {
+  border: none;
+  border-radius: 7px;
+  padding: 7px 14px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: opacity 0.18s, background 0.18s;
+  flex-shrink: 0;
+}
+.tts-play-btn:hover { opacity: 0.82; }
+.tts-play-btn.stop {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border-default);
+}
+.tts-play-btn.stop:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+
+.tts-intro-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.62rem;
   color: var(--text-muted);
-  letter-spacing: 0.06em;
   text-transform: uppercase;
-  pointer-events: none;
+  letter-spacing: 0.08em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.18s;
+  white-space: nowrap;
+}
+.tts-intro-btn:hover { color: var(--accent); }
+
+.tts-kbd-hint {
+  margin-left: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.57rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tts-kbd-hint kbd {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: inherit;
+  font-size: inherit;
 }
 </style>
 
-<div id="tts-btn-wrap">
-  <button id="tts-btn" title="Narrate current view (Web Speech API)" onclick="ttsToggle()">&#128266;</button>
-  <span id="tts-label">narrate</span>
+<div id="tts-panel" class="tts-panel" role="complementary" aria-label="Narrator panel">
+  <div class="tts-panel-header">
+    <div class="tts-wave" id="tts-wave" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <span class="tts-section-badge" id="tts-section-badge">Narrator</span>
+    <div class="tts-panel-title" id="tts-view-label">DocForge Demo</div>
+    <label class="tts-auto-toggle" title="Auto-narrate when switching sections">
+      <input type="checkbox" id="tts-auto-chk" aria-label="Auto-narrate on section switch">
+      <span class="tts-auto-track"></span>
+      <span class="tts-auto-label">auto</span>
+    </label>
+  </div>
+  <div class="tts-transcript-wrap">
+    <div class="tts-transcript" id="tts-transcript">
+      Press <strong>&#9654; Narrate</strong> to hear about this section &mdash;
+      or enable <strong>Auto</strong> to hear narration whenever you switch views.
+      Hit <strong>Intro</strong> for a full guided walkthrough from the beginning.
+    </div>
+  </div>
+  <div class="tts-footer">
+    <button class="tts-play-btn" id="tts-play-btn" onclick="ttsToggle()">&#9654; Narrate</button>
+    <button class="tts-intro-btn" onclick="ttsPlayIntro()" title="Play full introduction">&#8617; Intro</button>
+    <span class="tts-kbd-hint">press <kbd>N</kbd></span>
+  </div>
 </div>
+
+<button class="tts-fab" id="tts-fab" onclick="ttsPanelToggle()" title="Open narrator (N)" aria-label="Toggle narrator panel">
+  &#128266;
+</button>
+
 
 
 <script>
@@ -2541,68 +2758,265 @@ function dfSetTheme(t) {
 <script>var e=document.getElementById("footer-yr");if(e)e.textContent=new Date().getFullYear();</script>
 
 <script>
-// ── TTS NARRATOR (Web Speech API) ──
-(function() {
-  var narrations = {
-    dashboard: "Welcome to the DocForge Dashboard. This view shows your documentation pipeline at a glance. You can see total page count, git commits, build time, and quality score. Below that are recent pipeline runs, open issues, and the content structure of your documentation project.",
-    editor: "This is the DocForge Live Editor. Write Markdown in the left panel and see a real-time rendered preview on the right. The editor supports YAML front matter for document metadata, including title, audience, topic type, and version. All standard Markdown syntax is supported.",
-    architecture: "The Content Map displays your full documentation topology organized by DITA topic types. The five topic types are: Concept, which explains what something is; Task, which describes how to do something; Reference, for lookup tables and API specs; Tutorial, for end-to-end guided learning; and Troubleshooting, which follows a problem, cause, solution pattern.",
-    linter: "The Style Linter runs automated quality checks against the Microsoft Writing Style Guide. Each document receives a score from zero to one hundred. The linter flags passive voice, unclear terminology, overly long sentences, missing alt text, and broken links. You can see a breakdown of issues by severity and category.",
-    outputs: "Build Outputs shows every artifact generated by the latest documentation build. You can preview the HTML portal, the PDF export, the OpenAPI JSON specification, the Postman collection, and the auto-generated changelog. Each output is regenerated from the same Markdown source on every build.",
-    settings: "The Configuration panel shows your docforge.config.yml file. This single file controls your build targets, output formats, lint rule sets, deployment environments, and notification settings. Changes here affect every build and deployment in the pipeline."
+// ── TTS NARRATOR v2 (Web Speech API) ──────────────────────────────────────
+(function () {
+
+  // ── Narration scripts ──────────────────────────────────────────────────
+  var INTRO = [
+    "Hi there, and welcome to DocForge.",
+    "Before you start clicking around, let me tell you why this demo exists.",
+    "Most documentation portfolios show the finished work: polished API references, clean PDFs, user guides.",
+    "But there's a harder story to tell — the infrastructure behind those docs.",
+    "How do you version content the way engineers version code?",
+    "How do you automate quality checks so standards don't slip quietly over time?",
+    "How do you publish to six different formats from a single Markdown source, on every commit?",
+    "That's exactly what DocForge demonstrates.",
+    "It's a fully interactive simulation of a docs-as-code platform —",
+    "the kind of setup used at companies like Stripe, Vercel, and Cloudflare.",
+    "There are six sections in the sidebar on the left: Dashboard, Editor, Content Map, Style Linter, Build Outputs, and Configuration.",
+    "Click on any section, then press the Narrate button — or just turn on Auto-narrate and I'll guide you through each one automatically.",
+    "The Dashboard is a great place to start. Go ahead."
+  ].join(' ');
+
+  var VIEWS = {
+    dashboard: {
+      badge: 'Dashboard',
+      title: 'Dashboard — Control Center',
+      text: [
+        "You're on the Dashboard — the control center of the platform.",
+        "Think of this as the view a documentation lead opens every morning.",
+        "At the top you have four key metrics: total page count, number of Git commits, last build time, and the current quality score.",
+        "Below that is your pipeline run history — every build, its status, and what triggered it.",
+        "On the right is the live file and folder structure of the documentation project itself.",
+        "This view answers the first question every stakeholder asks: is the docs system healthy right now?",
+        "Head over to the Editor when you're ready to see where the writing actually happens."
+      ].join(' ')
+    },
+    editor: {
+      badge: 'Editor',
+      title: 'Live Editor',
+      text: [
+        "This is the Live Editor — where documentation is authored.",
+        "On the left, you write in Markdown: plain text, version-controllable, tool-agnostic.",
+        "On the right, you get an instant rendered preview. No save button, no compile step.",
+        "What's notable is the YAML front matter block at the top of every document.",
+        "Those few lines — title, audience, topic type, version — are what make content structured and reusable.",
+        "It's the difference between a pile of files and a managed content system.",
+        "Try editing something in the left panel. The preview updates as you type.",
+        "When you're ready to see how all these files fit together, click on Content Map."
+      ].join(' ')
+    },
+    architecture: {
+      badge: 'Content Map',
+      title: 'Content Map — Topology',
+      text: [
+        "The Content Map is your documentation topology — a bird's-eye view of everything that exists and how it's organized.",
+        "The structure here follows DITA principles, a topic-based authoring standard used by documentation teams at large enterprises.",
+        "Every document is one of five types.",
+        "Concept explains what something is.",
+        "Task explains how to do it, always starting with the user's goal.",
+        "Reference provides lookup information: API specs, parameter tables, error codes.",
+        "Tutorial offers end-to-end guided learning with step-by-step structure.",
+        "And Troubleshooting always follows a Problem, Cause, Solution pattern — no exceptions.",
+        "This isn't just tidy organization. Typed content can be conditionally published.",
+        "Send only Reference topics to your API portal, only Tutorials to your learning center, only Troubleshooting to your support team.",
+        "One source, multiple audiences. Click Style Linter to see how quality is enforced automatically."
+      ].join(' ')
+    },
+    linter: {
+      badge: 'Style Linter',
+      title: 'Style Linter — Quality Gate',
+      text: [
+        "The Style Linter is the automated quality gate of the platform.",
+        "Every document gets scored from zero to a hundred against the Microsoft Writing Style Guide.",
+        "The linter flags passive voice, unclear terminology, sentences that are too long, missing alt text on images, and broken links.",
+        "Here's why this matters in practice.",
+        "In a docs-as-code workflow, this linter runs inside your CI pipeline.",
+        "A Pull Request can be configured to fail if the quality score drops below your threshold.",
+        "Documentation quality becomes measurable and enforceable — exactly like code quality.",
+        "No more 'someone will fix the style later.' The pipeline won't let that slide.",
+        "Check out Build Outputs next to see what all this clean content actually produces."
+      ].join(' ')
+    },
+    outputs: {
+      badge: 'Build Outputs',
+      title: 'Build Outputs — All Formats',
+      text: [
+        "Build Outputs is where the docs-as-code philosophy pays off most visibly.",
+        "From the same Markdown source files, DocForge generates six different artifacts in a single build.",
+        "An HTML portal for your developer docs site.",
+        "A PDF export for offline distribution.",
+        "An OpenAPI JSON specification for your API reference.",
+        "A Postman collection that developers can import directly into their testing workflow.",
+        "A JSON data export.",
+        "And an auto-generated changelog, derived from commit history and front matter.",
+        "You write once. The pipeline handles the rest.",
+        "No copy-pasting content into PDFs. No separate Confluence pages to keep in sync.",
+        "One source of truth, regenerated cleanly on every commit.",
+        "Last stop: click Configuration to see what drives all of this."
+      ].join(' ')
+    },
+    settings: {
+      badge: 'Config',
+      title: 'Configuration — docforge.config',
+      text: [
+        "Here's what powers everything you've just seen: the docforge config file.",
+        "This single YAML file defines your build targets, output formats, lint rule sets, deployment environments, and notification settings.",
+        "It's version-controlled alongside your documentation, which means config changes go through the same review process as content changes.",
+        "A junior writer can't quietly disable the linter on a Friday afternoon without it showing up in a pull request.",
+        "That's the docs-as-code principle in its purest form: documentation infrastructure treated with the same rigor as application code.",
+        "You've now seen the full platform.",
+        "If you'd like to explore the thinking behind a project like this, use the back link at the top of the sidebar.",
+        "Thanks for taking the time to explore DocForge."
+      ].join(' ')
+    }
   };
 
+  // ── State ──────────────────────────────────────────────────────────────
   var synth = window.speechSynthesis;
-  var _speaking = false;
+  var _speaking   = false;
   var _currentView = 'dashboard';
+  var _panelOpen  = false;
+  var _autoNarrate = false;
+  var _inIntro    = false;
 
+  // ── Voice selection ────────────────────────────────────────────────────
   function getVoice() {
     var voices = synth.getVoices();
-    return voices.find(function(v) {
-      return /Google US English|Samantha|Daniel|Karen|Aria|Microsoft Aria/.test(v.name);
-    }) || null;
+    var preferred = [
+      'Microsoft Aria Online (Natural) - English (United States)',
+      'Microsoft Jenny Online (Natural) - English (United States)',
+      'Google US English',
+      'Samantha',
+      'Karen'
+    ];
+    for (var i = 0; i < preferred.length; i++) {
+      var found = voices.find(function (v) { return v.name === preferred[i]; });
+      if (found) return found;
+    }
+    return voices.find(function (v) { return v.lang && v.lang.startsWith('en'); }) || null;
   }
 
-  function speak(view) {
-    if (!synth) { alert('Text-to-speech is not supported in this browser.'); return; }
+  // ── Core speak ─────────────────────────────────────────────────────────
+  function speak(text, onDone) {
+    if (!synth) return;
     synth.cancel();
-    var text = narrations[view] || narrations.dashboard;
     var utt = new SpeechSynthesisUtterance(text);
-    utt.rate = 0.9;
+    utt.rate  = 0.93;
     utt.pitch = 1.0;
-    utt.lang = 'en-US';
-    var v = getVoice();
-    if (v) utt.voice = v;
-    utt.onstart = function() { _speaking = true; setBtnActive(true); };
-    utt.onend = utt.onerror = function() { _speaking = false; setBtnActive(false); };
+    utt.lang  = 'en-US';
+    var voice = getVoice();
+    if (voice) utt.voice = voice;
+    utt.onstart = function () { _speaking = true;  setPlaying(true);  };
+    utt.onend   = function () { _speaking = false; setPlaying(false); if (onDone) onDone(); };
+    utt.onerror = function () { _speaking = false; setPlaying(false); };
     synth.speak(utt);
   }
 
-  function setBtnActive(active) {
-    var btn = document.getElementById('tts-btn');
-    var lbl = document.getElementById('tts-label');
-    if (btn) { if (active) btn.classList.add('speaking'); else btn.classList.remove('speaking'); }
-    if (lbl) lbl.textContent = active ? 'stop' : 'narrate';
+  // ── UI helpers ─────────────────────────────────────────────────────────
+  function setPlaying(active) {
+    var btn  = document.getElementById('tts-play-btn');
+    var wave = document.getElementById('tts-wave');
+    var fab  = document.getElementById('tts-fab');
+    var tr   = document.getElementById('tts-transcript');
+    if (btn)  { btn.innerHTML = active ? '&#9632; Stop' : '&#9654; Narrate'; if (active) btn.classList.add('stop'); else btn.classList.remove('stop'); }
+    if (wave) { if (active) wave.classList.add('playing'); else wave.classList.remove('playing'); }
+    if (fab)  { fab.innerHTML = active ? '&#9632;' : '&#128266;'; if (active) fab.classList.add('active'); else fab.classList.remove('active'); }
+    if (tr)   { if (active) tr.classList.add('speaking'); else tr.classList.remove('speaking'); }
   }
 
-  window.ttsToggle = function() {
-    if (_speaking) { synth.cancel(); _speaking = false; setBtnActive(false); }
-    else { speak(_currentView); }
+  function setTranscript(text) {
+    var el = document.getElementById('tts-transcript');
+    if (el) el.textContent = text;
+  }
+
+  function setViewMeta(view) {
+    var d = VIEWS[view] || VIEWS.dashboard;
+    var badge = document.getElementById('tts-section-badge');
+    var label = document.getElementById('tts-view-label');
+    if (badge) badge.textContent = d.badge;
+    if (label) label.textContent = d.title;
+  }
+
+  // ── Public: toggle narration for current section ───────────────────────
+  window.ttsToggle = function () {
+    if (_speaking) {
+      synth.cancel();
+      _speaking = false;
+      _inIntro  = false;
+      setPlaying(false);
+    } else {
+      var d = VIEWS[_currentView] || VIEWS.dashboard;
+      setTranscript(d.text);
+      speak(d.text);
+    }
   };
 
-  // Wrap switchView to track current view
-  var _orig = window.switchView;
-  window.switchView = function(view) {
+  // ── Public: play intro ─────────────────────────────────────────────────
+  window.ttsPlayIntro = function () {
+    _inIntro = true;
+    setTranscript(INTRO);
+    var badge = document.getElementById('tts-section-badge');
+    var label = document.getElementById('tts-view-label');
+    if (badge) badge.textContent = 'Intro';
+    if (label) label.textContent = 'Welcome to DocForge';
+    if (!_panelOpen) ttsPanelToggle();
+    speak(INTRO, function () { _inIntro = false; setViewMeta(_currentView); });
+  };
+
+  // ── Public: toggle panel ───────────────────────────────────────────────
+  window.ttsPanelToggle = function () {
+    var panel = document.getElementById('tts-panel');
+    if (!panel) return;
+    _panelOpen = !_panelOpen;
+    if (_panelOpen) panel.classList.add('open'); else panel.classList.remove('open');
+  };
+
+  // ── Auto-narrate checkbox ──────────────────────────────────────────────
+  var autoChk = document.getElementById('tts-auto-chk');
+  if (autoChk) {
+    autoChk.addEventListener('change', function () { _autoNarrate = this.checked; });
+  }
+
+  // ── Wrap switchView ────────────────────────────────────────────────────
+  var _origSwitchView = window.switchView;
+  window.switchView = function (view) {
     _currentView = view;
-    if (_orig) _orig.call(this, view);
+    setViewMeta(view);
+    var d = VIEWS[view] || VIEWS.dashboard;
+    // Update transcript text (but don't change font color unless speaking)
+    var tr = document.getElementById('tts-transcript');
+    if (tr && !_speaking) tr.textContent = d.text;
+    if (_autoNarrate && !_inIntro) speak(d.text);
+    if (_origSwitchView) _origSwitchView.call(this, view);
   };
 
-  // voices may load async
-  if (synth.onvoiceschanged !== undefined) {
-    synth.onvoiceschanged = function() {};
+  // ── Keyboard shortcut: N ──────────────────────────────────────────────
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'n' || e.key === 'N') && !e.ctrlKey && !e.altKey && !e.metaKey) {
+      var tag = document.activeElement ? document.activeElement.tagName : '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      e.preventDefault();
+      ttsToggle();
+    }
+  });
+
+  // ── Voices load async in some browsers ────────────────────────────────
+  if (synth && synth.onvoiceschanged !== undefined) {
+    synth.onvoiceschanged = function () {};
   }
-})();
+
+  // ── Init panel transcript with dashboard hint ──────────────────────────
+  (function init() {
+    var tr = document.getElementById('tts-transcript');
+    if (tr) tr.innerHTML =
+      'Press <strong>&#9654; Narrate</strong> to hear about this section &mdash; ' +
+      'or enable <strong>Auto</strong> to hear narration as you explore. ' +
+      'Hit <strong>&#8617; Intro</strong> for a full guided walkthrough.';
+  })();
+
+}());
 </script>
 
+
 </body>
-</html>
