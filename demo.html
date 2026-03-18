@@ -227,10 +227,10 @@ body {
 
 .breadcrumb {
   display: flex; align-items: center; gap: 6px;
-  font-size: 12.5px; color: var(--text-secondary);
+  font-size: 12.5px; color: #9BA3B0; /* hardcoded: topbar is always dark */
 }
-.breadcrumb .sep { color: var(--text-dim); }
-.breadcrumb .current { color: var(--text-primary); font-weight: 600; }
+.breadcrumb .sep { color: #4a5568; }
+.breadcrumb .current { color: #E8ECF1; font-weight: 600; }
 
 .topbar-right {
   display: flex; align-items: center; gap: 10px;
@@ -2691,18 +2691,20 @@ showOutput('html');
 
 .tts-intro-btn {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.62rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  background: none;
-  border: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  border: 1.5px solid var(--accent);
+  border-radius: 7px;
+  padding: 7px 14px;
   cursor: pointer;
-  padding: 0;
-  transition: color 0.18s;
   white-space: nowrap;
+  transition: background 0.18s, color 0.18s;
+  flex-shrink: 0;
 }
-.tts-intro-btn:hover { color: var(--accent); }
+.tts-intro-btn:hover { background: var(--accent-glow); }
 
 .tts-kbd-hint {
   margin-left: auto;
@@ -2785,8 +2787,8 @@ showOutput('html');
     </div>
   </div>
   <div class="tts-footer">
+    <button class="tts-intro-btn" onclick="ttsPlayIntro()" title="Play full guided introduction">&#9654; Start Intro</button>
     <button class="tts-play-btn" id="tts-play-btn" onclick="ttsToggle()">&#9654; Narrate</button>
-    <button class="tts-intro-btn" onclick="ttsPlayIntro()" title="Play full introduction">&#8617; Intro</button>
     <span class="tts-kbd-hint">press <kbd>N</kbd></span>
   </div>
 </div>
