@@ -227,7 +227,7 @@ body {
 
 .breadcrumb {
   display: flex; align-items: center; gap: 6px;
-  font-size: 12.5px; color: var(--text-muted);
+  font-size: 12.5px; color: var(--text-secondary);
 }
 .breadcrumb .sep { color: var(--text-dim); }
 .breadcrumb .current { color: var(--text-primary); font-weight: 600; }
@@ -1039,7 +1039,7 @@ body {
 
 .hl-key { color: var(--blue); }
 .hl-val { color: var(--green); }
-.hl-comment { color: var(--text-dim); font-style: italic; }
+.hl-comment { color: #6e7a8e; font-style: italic; }
 .hl-num { color: var(--accent); }
 .hl-bool { color: var(--purple); }
 
@@ -1399,7 +1399,7 @@ body {
       <span class="brand-name">DocForge</span>
       <span class="brand-tag">Pro</span>
     </div>
-<a href="index.html" class="demo-back-link" style="display:flex;align-items:center;gap:6px;padding:7px 18px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-muted);text-decoration:none;border-bottom:1px solid var(--border);transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">← Back to DocForge</a>
+<a href="index.html" class="demo-back-link" style="display:flex;align-items:center;gap:6px;padding:7px 18px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-muted);text-decoration:none;border-bottom:1px solid var(--border);transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">← DocForge Platform</a>
 
     <nav class="sidebar-nav">
       <div class="nav-group-title">Workspace</div>
@@ -1433,7 +1433,7 @@ body {
       <div class="avatar">SS</div>
       <div>
         <div class="name">Sulagna Sasmal</div>
-        <div class="role">Actimize Fraud Documentation Lead</div>
+        <div class="role">Documentation Lead</div>
       </div>
     </div>
   </aside>
@@ -1447,7 +1447,7 @@ body {
         <div class="breadcrumb">
           <span>DocForge</span>
           <span class="sep">›</span>
-          <span>acme-platform-docs</span>
+          <span>nexus-platform-docs</span>
           <span class="sep">›</span>
           <span class="current" id="breadcrumb-current">Dashboard</span>
         </div>
@@ -1467,8 +1467,8 @@ body {
         <div class="dashboard animate-in">
 
           <div class="dash-hero">
-            <h1>acme-platform-docs</h1>
-            <p>Enterprise documentation for the ACME Cloud Platform. Built with Docs-as-Code: Markdown source, Git-versioned, CI/CD deployed.</p>
+            <h1>nexus-platform-docs</h1>
+            <p>Enterprise documentation for the Nexus Cloud Platform. Built with Docs-as-Code: Markdown source, Git-versioned, CI/CD deployed.</p>
           </div>
 
           <div class="stats-row">
@@ -1581,7 +1581,7 @@ body {
             <div class="dash-card">
               <h3>📁 Project Structure</h3>
               <div class="file-tree">
-                <div class="line"><span class="icon-f">📁</span> <span class="dir">acme-platform-docs/</span></div>
+                <div class="line"><span class="icon-f">📁</span> <span class="dir">nexus-platform-docs/</span></div>
                 <div class="line indent"><span class="icon-f">📄</span> <span class="file">docforge.config.yml</span></div>
                 <div class="line indent"><span class="icon-f">📄</span> <span class="file">package.json</span></div>
                 <div class="line indent"><span class="icon-f">📄</span> <span class="file">.github/workflows/deploy.yml</span></div>
@@ -1685,7 +1685,7 @@ body {
               </div>
               <textarea class="editor-textarea" id="mdEditor" spellcheck="false">---
 title: "Quickstart Guide"
-description: "Get up and running with the ACME Platform API in under 5 minutes."
+description: "Get up and running with the Nexus Platform API in under 5 minutes."
 topic_type: tutorial
 audience: developer
 last_updated: 2025-02-26
@@ -1696,13 +1696,13 @@ tags: [getting-started, api, quickstart]
 
 # Quickstart Guide
 
-Get up and running with the ACME Platform API in under 5 minutes. This guide walks you through authentication, your first API call, and handling responses.
+Get up and running with the Nexus Platform API in under 5 minutes. This guide walks you through authentication, your first API call, and handling responses.
 
 ## Prerequisites
 
 Before you begin, make sure you have:
 
-- An ACME Platform account ([sign up here](https://acme.dev/signup))
+- An Nexus Platform account ([sign up here](https://nexus.dev/signup))
 - Your API key from the **Dashboard → Developer → API Keys** page
 - A REST client like `curl`, Postman, or an HTTP library in your language
 
@@ -1714,13 +1714,13 @@ Choose your preferred language:
 
 ```bash
 # Python
-pip install acme-platform
+pip install nexus-platform
 
 # Node.js
-npm install @acme/platform-sdk
+npm install @nexus/platform-sdk
 
 # Go
-go get github.com/acme/platform-go
+go get github.com/nexus/platform-go
 ```
 
 ## Step 2: Authenticate
@@ -1728,9 +1728,9 @@ go get github.com/acme/platform-go
 Every request must include your API key in the `Authorization` header:
 
 ```python
-import acme
+import nexus
 
-client = acme.Client(api_key="sk_test_your_key_here")
+client = nexus.Client(api_key="sk_test_your_key_here")
 
 # Verify your connection
 account = client.account.retrieve()
@@ -1760,7 +1760,7 @@ print(f"Created customer: {customer.id}")
 The SDK raises typed exceptions you can catch:
 
 ```python
-from acme.errors import ValidationError, AuthenticationError
+from nexus.errors import ValidationError, AuthenticationError
 
 try:
     customer = client.customers.create(email="invalid")
@@ -1861,13 +1861,13 @@ except AuthenticationError:
             <div class="topic-card concept">
               <div class="topic-type concept">Concept</div>
               <div class="topic-title">Platform Architecture Overview</div>
-              <div class="topic-desc">High-level overview of the ACME microservices architecture, data flow, and component relationships.</div>
+              <div class="topic-desc">High-level overview of the Nexus microservices architecture, data flow, and component relationships.</div>
               <div class="topic-meta"><span>1,240 words</span><span>·</span><span>Updated 2d ago</span></div>
             </div>
             <div class="topic-card task">
               <div class="topic-type task">Task</div>
               <div class="topic-title">Configure Webhook Endpoints</div>
-              <div class="topic-desc">Set up HTTP endpoints to receive real-time notifications when events occur in your ACME account.</div>
+              <div class="topic-desc">Set up HTTP endpoints to receive real-time notifications when events occur in your Nexus account.</div>
               <div class="topic-meta"><span>890 words</span><span>·</span><span>Updated 5d ago</span></div>
             </div>
             <div class="topic-card reference">
@@ -2092,10 +2092,10 @@ except AuthenticationError:
 <span class="hl-comment"># This file controls the entire docs-as-code pipeline</span>
 
 <span class="hl-key">project</span>:
-  <span class="hl-key">name</span>: <span class="hl-val">"ACME Platform Documentation"</span>
+  <span class="hl-key">name</span>: <span class="hl-val">"Nexus Platform Documentation"</span>
   <span class="hl-key">version</span>: <span class="hl-val">"2.4.0"</span>
-  <span class="hl-key">base_url</span>: <span class="hl-val">"https://docs.acme.dev"</span>
-  <span class="hl-key">repo</span>: <span class="hl-val">"https://github.com/acme/platform-docs"</span>
+  <span class="hl-key">base_url</span>: <span class="hl-val">"https://docs.nexus.dev"</span>
+  <span class="hl-key">repo</span>: <span class="hl-val">"https://github.com/nexus/platform-docs"</span>
 
 <span class="hl-key">source</span>:
   <span class="hl-key">content_dir</span>: <span class="hl-val">"./docs"</span>
@@ -2133,7 +2133,7 @@ except AuthenticationError:
   <span class="hl-key">provider</span>: <span class="hl-val">"cloudflare-pages"</span>
   <span class="hl-key">branch</span>: <span class="hl-val">"main"</span>
   <span class="hl-key">preview_branches</span>: <span class="hl-bool">true</span>     <span class="hl-comment"># Deploy PR previews</span>
-  <span class="hl-key">custom_domain</span>: <span class="hl-val">"docs.acme.dev"</span>
+  <span class="hl-key">custom_domain</span>: <span class="hl-val">"docs.nexus.dev"</span>
 
 <span class="hl-key">search</span>:
   <span class="hl-key">provider</span>: <span class="hl-val">"algolia"</span>
@@ -2318,9 +2318,9 @@ const outputPreviews = {
         <span style="width:10px;height:10px;border-radius:50%;background:#ff5f57;"></span>
         <span style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;"></span>
         <span style="width:10px;height:10px;border-radius:50%;background:#28c840;"></span>
-        <span style="flex:1; text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);">docs.acme.dev/getting-started/quickstart</span>
+        <span style="flex:1; text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-muted);">docs.nexus.dev/getting-started/quickstart</span>
       </div>
-      <div style="background:var(--bg-code);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted);">
+      <div style="background:var(--bg-code);border-radius:8px;padding:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-secondary);">
         dist/<br>
         ├── index.html<br>
         ├── getting-started/<br>
@@ -2344,7 +2344,7 @@ const outputPreviews = {
     body: `<p style="margin-bottom:20px;">Generates a print-ready PDF manual with automated table of contents, page numbers, chapter breaks, cross-references, and a comprehensive index. Perfect for enterprise customers who need offline documentation.</p>
     <div style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:24px; text-align:center; margin-bottom:16px;">
       <div style="font-size:48px; margin-bottom:12px;">📕</div>
-      <div style="font-size:16px; font-weight:700; margin-bottom:4px;">ACME Platform Documentation</div>
+      <div style="font-size:16px; font-weight:700; margin-bottom:4px;">Nexus Platform Documentation</div>
       <div style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">Version 2.4.0 · February 2025 · 312 pages</div>
       <div style="display:flex; justify-content:center; gap:24px; font-size:11px; color:var(--text-muted);">
         <span>Auto-generated ToC</span>
@@ -2354,7 +2354,7 @@ const outputPreviews = {
         <span>Code syntax highlighting</span>
       </div>
     </div>
-    <p style="font-size:12px; color:var(--text-muted);">Output: acme-platform-docs-v2.4.0.pdf · 4.8 MB · A4 format</p>`
+    <p style="font-size:12px; color:var(--text-muted);">Output: nexus-platform-docs-v2.4.0.pdf · 4.8 MB · A4 format</p>`
   },
   openapi: {
     title: 'OpenAPI 3.1 Spec: Build Preview',
@@ -2362,11 +2362,11 @@ const outputPreviews = {
     <div class="config-block" style="margin-top:12px;">
 <span class="hl-key">openapi</span>: <span class="hl-val">"3.1.0"</span>
 <span class="hl-key">info</span>:
-  <span class="hl-key">title</span>: <span class="hl-val">"ACME Platform API"</span>
+  <span class="hl-key">title</span>: <span class="hl-val">"Nexus Platform API"</span>
   <span class="hl-key">version</span>: <span class="hl-val">"2.4.0"</span>
   <span class="hl-key">description</span>: <span class="hl-val">"Enterprise cloud platform API"</span>
 <span class="hl-key">servers</span>:
-  - <span class="hl-key">url</span>: <span class="hl-val">"https://api.acme.dev/v2"</span>
+  - <span class="hl-key">url</span>: <span class="hl-val">"https://api.nexus.dev/v2"</span>
 <span class="hl-key">paths</span>:
   <span class="hl-key">/payments</span>:
     <span class="hl-key">post</span>:
@@ -2409,7 +2409,7 @@ const outputPreviews = {
     <div class="config-block" style="margin-top:12px;">
 {
   <span class="hl-key">"info"</span>: {
-    <span class="hl-key">"name"</span>: <span class="hl-val">"ACME Platform API v2.4"</span>,
+    <span class="hl-key">"name"</span>: <span class="hl-val">"Nexus Platform API v2.4"</span>,
     <span class="hl-key">"schema"</span>: <span class="hl-val">"https://schema.getpostman.com/json/collection/v2.1.0"</span>
   },
   <span class="hl-key">"item"</span>: [
@@ -2422,7 +2422,7 @@ const outputPreviews = {
     }
   ],
   <span class="hl-key">"variable"</span>: [
-    { <span class="hl-key">"key"</span>: <span class="hl-val">"base_url"</span>, <span class="hl-key">"value"</span>: <span class="hl-val">"https://api.acme.dev/v2"</span> },
+    { <span class="hl-key">"key"</span>: <span class="hl-val">"base_url"</span>, <span class="hl-key">"value"</span>: <span class="hl-val">"https://api.nexus.dev/v2"</span> },
     { <span class="hl-key">"key"</span>: <span class="hl-val">"api_key"</span>, <span class="hl-key">"value"</span>: <span class="hl-val">"sk_test_..."</span> }
   ]
 }
@@ -3081,13 +3081,16 @@ function dfSetTheme(t) {
     synth.onvoiceschanged = function () {};
   }
 
-  // ── Init panel transcript with dashboard hint ──────────────────────────
+  // ── Init panel: open by default and prime intro ────────────────────────
   (function init() {
     var tr = document.getElementById('tts-transcript');
     if (tr) tr.innerHTML =
-      'Press <strong>&#9654; Narrate</strong> to hear about this section &mdash; ' +
-      'or enable <strong>Auto</strong> to hear narration as you explore. ' +
-      'Hit <strong>&#8617; Intro</strong> for a full guided walkthrough.';
+      '<strong>&#8617; Press Intro to start.</strong> Get a guided walkthrough from the beginning &mdash; ' +
+      'or click any section in the sidebar, then press <strong>&#9654; Narrate</strong>. ' +
+      'Enable <strong>Auto</strong> to hear narration automatically as you explore.';
+    // Open the narrator panel on first load so the guide is immediately visible
+    var panel = document.getElementById('tts-panel');
+    if (panel) { panel.classList.add('open'); _panelOpen = true; }
   })();
 
 }());
