@@ -1471,6 +1471,35 @@ body {
 @media (max-width: 900px) { .lp-origin-grid { grid-template-columns: 1fr; } }
 [data-theme="light"] .lp-origin-section { border-top-color: rgba(0,0,0,0.06); border-bottom-color: rgba(0,0,0,0.06); }
 [data-theme="light"] .lp-origin-quote { background: rgba(217,119,6,0.04); }
+
+/* ── KNOWLEDGE BASE SECTION ── */
+.lp-kb-section { padding: 5rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+.lp-kb-inner { max-width: 1100px; margin: 0 auto; }
+.lp-kb-lead { font-size: 1rem; color: var(--lp-text-muted); line-height: 1.8; margin: 0.75rem 0 2.5rem; max-width: 720px; }
+.lp-kb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+.lp-kb-card {
+  background: var(--lp-card-bg);
+  border: 1px solid var(--lp-card-border);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.25s;
+}
+.lp-kb-card:hover { border-color: rgba(232,168,76,0.35); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.lp-kb-icon { font-size: 1.5rem; }
+.lp-kb-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #E8A84C; background: rgba(232,168,76,0.1); border: 1px solid rgba(232,168,76,0.2); padding: 2px 8px; border-radius: 4px; width: fit-content; }
+.lp-kb-card h3 { font-size: 1rem; font-weight: 700; color: var(--lp-text); line-height: 1.3; margin: 0.25rem 0; }
+.lp-kb-card p { font-size: 0.875rem; color: var(--lp-text-muted); line-height: 1.7; flex: 1; }
+.lp-kb-link { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 600; color: #E8A84C; margin-top: 0.5rem; }
+@media (max-width: 768px) { .lp-kb-grid { grid-template-columns: 1fr; } }
+[data-theme="light"] .lp-kb-card { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); }
+[data-theme="light"] .lp-kb-card:hover { border-color: rgba(180,83,9,0.35); box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
+[data-theme="light"] .lp-kb-card h3 { color: #1f2328; }
+[data-theme="light"] .lp-kb-tag { color: #b45309; background: rgba(180,83,9,0.08); border-color: rgba(180,83,9,0.2); }
+[data-theme="light"] .lp-kb-link { color: #b45309; }
 </style>
 <script>(function(){var t=localStorage.getItem("df-theme");if(t)document.documentElement.setAttribute("data-theme",t);else if(window.matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-theme","dark");else document.documentElement.setAttribute("data-theme","light");})()</script>
 </head>
@@ -1495,9 +1524,9 @@ body {
   <div class="lp-nav-links">
     <a href="#how-it-works">How It Works</a>
     <a href="#features">Features</a>
-    <a href="https://sulagnasasmal.github.io/docs-as-code-portal/" target="_blank" rel="noopener">Reference Guide</a>
-    <a href="https://sulagnasasmal.github.io/blog/" target="_blank" rel="noopener">Blog ↗</a>
-    <a href="https://github.com/SulagnaSasmal" target="_blank" rel="noopener">GitHub ↗</a>
+    <a href="#knowledge-base">Knowledge Base</a>
+    <a href="https://sulagnasasmal.github.io/docs-as-code-portal/" target="_blank" rel="noopener">Methodology Guide ↗</a>
+    <a href="https://sulagnasasmal.github.io/blog/posts/no-tool-covers-the-full-docs-pipeline/" target="_blank" rel="noopener">Build Log ↗</a>
     <a href="https://sulagnasasmal.com/" target="_blank" rel="noopener">Portfolio ↗</a>
   </div>
   <div class="lp-nav-actions">
@@ -1734,6 +1763,50 @@ body {
         <h3>The gap this fills</h3>
         <p>No tool today combines a docs-native CI/CD pipeline, DITA content validation, Vale style enforcement, and multi-format output in one place built specifically for documentation teams. Not developers. Not marketers. Writers who own the entire delivery chain from source to reader.</p>
       </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE BASE -->
+<section id="knowledge-base" class="lp-kb-section">
+  <div class="lp-kb-inner">
+    <div class="lp-section-label">Knowledge Base</div>
+    <h2 class="lp-section-title">Learn how DocForge was designed, built, and documented</h2>
+    <p class="lp-kb-lead">DocForge is more than a prototype. It is backed by a methodology reference, a build narrative, and a live interactive demo. These four resources work together as a complete documentation engineering case study.</p>
+    <div class="lp-kb-grid">
+
+      <a href="demo.html" class="lp-kb-card">
+        <div class="lp-kb-icon">&#9881;</div>
+        <div class="lp-kb-tag">Interactive Demo</div>
+        <h3>DocForge Demo</h3>
+        <p>Six live modules &mdash; Dashboard, Editor, Content Map, Style Linter, Build Outputs, and Configuration. Click through the full platform with no login required.</p>
+        <span class="lp-kb-link">Open Demo &rarr;</span>
+      </a>
+
+      <a href="https://sulagnasasmal.github.io/docs-as-code-portal/" target="_blank" rel="noopener" class="lp-kb-card">
+        <div class="lp-kb-icon">&#128214;</div>
+        <div class="lp-kb-tag">Methodology Reference</div>
+        <h3>Docs-as-Code Reference Guide</h3>
+        <p>16-page documentation covering the methodology in depth &mdash; pipeline stages, version control, CI/CD integration, style linting, multi-format output, and full config schema reference.</p>
+        <span class="lp-kb-link">Read the Guide &rarr;</span>
+      </a>
+
+      <a href="https://sulagnasasmal.github.io/blog/posts/no-tool-covers-the-full-docs-pipeline/" target="_blank" rel="noopener" class="lp-kb-card">
+        <div class="lp-kb-icon">&#128221;</div>
+        <div class="lp-kb-tag">Build Narrative</div>
+        <h3>No Tool Covers the Full Docs Pipeline</h3>
+        <p>The blog post that started DocForge. Why existing tools fall short, what gap this fills, and how every design decision maps back to real documentation engineering constraints.</p>
+        <span class="lp-kb-link">Read the Post &rarr;</span>
+      </a>
+
+      <a href="index.html" class="lp-kb-card">
+        <div class="lp-kb-icon">&#127968;</div>
+        <div class="lp-kb-tag">Landing Page</div>
+        <h3>DocForge Platform Overview</h3>
+        <p>This page. The product landing page covering the origin story, pipeline walkthrough, six platform modules, and the reasoning behind building a Docs-as-Code platform from scratch.</p>
+        <span class="lp-kb-link">You&rsquo;re here</span>
+      </a>
 
     </div>
   </div>
